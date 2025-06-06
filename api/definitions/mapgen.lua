@@ -251,6 +251,11 @@ VoxelArea.zstride = nil
 ---@field cave_end mt.Vector[]
 ---@field large_cave_begin mt.Vector[]
 ---@field large_cave_end mt.Vector[]
+-- * data originating from [Mapgen environment] (Lua API)
+-- * This is a table.
+-- * key = user-defined ID (string)
+-- * value = arbitrary Lua value
+---@field custom mt.Vector[]
 ---@field [string] mt.Vector[] key format is `"decoration#id"` (see below)
 ---Decorations keys are in format `"decoration#id"`, where `id` is the
 ---numeric unique decoration ID as returned by `minetest.get_decoration_id()`.

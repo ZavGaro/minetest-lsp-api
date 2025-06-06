@@ -69,8 +69,8 @@ minetest.registered_decorations = {}
 -- * Map of registered schematic definitions, indexed by the `name` field.
 -- * If `name` is nil, the key is the object handle returned by
 --   `minetest.register_schematic`.
----@type table<string|number, mt.SchematicSpec>
-minetest.registered_schematics = {}
+-- ---@type table<string|number, mt.SchematicSpec>
+-- minetest.registered_schematics = {}
 
 -- Map of registered chat command definitions, indexed by name.
 ---@type table<string, mt.ChatCmdDef>

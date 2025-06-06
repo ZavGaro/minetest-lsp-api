@@ -64,10 +64,10 @@ function SettingsClass:remove(key) end
 ---@return string[]
 function SettingsClass:get_names() end
 
---- * Note that for the main settings object (`minetest.settings`), `get(key)`
---- might return a value even if `has(key)` returns `false`. That's because
---- `get` can fall back to the so-called parent of the `Settings` object, i.e.
---- the default values.
+--- * In contrast to the various getter functions, `has()` doesn't consider
+---   any default values.
+--- * This means that on the main settings object (`minetest.settings`),
+---   `get(key)` might return a value even if `has(key)` returns `false`.
 ---@param key string
 ---@return boolean # Is `key` exists.
 function SettingsClass:has(key) end

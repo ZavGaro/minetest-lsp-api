@@ -118,6 +118,8 @@ A positive or negative non-zero number, often between 0.3 and 1.0. A common
 medium value is 0.5, such that each octave has half the amplitude of the
 previous octave. This may need to be tuned when altering `lacunarity`; when
 doing so consider that a common medium value is 1 / lacunarity.
+
+Instead of `persistence`, the key `persist` may be used to the same effect.
 ]]
 ---@field persistence number
 --[[
@@ -223,7 +225,7 @@ noise at the expense of requiring more octaves to cover a paticular range of
 -- Creates a single undulating ore stratum that is continuous across mapchunk
 -- borders and horizontally spans the world.
 --
--- The 2D perlin noise described by `noise_params` defines the Y co-ordinate of
+-- The 2D perlin noise described by `noise_params` defines the Y coordinate of
 -- the stratum midpoint. The 2D perlin noise described by `np_stratum_thickness`
 -- defines the stratum's vertical thickness (in units of nodes). Due to being
 -- continuous across mapchunk borders the stratum's vertical thickness is

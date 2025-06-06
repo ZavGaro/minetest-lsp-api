@@ -2,10 +2,12 @@
 ---Chat
 -------
 
+---Send chat message to all players
 ---@param text string
 function minetest.chat_send_all(text) end
 
----@param name string
+---Send chat message to specific player
+---@param name string Name of the player
 ---@param text string
 function minetest.chat_send_player(name, text) end
 

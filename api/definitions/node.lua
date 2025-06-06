@@ -38,8 +38,8 @@
 --           depending on the alpha channel being below/above 50% in value
 -- * "blend": The alpha channel specifies how transparent a given pixel
 --            of the rendered node is
--- The default is "opaque" for drawtypes normal, liquid and flowingliquid;
--- "clip" otherwise.
+-- The default is "opaque" for drawtypes normal, liquid and flowingliquid,
+-- mesh and nodebox or "clip" otherwise.
 -- If set to a boolean value (deprecated): true either sets it to blend
 -- or clip, false sets it to clip or opaque mode depending on the drawtype.
 ---@field use_texture_alpha "opaque"|"clip"|"blend"|nil
@@ -58,6 +58,12 @@
 ---@field paramtype2 mt.ParamType2|nil
 -- Force value for param2 when player places node.
 ---@field place_param2 mt.NodeParam|nil
+-- If true, place_param2 is nil, and this is a wallmounted node,
+-- this node might use the special 90° rotation when placed
+-- on the floor or ceiling, depending on the direction.
+-- See the explanation about wallmounted for details.
+-- Otherwise, the rotation is always the same on vertical placement.
+---@field wallmounted_rotate_vertical? boolean
 -- If false, the cave generator and dungeon generator will not carve
 -- through this node.
 -- Specifically, this stops mod-added nodes being removed by caves and
@@ -68,7 +74,11 @@
 ---@field sunlight_propagates boolean|nil
 -- If true, objects collide with node.
 ---@field walkable boolean|nil
--- If true, can be pointed at.
+-- Can be `true` if it is pointable, `false` if it can be pointed through,
+-- or `"blocking"` if it is pointable but not selectable.
+-- Clients older than 5.9.0 interpret `pointable = "blocking"` as `pointable = true`.
+-- Can be overridden by the `pointabilities` of the held item.
+-- A client may be able to point non-pointable nodes, since it isn't checked server-side.
 ---@field pointable boolean|nil
 -- If false, can never be dug.
 ---@field diggable boolean|nil

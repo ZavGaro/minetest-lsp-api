@@ -34,6 +34,7 @@ function InvRef:get_width(listname) end
 ---Set width of list; currently used for crafting.
 ---@param listname string
 ---@param width integer
+---@return boolean # `false` on error (e.g. invalid `listname` or `width`)
 function InvRef:set_width(listname, width) end
 
 ---Get a copy of stack index in list.

@@ -13,7 +13,8 @@ minetest.env = nil
 ---Global callback registration functions
 -----------------------------------------
 
----Register a function that will be called every server step, usually interval of 0.1s
+---Register a function that will be called every server step, usually interval of 0.1s.
+---* `dtime` is the time since last execution in seconds
 ---@param func fun(dtime: number)
 function minetest.register_globalstep(func) end
 
@@ -30,6 +31,9 @@ function minetest.register_on_mods_loaded(func) end
 minetest.registered_on_mods_loaded = {}
 
 ---Register a function that will be called before server shutdown.
+---
+---Players that were kicked by the shutdown procedure are still fully accessible
+---in `minetest.get_connected_players()`.
 ---
 ---**Warning**: If the server terminates abnormally (i.e. crashes), the registered callbacks **will likely not be run**.
 ---
@@ -97,9 +101,11 @@ function minetest.register_on_punchnode(func) end
 ---@type fun(pos: mt.Vector, node: mt.Node, puncher: mt.ObjectRef, pointed_thing: mt.PointedThing)[]
 minetest.registered_on_punchnodes = {}
 
----Register a function that will be called when a piece of world has been generated.
+---Register a function that will be called after generating a piece of world between `minp` and `maxp`.
 ---
----Modifying nodes inside the area is a bit faster than usually.
+---**Avoid using this** whenever possible. As with other callbacks this blocks
+---the main thread and introduces noticeable latency.
+---Consider [Mapgen environment] for an alternative.
 ---@param func fun(minp: integer, maxp: integer, blockseed: integer)
 function minetest.register_on_generated(func) end
 
@@ -120,7 +126,7 @@ minetest.registered_on_newplayers = {}
 ---Note: This callback is invoked even if the punched player is dead.
 ---
 ---Callback should return `true` to prevent the default damage mechanism.
----@param func fun(player: mt.PlayerObjectRef, hitter: mt.ObjectRef, time_from_last_punch: number, tool_capabilities: mt.ToolCaps, dir: mt.Vector, damage: number): boolean|nil
+---@param func fun(player: mt.PlayerObjectRef, hitter: mt.ObjectRef?, time_from_last_punch: number, tool_capabilities: mt.ToolCaps, dir: mt.Vector, damage: number): boolean|nil
 function minetest.register_on_punchplayer(func) end
 
 ---Map of registered on_punchplayer.
@@ -217,6 +223,8 @@ minetest.registered_on_joinplayers = {}
 
 ---Register a function that will be called when a player leaves the game.
 ---
+---Does not get executed for connected players on shutdown.
+---
 ---`timed_out`: True for timeout, false for other reasons.
 ---@param func fun(player: mt.PlayerObjectRef, timed_out: boolean|nil)
 function minetest.register_on_leaveplayer(func) end
@@ -274,7 +282,8 @@ function minetest.register_on_chatcommand(func) end
 ---@type fun(name: string, command: string, params: string)[]
 minetest.registered_on_chatcommands = {}
 
----Register a function that will be called when the server received input from player in a formspec.
+---Register a function that will be called when the server received input from `player`.
+---Specifically, this is called on any of the
 ---
 ---Specifically, this is called on any of the following events:
 ---* a button was pressed,
@@ -286,6 +295,10 @@ minetest.registered_on_chatcommands = {}
 ---* an entry was double-clicked in a textlist or table,
 ---* a scrollbar was moved, or
 ---* the form was actively closed by the player.
+---
+---`formname` is the name passed to `minetest.show_formspec`.
+---Special case: The empty string refers to the player inventory
+---(the formspec set by the `set_inventory_formspec` player method).
 ---
 ---Fields are sent for formspec elements which define a field. `fields` is a table containing each formspecs element value (as string), with the `name` parameter as index for each. The value depends on the formspec element type:
 ---* `animated_image`: Returns the index of the current frame.

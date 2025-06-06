@@ -33,10 +33,13 @@ function minetest.register_tool(name, item) end
 ---* Overrides fields of an item registered with register_node/tool/craftitem.
 ---* Note: Item must already be defined, (opt)depend on the mod defining it.
 ---* Example: `minetest.override_item("default:mese",
----  {light_source=minetest.LIGHT_MAX})`
+---  {light_source=minetest.LIGHT_MAX}, {"sounds"})`:
+---  Overwrites the `light_source` field,
+---  removes the sounds from the definition of the mese block.
 ---@param name string
----@param item mt.ItemDef
-function minetest.override_item(name, item) end
+---@param redefinition mt.ItemDef a table of fields `[name] = new_value`, overwriting fields of or adding fields to the existing definition.
+---@param del_fields string[] a list of field names to be set to `nil` ("deleted from") the original definition.
+function minetest.override_item(name, redefinition, del_fields) end
 
 ---* Unregister the item from the engine, and deletes the entry with key
 ---  `name` from `minetest.registered_items` and from the associated item table

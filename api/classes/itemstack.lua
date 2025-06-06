@@ -23,6 +23,31 @@ local ItemStackObject = {}
 ---@return mt.ItemStack
 function ItemStack(x) end
 
+---Defines the coloring of the bar that appears under damaged tools.
+---If it is absent, the default behavior of green-yellow-red is used.
+---
+---```lua
+---{
+---    -- 'constant' or 'linear'
+---    -- (nil defaults to 'constant')
+---    blend = "linear",
+---    color_stops = {
+---        [0.0] = "#ff0000",
+---        [0.5] = "slateblue",
+---        [1.0] = {r=0, g=255, b=0, a=150},
+---    }
+---}
+---```
+---@class mt.WearBarColor
+---@field blend
+---|"linear" blends smoothly between each defined color point
+---|"constant" each color starts at its defined point, and continues up to the next point
+---|nil
+---Specified as `ColorSpec` color values assigned to `float` durability keys.
+---
+---"Durability" is defined as `1 - (wear / 65535)`.
+---@field color_stops table<number, mt.ColorSpec>
+
 ---Returns `true` if stack is empty.
 ---@return boolean
 function ItemStackObject:is_empty() end
@@ -54,11 +79,15 @@ function ItemStackObject:get_wear() end
 function ItemStackObject:set_wear(wear) end
 
 ---**DEPRECATED** Returns metadata (a string attached to an item stack).
+---
+---Use `stack:get_meta():get_string("")` instead.
 ---@return string
 ---@deprecated
 function ItemStackObject:get_metadata() end
 
 ---**DEPRECATED**
+---
+---Use `stack:get_meta():set_string("", metadata)` instead.
 ---@param metadata string
 ---@return true
 ---@deprecated
@@ -128,6 +157,16 @@ function ItemStackObject:add_wear(amount) end
 ---* Does nothing if item is not a tool or if `max_uses` is 0.
 ---@param max_uses integer 0..65536
 function ItemStackObject:add_wear_by_uses(max_uses) end
+
+---@return mt.WearBarColor wear bar parameters of the item, or nil if none are defined for this item type or in the stack's meta
+function ItemStackObject:get_wear_bar_params() end
+
+---Overrides the item's wear bar parameters
+---
+---A nil value will clear the override data and restore the original
+---behavior.
+---@param wear_bar_params? mt.WearBarColor
+function set_wear_bar_params(wear_bar_params) end
 
 ---* Returns leftover `ItemStack`.
 ---* Put some item or stack onto this stack.

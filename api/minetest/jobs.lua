@@ -10,6 +10,9 @@ local job = {}
 function job:cancel() end
 
 -- Call the function `func` after `time` seconds, may be fractional.
+--
+-- Jobs set for earlier times are executed earlier. If multiple jobs expire
+-- at exactly the same time, then they are executed in registration order.
 ---@param time number
 ---@param func function
 ---@param ... unknown Arguments that will be passed to `func`.
@@ -77,3 +80,16 @@ function minetest.handle_async(func, callback, ...) end
 -- using `minetest.handle_async()`.
 ---@param path string
 function minetest.register_async_dofile(path) end
+
+---Register a metatable that should be preserved when data is transferred
+---between the main thread and the async environment.
+---
+---Note that it is allowed to register the same metatable under multiple
+---names, but it is not allowed to register multiple metatables under the
+---same name.
+---
+---You must register the metatable in both the main environment
+---and the async environment for this mechanism to work.
+---@param name string string that identifies the metatable. It is recommended to follow the `modname:name` convention for this identifier.
+---@param mt mt.MetaDataRef metatable to register.
+function minetest.register_portable_metatable(name, mt) end

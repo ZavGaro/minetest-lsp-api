@@ -85,8 +85,9 @@ Convert a string like `"(X1, Y1, Z1) (X2, Y2, Z2)"` to two vectors - box angles.
 
 - `relative_to`: Optional. If set to a position, each coordinate can use the
   tilde notation for relative positions.
-- Tilde notation: `"~"`: Relative coordinate `"~<number>"`: Relative coordinate
-  plus `<number>`.
+- Tilde notation
+  - `"~"`: Relative coordinate
+  - `"~<number>"`: Relative coordinate plus `<number>`
 - Example: `minetest.string_to_area("(1,2,3) (~5,~-5,~)", {x=10,y=10,z=10})`
   returns `{x=1,y=2,z=3}, {x=15,y=5,z=10}`.
 ]]

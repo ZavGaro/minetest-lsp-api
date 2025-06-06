@@ -175,6 +175,8 @@ Some of the values in the key-value store are handled specially:
   4th bit specify the alignment in y-direction: 0 = default, 1 = left / up, 2 =
   middle, 3 = right / down The default currently is the same as right/down.
   Example: 6 = 2 + 1\*4 = middle,up
+- `range`: Overrides the pointing range
+  Example: `meta:set_float("range", 4.2)`
 
 Example:
 

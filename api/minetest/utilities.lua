@@ -32,6 +32,14 @@ function minetest.get_game_info() end
 ---@return string
 function minetest.get_worldpath() end
 
+-- returns e.g. `"/home/user/.minetest/mod_data/mymod"`
+-- * Useful for storing custom data *independently of worlds*.
+-- * Must be called during mod load time.
+-- * Can read or write to this directory at any time.
+-- * It's possible that multiple Minetest instances are running at the same
+--   time, which may lead to corruption if you are not careful.
+function minetest.get_mod_data_path() end
+
 ---@return boolean
 function minetest.is_singleplayer() end
 
@@ -100,6 +108,37 @@ function minetest.is_singleplayer() end
 -- liquid_fluidity, liquid_fluidity_smooth, liquid_sink,
 -- acceleration_default, acceleration_air (5.8.0)
 ---@field physics_overrides_v2 boolean
+-- In HUD definitions the field `type` is used and `hud_elem_type` is deprecated (5.9.0)
+---@field hud_def_type_field boolean
+-- PseudoRandom and PcgRandom state is restorable
+-- PseudoRandom has get_state method
+-- PcgRandom has get_state and set_state methods (5.9.0)
+---@field random_state_restore boolean
+-- minetest.after guarantees that coexisting jobs are executed primarily
+-- in order of expiry and secondarily in order of registration (5.9.0)
+---@field after_order_expiry_registration boolean
+-- wallmounted nodes mounted at floor or ceiling may additionally
+-- be rotated by 90° with special param2 values (5.9.0)
+---@field wallmounted_rotate boolean
+-- Availability of the `pointabilities` property in the item definition (5.9.0)
+---@field item_specific_pointabilities boolean
+-- Nodes `pointable` property can be `"blocking"` (5.9.0)
+---@field blocking_pointability_type boolean
+-- dynamic_add_media can be called at startup when leaving callback as `nil` (5.9.0)
+---@field dynamic_add_media_startup boolean
+-- dynamic_add_media supports `filename` and `filedata` parameters (5.9.0)
+---@field dynamic_add_media_filepath boolean
+ -- L-system decoration type (5.9.0)
+---@field lsystem_decoration_type boolean
+-- Overridable pointing range using the itemstack meta key `"range"` (5.9.0)
+---@field item_meta_range boolean
+-- Allow passing an optional "actor" ObjectRef to the following functions:
+-- minetest.place_node, minetest.dig_node, minetest.punch_node (5.9.0)
+---@field node_interaction_actor boolean
+-- "new_pos" field in entity moveresult (5.9.0)
+---@field moveresult_new_pos boolean
+-- Allow removing definition fields in `minetest.override_item` (5.9.0)
+---@field override_item_remove_fields boolean
 minetest.features = {}
 
 ---@param arg string | table<mt.Feature, boolean>
@@ -157,6 +196,11 @@ function minetest.get_player_information(player_name) end
 ---
 --- Equal to the setting `hud_scaling` multiplied by `dpi / 96`
 ---@field real_hud_scaling number
+--- Whether the touchscreen controls are enabled.
+--- Usually (but not always) `true` on Android.
+--- Requires at least Minetest 5.9.0 on the client. For older clients, it
+--- is always set to `false`.
+---@field touch_controls boolean
 
 --- Will only be present if the client sent this information (requires v5.7+)
 ---
@@ -236,6 +280,12 @@ function minetest.get_version() end
 ---@return string
 function minetest.sha1(data, raw) end
 
+-- Returns the sha256 hash of data.
+---@param data string
+---@param raw boolean|nil `false` return raw bytes instead of hex digits
+---@return string
+function minetest.sha256    (data, raw) end
+
 -- Converts a ColorSpec to a ColorString.
 -- If the ColorSpec is invalid, returns `nil`.
 ---@param colorspec mt.ColorSpec
@@ -256,15 +306,14 @@ function minetest.colorspec_to_bytes(colorspec) end
 --
 -- The data is one-dimensional, starting in the upper left corner of the image
 -- and laid out in scanlines going from left to right, then top to bottom.
--- Please note that it's not safe to use string.char to generate raw data,
--- use `colorspec_to_bytes` to generate raw RGBA values in a predictable way.
--- The resulting PNG image is always 32-bit. Palettes are not supported at the moment.
+-- You can use `colorspec_to_bytes` to generate raw RGBA values.
+-- Palettes are not supported at the moment.
 -- You may use this to procedurally generate textures during server init.
 ---@param data mt.ColorSpec[]|string
 ---@param compression integer|nil Optional zlib compression level from 0 to 9.
 function minetest.encode_png(width, height, data, compression) end
 
---- Encodes non-unreserved URI characters by a
+--- Encodes reserved URI characters by a
 --- percent sign followed by two hex digits. See
 --- [RFC 3986, section 2.3](https://datatracker.ietf.org/doc/html/rfc3986#section-2.3).
 ---@param str string

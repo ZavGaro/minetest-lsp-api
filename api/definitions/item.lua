@@ -54,6 +54,29 @@
 ---@field range number|nil
 ---If true, item points to all liquid nodes (`liquidtype ~= "none"`), even those for which `pointable = false`.
 ---@field liquids_pointable boolean|nil
+--- ```lua
+--- pointabilities = {
+---     nodes = {
+---         ["default:stone"] = "blocking",
+---         ["group:leaves"] = false,
+---     },
+---     objects = {
+---         ["modname:entityname"] = true,
+---         ["group:ghosty"] = true, -- (an armor group)
+---     },
+--- },
+---  ```
+--- Contains lists to override the `pointable` property of nodes and objects.
+--- The index can be a node/entity name or a group with the prefix `"group:"`.
+--- (For objects `armor_groups` are used and for players the entity name is irrelevant.)
+--- If multiple fields fit, the following priority order is applied:
+--- 1. value of matching node/entity name
+--- 2. `true` for any group
+--- 3. `false` for any group
+--- 4. `"blocking"` for any group
+--- 5. `liquids_pointable` if it is a liquid node
+--- 6. `pointable` property of the node or object
+---@field pointabilities? {nodes: table<string, true|false|'blocking'>, objects: table<string, true|false|'blocking'>}
 ---* **When used for nodes:** Defines amount of light emitted by node.
 ---* **Otherwise:** Defines texture glow when viewed as a dropped item
 ---
@@ -65,6 +88,9 @@
 ---@field light_source integer|nil
 ---Define the tool capabilities.
 ---@field tool_capabilities mt.ToolCaps|nil
+--- Set wear bar color of the tool by setting color stops and blend mode
+--- See "Wear Bar Color" section for further explanation including an example
+---@field wear_color? mt.WearBarColor
 ---Define client-side placement prediction.
 ---
 ---* If `nil` and item is node, prediction is made automatically.
@@ -86,6 +112,27 @@
 ---
 ---Default: `""`
 ---@field node_dig_prediction string|nil
+--- ```lua
+--- touch_interaction = <TouchInteractionMode> OR {
+---     pointed_nothing = <TouchInteractionMode>,
+---     pointed_node    = <TouchInteractionMode>,
+---     pointed_object  = <TouchInteractionMode>,
+--- },
+--- ```
+--- Only affects touchscreen clients.
+--- Defines the meaning of short and long taps with the item in hand.
+--- If specified as a table, the field to be used is selected according to
+--- the current `pointed_thing`.
+--- There are three possible TouchInteractionMode values:
+--- * "user"                 (meaning depends on client-side settings)
+--- * "long_dig_short_place" (long tap  = dig, short tap = place)
+--- * "short_dig_long_place" (short tap = dig, long tap  = place)
+--- The default value is "user".
+---@field touch_interaction?
+---|mt.TouchInteractionMode
+---|{pointed_nothing: mt.TouchInteractionMode,
+---  pointed_node: mt.TouchInteractionMode,
+---  pointed_object: mt.TouchInteractionMode}
 ---Definition of items sounds to be played at various events.
 ---
 ---All fields in this table are optional.
@@ -153,3 +200,8 @@
 ---
 ---The user may be any `ObjectRef` or `nil`.
 ---@field after_use nil|fun(itemstack: mt.ItemStack, user?: mt.ObjectRef, node: mt.Node, digparams: unknown): mt.ItemStack?
+
+---@alias mt.TouchInteractionMode 
+---|'user' meaning depends on client-side settings
+---|'long_dig_short_place' long tap = dig, short tap = place
+---|'short_dig_long_place' short tap = dig, long tap = place

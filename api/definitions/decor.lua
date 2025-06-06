@@ -15,9 +15,13 @@
 -- This decoration type is intended to be used for multi-node sized discrete
 -- structures, such as trees, cave spikes, rocks, and so on.
 ---|"schematic"
+-- Generates a L-system tree at the position where the decoration is placed.
+-- Uses the same L-system as `minetest.spawn_tree`, but is faster than using it manually.
+-- The `treedef` field in the decoration definition is used for the tree definition.
+---|"lsystem"
 
 -- Used by `minetest.register_decoration`.
----@alias mt.DecorDef mt.DecorDefSimple|mt.DecorDefSchematic
+---@alias mt.DecorDef mt.DecorDefSimple|mt.DecorDefSchematic|mt.DecorDefLSystem
 
 ---@class mt.DecorDefCommon
 ---@field deco_type mt.DecorType
@@ -46,10 +50,10 @@
 -- Can be a list of (or a single) biome names, IDs, or definitions.
 ---@field biomes string[]
 -- Lower limits for decoration.
--- These parameters refer to the Y co-ordinate of the `place_on` node.
+-- These parameters refer to the Y coordinate of the `place_on` node.
 ---@field y_min number
 -- Upper limits for decoration.
--- These parameters refer to the Y co-ordinate of the `place_on` node.
+-- These parameters refer to the Y coordinate of the `place_on` node.
 ---@field y_max number
 -- * Node (or list of nodes) that the decoration only spawns next to.
 -- * Checks the 8 neighboring nodes on the same height,
@@ -126,3 +130,6 @@
 -- Ignored by `y_min`, `y_max` and `spawn_by` checks, which always refer
 -- to the `place_on` node.
 ---@field place_offset_y number
+
+---@class mt.DecorDefLSystem:mt.DecorDefCommon
+---@field treedef mt.TreeDef

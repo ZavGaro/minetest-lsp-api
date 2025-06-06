@@ -101,5 +101,8 @@ function entity:get_staticdata() end
 ---@field axis "x"|"y"|"z"
 ---@field node_pos mt.Vector If type is "node".
 ---@field object mt.ObjectRef If type is "object".
+-- The position of the entity when the collision occurred.
+-- Available since feature "moveresult_new_pos".
+---@field new_pos mt.Vector
 ---@field old_velocity mt.Vector
 ---@field new_velocity mt.Vector

@@ -43,12 +43,22 @@ function minetest.remove_player(name) end
 ---@return boolean
 function minetest.remove_player_auth(name) end
 
+
 ---@class dynamic_add_media_options
+---Either `filepath` or `filedata` must be specified.
 local dynamic_add_media_options = {}
 
----Path to a media file on the filesystem.
+---Name the media file will be usable as (optional if `filepath` present)
+---@type string
+dynamic_add_media_options.filename = nil
+
+---Path to the file on the filesystem
 ---@type string
 dynamic_add_media_options.filepath = nil
+
+---The data of the file to be sent
+---@type string
+dynamic_add_media_options.filedata = nil
 
 ---Name of the player the media should be sent to instead of all players (optional).
 ---@type string
@@ -69,6 +79,9 @@ dynamic_add_media_options.ephemeral = nil
 ---* If `ephemeral`=false and `to_player` is unset the file is added to the media sent to clients on startup, this means the media will appear even on old clients if they rejoin the server.
 ---* If `ephemeral`=false the file must not be modified, deleted, moved or renamed after calling this function.
 ---* Regardless of any use of `ephemeral`, adding media files with the same name twice is not possible/guaranteed to work. An exception to this is the use of `to_player` to send the same, already existent file to multiple chosen players.
+---* You can also call this at startup time. In that case `callback` MUST
+---be `nil` and you cannot use `ephemeral` or `to_player`, as these logically
+---do not make sense.
 ---* Clients will attempt to fetch files added this way via remote media, this can make transfer of bigger files painless (if set up). Nevertheless it is advised not to use dynamic media for big media files.
 ---@param options dynamic_add_media_options
 ---@param callback fun(name: string)

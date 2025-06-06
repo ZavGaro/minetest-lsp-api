@@ -21,10 +21,12 @@
 
 -- Displays an image on the HUD.
 ---@class mt.HUDImage:mt.HUDProto
--- * The scale of the image, with 1 being the original texture size.
--- * Only the X coordinate scale is used (positive values).
--- * Negative values represent that percentage of the screen it
---   should take; e.g. `x=-100` means 100% (width).
+-- * The scale of the image, with `{x = 1, y = 1}` being the original texture size.
+-- * The `x` and `y` fields apply to the respective axes.
+-- * Positive values scale the source image.
+-- * Negative values represent percentages relative to screen dimensions.
+-- * Example: `{x = -20, y = 3}` means the image will be drawn 20% of screen width wide,
+--   and 3 times as high as the source image is.
 ---@field scale number
 ---@field text string The name of the texture that is displayed.
 ---@field alignment mt.Vector The alignment of the image.
@@ -32,7 +34,10 @@
 -- Displays text on the HUD.
 ---@class mt.HUDText:mt.HUDProto
 ---@field scale mt.Vector Defines the bounding rectangle of the text.
----@field text string The text to be displayed in the HUD element.
+-- The text to be displayed in the HUD element.
+-- Supports `minetest.translate` (always)
+-- and `minetest.colorize` (since protocol version 44)
+---@field text string
 ---@field number mt.ColorInteger Color used to draw the text.
 ---@field alignment mt.Vector The alignment of the text.
 -- The player-set font size is multiplied by size.x (y value isn't used).
@@ -83,10 +88,12 @@
 -- the position is instead determined by `world_pos`,
 -- the world position of the waypoint.
 ---@class mt.HUDImageWaypoint:mt.HUDProto
--- * The scale of the image, with 1 being the original texture size.
--- * Only the X coordinate scale is used (positive values).
--- * Negative values represent that percentage of the screen it
---   should take; e.g. `x=-100` means 100% (width).
+-- * The scale of the image, with `{x = 1, y = 1}` being the original texture size.
+-- * The `x` and `y` fields apply to the respective axes.
+-- * Positive values scale the source image.
+-- * Negative values represent percentages relative to screen dimensions.
+-- * Example: `{x = -20, y = 3}` means the image will be drawn 20% of screen width wide,
+--   and 3 times as high as the source image is.
 ---@field scale mt.Vector
 ---@field text string The name of the texture that is displayed.
 ---@field alignment mt.Vector The alignment of the image.

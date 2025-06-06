@@ -3,6 +3,8 @@
 -------------------------------
 
 ---Set node at position
+---
+---Any existing metadata is deleted.
 ---@param pos mt.Vector
 ---@param node mt.Node
 ---If param1 or param2 is omitted, it's set to `0`.
@@ -11,9 +13,12 @@ function minetest.set_node(pos, node) end
 
 minetest.add_node = minetest.set_node
 
----Set node on all positions set in the first argument.
+---Set the same node at all positions in the first argument.
+---
 ---e.g. `minetest.bulk_set_node({{x=0, y=1, z=1}, {x=1, y=2, z=2}}, {name="default:stone"})`
+---
 ---For node specification or position syntax see `minetest.set_node` call
+---
 ---Faster than set_node due to single call, but still considerably slower
 ---than Lua Voxel Manipulators (LVM) for large numbers of nodes.
 ---Unlike LVMs, this will call node callbacks. It also allows setting nodes
@@ -24,12 +29,15 @@ minetest.add_node = minetest.set_node
 ---@param node mt.Node
 function minetest.bulk_set_node(positions, node) end
 
----Set node at position, but don't remove metadata
+---Swap node at position with another.
+---This keeps the metadata intact and will not run con-/destructor callbacks.
 ---@param pos mt.Vector
 ---@param node mt.Node
 function minetest.swap_node(pos, node) end
 
----By default it does the same as `minetest.set_node(pos, {name="air"})`
+---Remove a node
+---
+---Equivalent to `minetest.set_node(pos, {name="air"})`, but a bit faster.
 ---@param pos mt.Vector
 function minetest.remove_node(pos) end
 
@@ -40,6 +48,8 @@ function minetest.remove_node(pos) end
 function minetest.get_node(pos) end
 
 ---Same as `get_node` but returns `nil` for unloaded areas.
+---
+---Note that even loaded areas can contain "ignore" nodes.
 ---@param pos mt.Vector
 ---@return mt.Node?
 function minetest.get_node_or_nil(pos) end
@@ -77,17 +87,22 @@ function minetest.get_natural_light(pos, timeofday) end
 function minetest.get_artificial_light(param1) end
 
 ---Place node with the same effects that a player would cause
-function minetest.place_node(pos, node) end
+---@param pos mt.Vector
+---@param node mt.Node
+---@param placer mt.ObjectRef?
+function minetest.place_node(pos, node, placer) end
 
 ---Dig node with the same effects that a player would cause
 ---Returns `true` if successful, `false` on failure (e.g. protected location)
 ---@param pos mt.Vector
+---@param digger mt.ObjectRef?
 ---@return boolean
-function minetest.dig_node(pos) end
+function minetest.dig_node(pos, digger) end
 
 ---Punch node with the same effects that a player would cause
 ---@param pos mt.Vector
-function minetest.punch_node(pos) end
+---@param puncher mt.ObjectRef?
+function minetest.punch_node(pos, puncher) end
 
 ---Change node into falling node
 ---Returns `true` and the ObjectRef of the spawned entity if successful, `false` on failure
@@ -113,6 +128,9 @@ function minetest.get_meta(pos) end
 function minetest.get_node_timer(pos) end
 
 ---Spawn Lua-defined entity at position.
+---
+---Entities with `static_save = true` can be added also
+---to unloaded and non-generated blocks.
 ---@param pos mt.Vector
 ---@param name string
 ---@param staticdata? string
@@ -120,6 +138,8 @@ function minetest.get_node_timer(pos) end
 function minetest.add_entity(pos, name, staticdata) end
 
 ---Spawn item
+---
+---Items can be added also to unloaded and non-generated blocks.
 ---@param pos mt.Vector
 ---@param item mt.Item
 ---@return mt.ObjectRef? ref or `nil` if failed
@@ -127,25 +147,52 @@ function minetest.add_item(pos, item) end
 
 ---Get an `ObjectRef` to a player
 ---@param name string player name
----@return mt.PlayerObjectRef player_ref
+---@return mt.PlayerObjectRef? player_ref nil in case of error (player offline, doesn't exist, ...)
 function minetest.get_player_by_name(name) end
 
----returns a list of ObjectRefs in a sphere
+---Returns a list of ObjectRefs in a sphere
+---
+---**Warning**: Any kind of interaction with the environment or other APIs
+---can cause later objects in the list to become invalid while you're iterating it.
+---(e.g. punching an entity removes its children)
+---It is recommended to use `minetest.objects_inside_radius` instead, which
+---transparently takes care of this possibility.
 ---@param pos mt.Vector
 ---@param radius number using a Euclidean metric
 ---@return mt.ObjectRef[] refs
 function minetest.get_objects_inside_radius(pos, radius) end
 
----returns a list of ObjectRefs between `pos1` and `pos2`
----(min and max positions of the area to search)
----@param pos1 mt.Vector
----@param pos2 mt.Vector
----@return mt.ObjectRef[] refs
-function minetest.get_objects_in_area(pos1, pos2) end
+---Returns an iterator of valid objects
+---
+---Example:
+---```lua
+---for obj in minetest.objects_inside_radius(center, radius) do obj:punch(...) end
+---```
+---@param center mt.Vector
+---@param radius number
+function minetest.objects_inside_radius(center, radius) end
 
+---Returns a list of ObjectRefs
+---
+---`min_pos` and `max_pos` are the min and max positions of the area to search
+---
+---**Warning**: The same warning as for `minetest.get_objects_inside_radius` applies.
+---Use `minetest.objects_in_area` instead to iterate only valid objects.
+---@param min_pos mt.Vector
+---@param max_pos mt.Vector
+---@return mt.ObjectRef[] refs
+function minetest.get_objects_in_area(min_pos, max_pos) end
+
+---Returns an iterator of valid objects
+---@param min_pos mt.Vector
+---@param max_pos mt.Vector
+function minetest.objects_in_area(min_pos, max_pos) end
+
+---Set time of day
 ---@param val number between `0` and `1`; `0` for midnight, `0.5` for midday
 function minetest.set_timeofday(val) end
 
+---Get time of day
 ---@return number timeofday between `0` and `1`; `0` for midnight, `0.5` for midday
 function minetest.get_timeofday() end
 
@@ -153,7 +200,7 @@ function minetest.get_timeofday() end
 function minetest.get_gametime() end
 
 ---@return number days number of days elapsed since world was created.
----accounts for time changes.
+---Time changes are accounted for.
 function minetest.get_day_count() end
 
 ---@param pos mt.Vector
@@ -221,10 +268,11 @@ function VoxelManip(pos1, pos2) end
 ---* decoration
 ---@param flags {[string]: boolean}|nil
 ---@param deco_ids mt.DecorID[]|nil list of IDs of decorations which notification is requested for.
-function minetest.set_gen_notify(flags, deco_ids) end
+---@param custom_ids mt.DecorID[]|nil list of user-defined IDs (strings) which are requested. By convention these should be the mod name with an optional colon and specifier added, e.g. `"default"` or `"default:dungeon_loot"`
+function minetest.set_gen_notify(flags, deco_ids, custom_ids) end
 
 ---@return string flags
----@return mt.DecorID[] # `deco_id`'s.
+---@return mt.DecorID[] # `deco_id`'s and a table with user-defined IDs.
 function minetest.get_gen_notify() end
 
 ---@param decoration_name string
@@ -423,8 +471,9 @@ function minetest.line_of_sight(pos1, pos2) end
 ---@param pos2 mt.Vector end of the ray
 ---@param objects boolean if false, only nodes will be returned. Default is `true`.
 ---@param liquids boolean if false, liquid nodes (`liquidtype ~= "none"`) won't be returned. Default is `false`.
+---@param pointabilities ? Allows overriding the `pointable` property of nodes and objects. Uses the same format as the `pointabilities` property of item definitions. Default is `nil`.
 ---@return mt.Raycast
-function minetest.raycast(pos1, pos2, objects, liquids) end
+function minetest.raycast(pos1, pos2, objects, liquids, pointabilities) end
 
 ---returns table containing path that can be walked on
 ---@param pos1 mt.Vector start position
@@ -480,6 +529,17 @@ function minetest.set_node_level(pos, level) end
 ---`level` must be between -127 and 127
 function minetest.add_node_level(pos, level) end
 
+---Returns list of boxes
+---Resolves any facedir-rotated boxes, connected boxes and the like into
+---actual boxes.
+---
+---See also: [Node boxes](#node-boxes)
+---@param box_type "node_box"|"collision_box"|"selection_box"
+---@param pos mt.Vector
+---@param node mt.Node
+---@return mt.NodeBox[] # list of boxes in the form `{{x1, y1, z1, x2, y2, z2}, {x1, y1, z1, x2, y2, z2}, ...}`. Coordinates are relative to `pos`
+function minetest.get_node_boxes(box_type, pos, node) end
+
 ---Resets the light in a cuboid-shaped part of
 ---the map and removes lighting bugs.
 ---Loads the area if it is not loaded.
@@ -510,11 +570,11 @@ function minetest.check_single_for_falling(pos) end
 ---@param pos mt.Vector
 function minetest.check_for_falling(pos) end
 
----Returns a player spawn y co-ordinate for the provided (x, z)
----co-ordinates, or `nil` for an unsuitable spawn point.
+---Returns a player spawn y coordinate for the provided (x, z)
+---coordinates, or `nil` for an unsuitable spawn point.
 ---For most mapgens a 'suitable spawn point' is one with y between
 ---`water_level` and `water_level + 16`, and in mgv7 well away from rivers,
----so `nil` will be returned for many (x, z) co-ordinates.
+---so `nil` will be returned for many (x, z) coordinates.
 ---The spawn level returned is for a player spawn in unmodified terrain.
 ---The spawn level is intentionally above terrain level to cope with
 ---full-node biome 'dust' nodes.

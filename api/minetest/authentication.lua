@@ -2,6 +2,8 @@
 ---Authentication
 -----------------
 
+---A **set** of privileges:
+---a table where the keys are names of privileges and the values are `true`.
 ---@alias mt.PrivsSet { [string]: boolean|nil }
 
 ---Converts string representation of privs into table form
@@ -82,11 +84,25 @@ function minetest.notify_authentication_modified(name) end
 function minetest.set_player_password(name, password_hash) end
 
 ---Set privileges of player `name`.
+---
+---Example: `minetest.set_player_privs("singleplayer", {interact = true, fly = true})`.
+---This **sets** the player privileges to `interact` and `fly`;
+---`singleplayer` will only have these two privileges afterwards.
 ---@param name string
----@param privs mt.PrivsSet
+---@param privs mt.PrivsSet a **set** of privileges
 ---Calls the authentication handler.
 ---@see mt.AuthHandlerDef
 function minetest.set_player_privs(name, privs) end
+
+---Helper to grant or revoke privileges.
+---
+---Example: `minetest.change_player_privs("singleplayer", {interact = true, fly = false})`
+---will grant singleplayer the `interact` privilege
+---and revoke singleplayer's `fly` privilege.
+---All other privileges will remain unchanged.
+---@param name string
+---@param changes table<string, boolean> Table of changes to make. A field `[privname] = true` grants a privilege, whereas `[privname] = false` revokes a privilege.
+function minetest.change_player_privs(name, changes) end
 
 ---* See `reload()` in authentication handler definition
 ---Calls the authentication handler.

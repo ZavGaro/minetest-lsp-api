@@ -78,15 +78,19 @@ local node = {}
 ---* Bit 3: If set, liquid is flowing downwards (no graphical effect)
 ---|"flowingliquid"
 ---* Supported drawtypes: "torchlike", "signlike", "plantlike",
----  "plantlike_rooted", "normal", "nodebox", "mesh"
+---"plantlike_rooted", "normal", "nodebox", "mesh"
 ---* The rotation of the node is stored in `param2`
 ---* Node is 'mounted'/facing towards one of 6 directions
 ---* You can make this value by using `minetest.dir_to_wallmounted()`
----* Values range 0 - 5
+---* Values range 0 - 7
 ---* The value denotes at which direction the node is "mounted":
----  `0 = y+,   1 = y-,   2 = x+,   3 = x-,   4 = z+,   5 = z-`
+---0 = y+,   1 = y-,   2 = x+,   3 = x-,   4 = z+,   5 = z-
+---6 = y+, but rotated by  90°
+---7 = y-, but rotated by -90°
 ---* By default, on placement the param2 is automatically set to the
----  appropriate rotation, depending on which side was pointed at
+---appropriate rotation (0 to 5), depending on which side was
+---pointed at. With the node field `wallmounted_rotate_vertical = true`,
+---the param2 values 6 and 7 might additionally be set
 ---|"wallmounted"
 ---* Supported drawtypes: "normal", "nodebox", "mesh"
 ---* The rotation of the node is stored in `param2`.
@@ -199,8 +203,7 @@ local node = {}
 ---|"airlike"
 ---* The cubic source node for a liquid.
 ---* Faces bordering to the same node are never rendered.
----* Connects to node specified in `liquid_alternative_flowing`.
----* You *must* set `liquid_alternative_source` to the node's own name.
+---* Connects to node specified in `liquid_alternative_flowing` if specified.
 ---* Use `backface_culling = false` for the tiles you want to make
 ---  visible when inside the node.
 ---|"liquid"
@@ -285,7 +288,7 @@ local node = {}
 ---* For supported model formats see Irrlicht engine documentation.
 ---|"mesh"
 ---* Enables underwater `plantlike` without air bubbles around the nodes.
----* Consists of a base cube at the co-ordinates of the node plus a
+---* Consists of a base cube at the coordinates of the node plus a
 ---  `plantlike` extension above
 ---* If `paramtype2="leveled", the `plantlike` extension has a height
 ---  of `param2 / 16` nodes, otherwise it's the height of 1 node

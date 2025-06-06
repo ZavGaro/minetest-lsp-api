@@ -31,9 +31,8 @@ function auth.delete_auth(name) end
 function auth.set_password(name, password) end
 
 -- * Set privileges of player `name`.
--- * Auth data should be created if not present.
 ---@param name string
----@param privileges table
+---@param privileges table keys are privilege names, values are `true`; auth data should be created if not present.
 function auth.set_privileges(name, privileges) end
 
 -- * Reload authentication data from the storage location.

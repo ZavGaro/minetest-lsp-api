@@ -31,7 +31,7 @@ function minetest.is_player(obj) end
 function minetest.player_exists(name) end
 
 ---Replaces definition of a builtin hud element.
----@param name '"breath"'|'"health"'
+---@param name 'breath'|'health'|'minimap'
 ---@param hud_definition mt.HUDDef
 function minetest.hud_replace_builtin(name, hud_definition) end
 
