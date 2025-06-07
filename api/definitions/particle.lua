@@ -2,7 +2,7 @@
 ---Particle definition
 ----------------------
 
--- Used by `minetest.add_particle`.
+-- Used by `core.add_particle`.
 ---@class mt.ParticleDef
 ---@field pos mt.Vector
 ---@field velocity mt.Vector
@@ -48,7 +48,7 @@
 ---ParticleSpawner definition
 -------------------------------
 
--- Used by `minetest.add_particlespawner`.
+-- Used by `core.add_particlespawner`.
 --
 -- The particles' properties are random values between the min and max values.
 -- Applies to: pos, velocity, acceleration, expirationtime, size.
@@ -104,3 +104,56 @@
 --   particle texture is picked.
 -- * Otherwise, the default behavior is used (currently: any random tile).
 ---@field node_tile number|nil
+
+---@class mt.ParticleTexture
+--- the texture specification string
+---@field name string
+--- controls how visible the particle is; at 1.0 the particle is fully
+--- visible, at 0, it is completely invisible.
+---@field alpha number
+--- can be used instead of `alpha` to animate the alpha value over the
+--- particle's lifetime. these tween tables work identically to the tween
+--- tables used in particlespawner properties, except that time references
+--- are understood with respect to the particle's lifetime, not the
+--- spawner's. {1,0} fades the particle out over its lifetime.
+--- 
+--- Defaults to {1, 0}
+---@field alpha_tween [number, number]
+-- scales the texture onscreen
+---@field scale number|{x: number, y: number}
+--- animates the scale over the particle's lifetime. works like the
+--- alpha_tween table, but can accept two-dimensional vectors as well as
+--- integer values. the example value would cause the particle to shrink
+--- in one dimension over the course of its life until it disappears
+---
+--- defaults to {{x = 1, y = 1}, {x = 0, y = 1}}
+---@field scale_tween [number|{x: number, y: number}, number|{x: number, y: number}]
+---@field blend
+--- (default) blends transparent pixels with those they are drawn atop
+--- according to the alpha channel of the source texture. useful for
+--- e.g. material objects like rocks, dirt, smoke, or node chunks
+--- note: there will be rendering bugs when particles interact with
+--- translucent nodes. particles are also not transparency-sorted
+--- relative to each other.
+---|"alpha"
+--- pixels are either fully opaque or fully transparent,
+--- depending on whether alpha is greater than or less than 50%
+--- (just like `use_texture_alpha = "clip"` for nodes).
+--- you should prefer this if you don't need semi-transparency, as it's faster.
+---|"clip"
+--- adds the value of pixels to those underneath them, modulo the sources
+--- alpha channel. useful for e.g. bright light effects like sparks or fire
+---|"add"
+-- like "add" but less bright. useful for subtler light effects. note that
+-- this is NOT formally equivalent to the "screen" effect used in image
+-- editors and compositors, as it does not respect the alpha channel of
+-- of the image being blended
+---|"screen"
+-- the inverse of "add"; the value of the source pixel is subtracted from
+-- the pixel underneath it. a white pixel will turn whatever is underneath
+-- it black; a black pixel will be "transparent". useful for creating
+-- darkening effects
+---|"sub"
+--- overrides the particlespawner's global animation property for a single
+--- specific texture
+---@field animation mt.TileAnimDef

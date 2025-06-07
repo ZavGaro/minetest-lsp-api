@@ -36,9 +36,15 @@ function settings:get_np_group(key) end
 ---@return table
 function settings:get_flags(key) end
 
+--- * Returns a `vector`
+--- * Returns `nil` if no value is found or parsing failed.
+---@param key string
+---@return mt.Vector?
+function settings:get_pos(key)end
+
 -- * Setting names can't contain whitespace or any of `="{}#`.
 -- * Setting values can't contain the sequence `\n"""`.
--- * Setting names starting with "secure." can't be set on the main settings object (`minetest.settings`).
+-- * Setting names starting with "secure." can't be set on the main settings object (`core.settings`).
 ---@param key string
 ---@param value any
 function settings:set(key, value) end
@@ -52,6 +58,10 @@ function settings:set_bool(key, value) end
 ---@param key string
 ---@param value mt.NoiseParams
 function settings:set_np_group(key, value) end
+
+---@param key string
+---@param value mt.Vector
+function settings:set_pos(key, value) end
 
 -- Returns a boolean (`true` for success).
 ---@param key string
@@ -72,13 +82,13 @@ function settings:write() end
 ---@return table
 function settings:to_table() end
 
--- Settings object containing all of the settings from the main config file (`minetest.conf`).
+-- Settings object containing all of the settings from the main config file (`core.conf`).
 ---@type mt.Settings
-minetest.settings = {}
+core.settings = {}
 
 -- Loads a setting from the main settings and parses it as a position (in the format `(1,2,3)`).
 --
 -- Returns a position or `nil`.
 ---@param name string
 ---@return mt.Vector?
-function minetest.setting_get_pos(name) end
+function core.setting_get_pos(name) end

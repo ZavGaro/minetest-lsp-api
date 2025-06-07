@@ -3,7 +3,7 @@
 ---Node definition
 ------------------
 
----Used by `minetest.register_node`.
+---Used by `core.register_node`.
 ---@class mt.NodeDef:mt.ItemDef
 ---@field drawtype mt.DrawType|nil
 -- * Supported for drawtypes "plantlike", "signlike", "torchlike",
@@ -32,12 +32,18 @@
 --   the inventory and on the wield item.
 ---@field color mt.ColorSpec|nil
 -- Specifies how the texture's alpha channel will be used for rendering.
--- possible values:
--- * "opaque": Node is rendered opaque regardless of alpha channel
--- * "clip": A given pixel is either fully see-through or opaque
---           depending on the alpha channel being below/above 50% in value
--- * "blend": The alpha channel specifies how transparent a given pixel
---            of the rendered node is
+-- Possible values:
+-- * "opaque":
+--   Node is rendered opaque regardless of alpha channel.
+-- * "clip":
+--   A given pixel is either fully see-through or opaque
+--   depending on the alpha channel being below/above 50% in value.
+--   Use this for nodes with fully transparent and fully opaque areas.
+-- * "blend":
+--   The alpha channel specifies how transparent a given pixel
+--   of the rendered node is. This comes at a performance cost.
+--   Only use this when correct rendering
+--   among semitransparent nodes is necessary.
 -- The default is "opaque" for drawtypes normal, liquid and flowingliquid,
 -- mesh and nodebox or "clip" otherwise.
 -- If set to a boolean value (deprecated): true either sets it to blend
@@ -132,7 +138,7 @@
 -- The maximum value of 'leveled' is `leveled_max`.
 ---@field leveled number|nil
 -- Maximum value for `leveled` (0-127), enforced in
--- `minetest.set_node_level` and `minetest.add_node_level`.
+-- `core.set_node_level` and `core.add_node_level`.
 -- Values above 124 might causes collision detection issues.
 ---@field leveled_max number|nil
 -- Maximum distance that flowing liquid nodes can spread around
@@ -151,6 +157,18 @@
 -- Tells connected nodebox nodes to connect only to these sides of this node.
 ---@field connect_sides string[]|nil
 -- File name of mesh when using "mesh" drawtype.
+--
+-- The center of the node is the model origin.
+--
+-- For legacy reasons, this uses a different scale depending on the mesh:
+--
+-- 1. For glTF models: 10 units = 1 node (consistent with the scale for entities).
+-- 2. For obj models: 1 unit = 1 node.
+-- 3. For b3d and x models: 1 unit = 1 node if static, otherwise 10 units = 1 node.
+--
+-- Using static glTF or obj models is recommended.
+--
+-- You can use the `visual_scale` multiplier to achieve the expected scale.
 ---@field mesh string|nil
 -- Custom selection box definition. Multiple boxes can be defined.
 -- If "nodebox" drawtype is used and selection_box is nil, then node_box
@@ -230,7 +248,7 @@ function node.on_flood(pos, oldnode, newnode) end
 function node.preserve_metadata(pos, oldnode, oldmeta, drops) end
 
 -- * Called after constructing node when node was placed using
---   `minetest.item_place_node` / `minetest.place_node`.
+--   `core.item_place_node` / `core.place_node`.
 -- * If return true no item is taken from itemstack.
 -- * Default: `nil`.
 ---@param pos mt.Vector Node position.
@@ -240,7 +258,7 @@ function node.preserve_metadata(pos, oldnode, oldmeta, drops) end
 function node.after_place_node(pos, placer, itemstack, pointed_thing) end
 
 -- * Called after destructing the node when node was dug using
---   `minetest.node_dig` / `minetest.dig_node`.
+--   `core.node_dig` / `core.dig_node`.
 -- * Default: `nil`.
 ---@param pos mt.Vector
 ---@param oldnode mt.Node Node table of node before it was dug.
@@ -255,9 +273,9 @@ function node.after_dig_node(pos, oldnode, oldmetadata, digger) end
 ---@return boolean
 function node.can_dig(pos, player) end
 
--- * Default: `minetest.node_punch`.
+-- * Default: `core.node_punch`.
 -- * Called when puncher punches the `node` at `pos`.
--- * By default calls `minetest.register_on_punchnode` callbacks.
+-- * By default calls `core.register_on_punchnode` callbacks.
 ---@param pos mt.Vector
 ---@param node mt.Node
 ---@param puncher mt.ObjectRef
@@ -281,7 +299,7 @@ function node.on_punch(pos, node, puncher, pointed_thing) end
 ---@return mt.ItemStack|nil leftover
 function node.on_rightclick(pos, node, clicker, itemstack, pointed_thing) end
 
--- * Default: `minetest.node_dig`.
+-- * Default: `core.node_dig`.
 -- * By default checks privileges, wears out item (if tool) and removes node.
 -- * Return `true` if the node was dug successfully, `false` otherwise.
 -- * Deprecated: returning nil is the same as returning true.
@@ -291,7 +309,7 @@ function node.on_rightclick(pos, node, clicker, itemstack, pointed_thing) end
 ---@return boolean
 function node.on_dig(pos, node, digger) end
 
--- * Called by NodeTimers, see `minetest.get_node_timer` and `mt.NodeTimerRef`.
+-- * Called by NodeTimers, see `core.get_node_timer` and `mt.NodeTimerRef`.
 -- * Return `true` to run the timer for another cycle with the same timeout.
 -- * Default: `nil`.
 ---@param pos mt.Vector
@@ -300,7 +318,7 @@ function node.on_dig(pos, node, digger) end
 function node.on_timer(pos, elapsed) end
 
 -- * Called when an UI form (e.g. sign text input) returns data.
--- * See `minetest.register_on_player_receive_fields` for more info.
+-- * See `core.register_on_player_receive_fields` for more info.
 -- * Default: `nil`.
 ---@param pos mt.Vector
 ---@param formname string

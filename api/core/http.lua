@@ -14,17 +14,17 @@ request.url = nil
 request.timeout = nil
 
 -- The http method to use. Defaults to `"GET"`.
----@type '"GET"'|'"POST"'|'"PUT"'|'"DELETE"'
+---@type "GET"|"HEAD"|"POST"|"PUT"|"PATCH"|"DELETE"
 request.method = nil
 
--- Data for the POST, PUT or DELETE request.
+-- Data for the POST, PUT, PATCH or DELETE request.
 --
 -- Accepts both a string and a table.
 -- If a table is specified, encodes table as `x-www-form-urlencoded` key-value pairs.
 ---@type string|table
 request.data = nil
 
--- Optional, if specified replaces the default minetest user agent with given string.
+-- Optional, if specified replaces the default Luanti user agent with given string.
 ---@type string
 request.user_agent = nil
 
@@ -61,7 +61,7 @@ result.timeout = nil
 ---@type integer
 result.code = nil
 
--- Responce data.
+-- Response body.
 ---@type string
 result.data = nil
 
@@ -96,4 +96,4 @@ function api.fetch_async_get(handle) end
 --
 -- **DO NOT ALLOW ANY OTHER MODS TO ACCESS THE RETURNED TABLE, STORE IT IN A LOCAL VARIABLE!**
 ---@return mt.HTTPApiTable
-function minetest.request_http_api() end
+function core.request_http_api() end

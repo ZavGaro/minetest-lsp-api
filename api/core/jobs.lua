@@ -2,7 +2,7 @@
 ---Timing
 ---------
 
--- Returned by `minetest.after`.
+-- Returned by `core.after`.
 ---@class mt.Job
 local job = {}
 
@@ -17,7 +17,7 @@ function job:cancel() end
 ---@param func function
 ---@param ... unknown Arguments that will be passed to `func`.
 ---@return mt.Job
-function minetest.after(time, func, ...) end
+function core.after(time, func, ...) end
 
 ---Async environment
 --------------------
@@ -38,8 +38,8 @@ function minetest.after(time, func, ...) end
 --
 -- - `AreaStore`
 -- - `ItemStack`
--- - `PerlinNoise`
--- - `PerlinNoiseMap`
+-- - `ValueNoise`
+-- - `ValueNoiseMap`
 -- - `PseudoRandom`
 -- - `PcgRandom`
 -- - `SecureRandom`
@@ -51,35 +51,35 @@ function minetest.after(time, func, ...) end
 -- Class instances that can be transferred between environments:
 --
 -- - `ItemStack`
--- - `PerlinNoise`
--- - `PerlinNoiseMap`
+-- - `ValueNoise`
+-- - `ValueNoiseMap`
 -- - `VoxelManip`
 --
 -- Functions:
 --
 -- - Standalone helpers such as logging, filesystem, encoding, hashing or
 --   compression APIs
--- - `minetest.request_insecure_environment` (same restrictions apply)
+-- - `core.request_insecure_environment` (same restrictions apply)
 --
 -- Variables:
 --
--- - `minetest.settings`
--- - `minetest.registered_items`, `registered_nodes`, `registered_tools`,
+-- - `core.settings`
+-- - `core.registered_items`, `registered_nodes`, `registered_tools`,
 --   `registered_craftitems` and `registered_aliases`
 --   - with all functions and userdata values replaced by `true`, calling any
 --     callbacks here is obviously not possible
 ---@param func function
 ---@param callback fun(...: any): any
 ---@param ... unknown Variable number of arguments that are passed to `func`.
-function minetest.handle_async(func, callback, ...) end
+function core.handle_async(func, callback, ...) end
 
 -- Register a path to a Lua file to be imported
 -- when an async environment is initialized.
 --
 -- You can use this to preload code which you can then call later
--- using `minetest.handle_async()`.
+-- using `core.handle_async()`.
 ---@param path string
-function minetest.register_async_dofile(path) end
+function core.register_async_dofile(path) end
 
 ---Register a metatable that should be preserved when data is transferred
 ---between the main thread and the async environment.
@@ -92,4 +92,4 @@ function minetest.register_async_dofile(path) end
 ---and the async environment for this mechanism to work.
 ---@param name string string that identifies the metatable. It is recommended to follow the `modname:name` convention for this identifier.
 ---@param mt mt.MetaDataRef metatable to register.
-function minetest.register_portable_metatable(name, mt) end
+function core.register_portable_metatable(name, mt) end

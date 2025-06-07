@@ -493,7 +493,7 @@ function PlayerObjectRef:get_player_control() end
 ---@return number|nil
 function PlayerObjectRef:get_player_control_bits() end
 
---- * Note: All numeric fields modify a corresponding `movement_*` setting in the game's `minetest.conf`.
+--- * Note: All numeric fields modify a corresponding `movement_*` setting in the game's `core.conf`.
 --- * Note: Some of the fields don't exist in old API versions, see feature
 --- `physics_overrides_v2`.
 ---@class mt.PhysicsOverride
@@ -550,7 +550,7 @@ function PlayerObjectRef:get_player_control_bits() end
 ---@field new_move boolean|nil Default: `true`. Use new move/sneak code. When false the exact old code is used for the specific old sneak behavior.
 
 --- * For games, we recommend for simpler code to first modify the `movement_*`
---- settings (e.g. via the game's `minetest.conf`) to set a global base value
+--- settings (e.g. via the game's `core.conf`) to set a global base value
 --- for all players and only use `set_physics_override` when you need to change
 --- from the base value on a per-player basis.
 --- @param override_table mt.PhysicsOverride

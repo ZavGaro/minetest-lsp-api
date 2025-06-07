@@ -7,7 +7,7 @@
 ---@return mt.Settings
 function Settings(filename) end
 
--- An interface to read config files in the format of `minetest.conf`.
+-- An interface to read config files in the format of `core.conf`.
 --
 -- It can be created via `Settings(filename)`.
 ---@class mt.Settings
@@ -35,7 +35,7 @@ function SettingsClass:get_flags(key) end
 -- - Setting names can't contain whitespace or any of `="{}#`.
 -- - Setting values can't contain the sequence `\n"""`.
 -- - Setting names starting with "secure." can't be set on the main settings
---   object (`minetest.settings`).
+--   object (`core.settings`).
 ---@param key string
 ---@param value any
 function SettingsClass:set(key, value) end
@@ -43,7 +43,7 @@ function SettingsClass:set(key, value) end
 -- - Setting names can't contain whitespace or any of `="{}#`.
 -- - Setting values can't contain the sequence `\n"""`.
 -- - Setting names starting with "secure." can't be set on the main settings
---   object (`minetest.settings`).
+--   object (`core.settings`).
 ---@param key string
 ---@param value boolean
 function SettingsClass:set_bool(key, value) end
@@ -51,7 +51,7 @@ function SettingsClass:set_bool(key, value) end
 -- - Setting names can't contain whitespace or any of `="{}#`.
 -- - Setting values can't contain the sequence `\n"""`.
 -- - Setting names starting with "secure." can't be set on the main settings
---   object (`minetest.settings`).
+--   object (`core.settings`).
 ---@param key string
 ---@param value mt.NoiseParams
 function SettingsClass:set_np_group(key, value) end
@@ -66,7 +66,7 @@ function SettingsClass:get_names() end
 
 --- * In contrast to the various getter functions, `has()` doesn't consider
 ---   any default values.
---- * This means that on the main settings object (`minetest.settings`),
+--- * This means that on the main settings object (`core.settings`),
 ---   `get(key)` might return a value even if `has(key)` returns `false`.
 ---@param key string
 ---@return boolean # Is `key` exists.

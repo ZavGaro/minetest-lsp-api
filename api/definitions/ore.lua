@@ -2,7 +2,7 @@
 ---Ore definition
 -----------------
 
--- Used by `minetest.register_ore`.
+-- Used by `core.register_ore`.
 ---@class mt.OreDef
 ---@field ore_type mt.OreType
 ---@field ore string
@@ -35,8 +35,7 @@
 ---@field stratum_thickness number "stratum" type only.
 
 --[[
-NoiseParams structure describing one of the perlin noises
-used for ore distribution.
+NoiseParams structure describing one of the noises used for ore distribution.
 
 * Needed by "sheet", "puff", "blob" and "vein" ores.
 * Omit from "scatter" ore for a uniform ore distribution.

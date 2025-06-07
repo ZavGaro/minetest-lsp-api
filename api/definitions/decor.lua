@@ -16,11 +16,11 @@
 -- structures, such as trees, cave spikes, rocks, and so on.
 ---|"schematic"
 -- Generates a L-system tree at the position where the decoration is placed.
--- Uses the same L-system as `minetest.spawn_tree`, but is faster than using it manually.
+-- Uses the same L-system as `core.spawn_tree`, but is faster than using it manually.
 -- The `treedef` field in the decoration definition is used for the tree definition.
 ---|"lsystem"
 
--- Used by `minetest.register_decoration`.
+-- Used by `core.register_decoration`.
 ---@alias mt.DecorDef mt.DecorDefSimple|mt.DecorDefSchematic|mt.DecorDefLSystem
 
 ---@class mt.DecorDefCommon
@@ -37,7 +37,7 @@
 -- If >= 10.0 complete coverage is enabled and decoration placement uses
 -- a different and much faster method.
 ---@field fill_ratio number
--- NoiseParams structure describing the perlin noise used for decoration
+-- NoiseParams structure describing the noise used for decoration
 -- distribution.
 -- A noise value is calculated for each square division and determines
 -- `decorations per surface node` within each division.
@@ -70,10 +70,9 @@
 ---@field num_spawn_by number
 -- * Comma separated values.
 -- * Flags for all decoration types.
--- * "liquid_surface": Instead of placement on the highest solid surface
---   in a mapchunk column, placement is on the highest liquid surface.
---   Placement is disabled if solid nodes are found above the liquid
---   surface.
+-- * "liquid_surface": Find the highest liquid (not solid) surface under
+--   open air. Search stops and fails on the first solid node.
+--   Cannot be used with "all_floors" or "all_ceilings" below.
 -- * "force_placement": Nodes other than "air" and "ignore" are replaced
 --   by the decoration.
 -- * "all_floors", "all_ceilings": Instead of placement on the highest
@@ -116,7 +115,7 @@
 
 ---@class mt.DecorDefSchematic:mt.DecorDefCommon
 -- If schematic is a string, it is the filepath relative to the current
--- working directory of the specified Minetest schematic file.
+-- working directory of the specified Luanti schematic file.
 -- Could also be the ID of a previously registered schematic.
 ---@field schematic string|mt.SchematicSpec
 ---@field replacements table

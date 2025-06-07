@@ -7,9 +7,13 @@
 -- corresponding Lua entity using the given registration fields.
 -- Player properties need to be saved manually.
 ---@class mt.ObjectProp
--- For players only. Defaults to `minetest.PLAYER_MAX_HP_DEFAULT`.
+-- Defines the maximum and default HP of the object.
+-- For Lua entities, the maximum is not enforced.
+-- For players, this defaults to `core.PLAYER_MAX_HP_DEFAULT` (20).
+-- For Lua entities, the default is 10.
 ---@field hp_max integer
--- For players only. Defaults to `minetest.PLAYER_MAX_BREATH_DEFAULT`.
+-- For players only. Defines the maximum amount of "breath" for the player.
+-- Defaults to `core.PLAYER_MAX_BREATH_DEFAULT` (10).
 ---@field breath_max integer
 -- For players only. Zoom FOV in degrees.
 -- Note that zoom loads and/or generates world beyond the server's
@@ -51,28 +55,34 @@
 --   Otherwise for non-node items, the object will be an extrusion of
 --   'inventory_image'.
 --   If 'itemname' contains a ColorString or palette index (e.g. from
---   `minetest.itemstring_with_palette()`), the entity will inherit the color.
+--   `core.itemstring_with_palette()`), the entity will inherit the color.
 --   Wielditems are scaled a bit. If you want a wielditem to appear
 --   to be as large as a node, use `0.667` in `visual_size`.
----@field visual "cube"|"sprite"|"upright_sprite"|"mesh"|"item"|"wielditem"
+-- * "node" looks exactly like a node in-world (supported since 5.12.0)
+--   Note that visual effects like waving or liquid reflections will not work.
+---@field visual "cube"|"sprite"|"upright_sprite"|"mesh"|"item"|"wielditem"|"node"
 -- Multipliers for the visual size. If `z` is not specified, `x` will be used
 -- to scale the entity along both horizontal axes.
 ---@field visual_size mt.Vector
--- File name of mesh when using "mesh" visual
+-- File name of mesh when using "mesh" visual.
+--
+-- For legacy reasons, this uses a 10x scale for meshes: 10 units = 1 node.
 ---@field mesh string
--- Number of required textures depends on visual.
+-- Number of required textures depends on visual:
 -- * "cube" uses 6 textures just like a node, but all 6 must be defined.
 -- * "sprite" uses 1 texture.
 -- * "upright_sprite" uses 2 textures: {front, back}.
 -- * "mesh" requires one texture for each mesh buffer/material (in order).
 -- * Deprecated usage of "wielditem" expects 'textures = {itemname}'.
 ---@field textures string[]
--- Number of required colors depends on visual.
+-- Currently unused.
 ---@field colors mt.ColorSpec[]
--- Use texture's alpha channel.
--- * Excludes "upright_sprite" and "wielditem".
+-- Node to show when using the "node" visual
+---@field node mt.Node
+-- Use texture's alpha channel for transparency blending.
 -- * Note: currently causes visual issues when viewed through other
---   semi-transparent materials such as water.
+-- semi-transparent materials such as water.
+-- * Note: ignored for "item", "wielditem" and "node" visual.
 ---@field use_texture_alpha boolean
 -- Used with spritesheet textures for animation and/or frame selection
 -- according to position relative to player.
@@ -85,7 +95,7 @@
 ---@field initial_sprite_basepos {x: integer, y: integer}
 -- If false, object is invisible and can't be pointed.
 ---@field is_visible boolean
--- If true, is able to make footstep sounds of nodes
+-- If true, object is able to make footstep sounds of nodes
 -- (see node sound definition for details).
 ---@field makes_footstep_sound boolean
 -- Set constant rotation in radians per second, positive or negative.
@@ -103,6 +113,8 @@
 -- No limit if value <= 0.
 ---@field automatic_face_movement_max_rotation_per_sec number
 -- Set to false to disable backface_culling for model
+--
+-- Note: only used by "mesh" and "cube" visual
 ---@field backface_culling boolean
 -- Add this much extra lighting when calculating texture color.
 -- Value < 0 disables light's effect on texture color.
@@ -130,6 +142,8 @@
 -- Texture modifier to be applied for a short duration when object is hit
 ---@field damage_texture_modifier string
 -- Setting this to 'false' disables diffuse lighting of entity
+--
+-- Note: ignored for "item", "wielditem" and "node" visual
 ---@field shaded boolean
 -- Defaults to true for players, false for other entities.
 -- If set to true the entity will show as a marker on the minimap.

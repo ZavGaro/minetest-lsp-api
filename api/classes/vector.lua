@@ -113,6 +113,11 @@ function vector.new(x, y, z) end
 ---@nodiscard
 function vector.zero() end
 
+---Returns a new vector of length 1, pointing into a direction chosen uniformly at random.
+---@return mt.Vector
+---@nodiscard
+function vector.random_direction() end
+
 ---Returns a copy of the vector `v`.
 ---@param v mt.Vector
 ---@return mt.Vector
@@ -169,6 +174,12 @@ function vector.normalize(v) end
 ---@nodiscard
 function vector.floor(v) end
 
+---Returns a vector, each dimension rounded up.
+---@param v mt.Vector
+---@return mt.Vector
+---@nodiscard
+function vector.ceil(v) end
+
 ---Returns a vector, each dimension rounded to nearest integer.
 ---
 ---At a multiple of `0.5`, rounds away from zero.
@@ -177,12 +188,26 @@ function vector.floor(v) end
 ---@nodiscard
 function vector.round(v) end
 
----Returns a vector where the function `func` has been applied to each component.
+--- Returns a vector where `math.sign` was called for each component.
 ---@param v mt.Vector
----@param func fun(i: number):number
+---@param tolerance number
 ---@return mt.Vector
 ---@nodiscard
-function vector.apply(v, func) end
+function vector.sign(v, tolerance) end
+
+---Returns a vector with absolute values for each component.
+---@param v mt.Vector
+---@return mt.Vector
+---@nodiscard
+function vector.abs(v) end
+
+--- Returns a vector where the function `func` has been applied to each component.
+---@param v mt.Vector
+---@param func fun(i: number):number
+---@param ... unknown optional arguments passed to `func`
+---@return mt.Vector
+---@nodiscard
+function vector.apply(v, func, ...) end
 
 ---Returns a boolean, `true` if the vectors are identical.
 ---@param a mt.Vector
@@ -244,6 +269,15 @@ function vector.check(v) end
 ---@param min mt.Vector
 ---@param max mt.Vector
 function vector.in_area(pos, min, max) end
+
+--- Returns a random integer position in area formed by `min` and `max`
+--- * `min` and `max` are inclusive.
+--- * You can use `vector.sort` if you have two vectors and don't know which are the minimum and the maximum.
+---@param min mt.Vector
+---@param max mt.Vector
+---@return mt.Vector
+---@nodiscard
+function vector.random_in_area(min, max) end
 
 ---If `x` is a vector: Returns the sum of `v` and `x`.
 ---

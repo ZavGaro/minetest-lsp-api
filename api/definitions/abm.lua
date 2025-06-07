@@ -2,7 +2,11 @@
 ---ABM (ActiveBlockModifier) definition
 ---------------------------------------
 
----Used by `minetest.register_abm`.
+--- Used by `core.register_abm`.
+--- 
+--- An active block modifier (ABM) is used to define a function that is continously
+--- and randomly called for specific nodes (defined by `nodenames` and other conditions)
+--- in active mapblocks.
 ---@class mt.ABMDef
 -- Descriptive label for profiling purposes (optional).
 -- Definitions with identical labels will be listed as one.
@@ -15,8 +19,14 @@
 -- If left out or empty, any neighbor will do.
 -- `group:groupname` can also be used here.
 ---@field neighbors string|string[]
+-- `without_neighbors = {"default:lava_source", "default:lava_flowing"}`
+--
+-- Only apply `action` to nodes that have no one of these neighbors.
+-- If left out or empty, it has no effect.
+-- `group:groupname` can also be used here.
+---@field without_neighbors string[]
 ---@field interval number Operation interval in seconds.
--- Chance of triggering `action` per-node per-interval is 1.0 / this value
+-- Probability of triggering `action` per-node per-interval is 1.0 / chance (integers only)
 ---@field chance number
 -- Min height level where ABM will be processed can be used to reduce CPU usage.
 ---@field min_y number

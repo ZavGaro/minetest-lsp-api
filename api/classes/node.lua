@@ -13,7 +13,7 @@
 ---
 ---The definition of a node is stored and can be accessed by using
 ---
----    minetest.registered_nodes[node.name]
+---    core.registered_nodes[node.name]
 ---
 ---Nodes are passed by value between Lua and the engine.
 ---They are represented by a table:
@@ -73,7 +73,7 @@ local node = {}
 ---* Used by `drawtype = "flowingliquid"` and `liquidtype = "flowing"`
 ---* The liquid level and a flag of the liquid are stored in `param2`
 ---* Bits 0-2: Liquid level (0-7). The higher, the more liquid is in this node;
----  see `minetest.get_node_level`, `minetest.set_node_level` and `minetest.add_node_level`
+---  see `core.get_node_level`, `core.set_node_level` and `core.add_node_level`
 ---  to access/manipulate the content of this field
 ---* Bit 3: If set, liquid is flowing downwards (no graphical effect)
 ---|"flowingliquid"
@@ -81,7 +81,7 @@ local node = {}
 ---"plantlike_rooted", "normal", "nodebox", "mesh"
 ---* The rotation of the node is stored in `param2`
 ---* Node is 'mounted'/facing towards one of 6 directions
----* You can make this value by using `minetest.dir_to_wallmounted()`
+---* You can make this value by using `core.dir_to_wallmounted()`
 ---* Values range 0 - 7
 ---* The value denotes at which direction the node is "mounted":
 ---0 = y+,   1 = y-,   2 = x+,   3 = x-,   4 = z+,   5 = z-
@@ -95,7 +95,7 @@ local node = {}
 ---* Supported drawtypes: "normal", "nodebox", "mesh"
 ---* The rotation of the node is stored in `param2`.
 ---* Node is rotated around face and axis; 24 rotations in total.
----* Can be made by using `minetest.dir_to_facedir()`.
+---* Can be made by using `core.dir_to_facedir()`.
 ---* Chests and furnaces can be rotated that way, and also 'flipped'
 ---* Values range 0 - 23
 ---* facedir / 4 = axis direction:
@@ -112,7 +112,7 @@ local node = {}
 ---* Supported drawtypes: "normal", "nodebox", "mesh"
 ---* The rotation of the node is stored in `param2`.
 ---* Allows node to be rotated horizontally, 4 rotations in total
----* Can be made by using `minetest.dir_to_fourdir()`.
+---* Can be made by using `core.dir_to_fourdir()`.
 ---* Chests and furnaces can be rotated that way, but not flipped
 ---* Values range 0 - 3
 ---* 4dir modulo 4 = rotation
@@ -156,16 +156,19 @@ local node = {}
 ---  The palette should have 256 pixels.
 ---|"color"
 ---* Same as `facedir`, but with colors.
----* The first three bits of `param2` tells which color is picked from the
+---* The three most significant bits of `param2` tells which color is picked from the
 ---  palette. The palette should have 8 pixels.
+---* The five least significant bits contain the `facedir` value.
 ---|"colorfacedir"
----* Same as `facedir`, but with colors.
----* The first six bits of `param2` tells which color is picked from the
+---* Same as `4dir`, but with colors.
+---* The six most significant bits of `param2` tells which color is picked from the
 ---  palette. The palette should have 64 pixels.
+---* The two least significant bits contain the `4dir` rotation.
 ---|"color4dir"
 ---* Same as `wallmounted`, but with colors.
----* The first five bits of `param2` tells which color is picked from the
+---* The five most significant bits of `param2` tells which color is picked from the
 ---  palette. The palette should have 32 pixels.
+---* The three least significant bits contain the `wallmounted` value.
 ---|"colorwallmounted"
 ---* Only valid for "glasslike_framed" or "glasslike_framed_optional"
 ---  drawtypes. "glasslike_framed_optional" nodes are only affected if the
@@ -179,9 +182,9 @@ local node = {}
 ---* Liquid texture is defined using `special_tiles = {"modname_tilename.png"}`
 ---|"glasslikeliquidlevel"
 ---* Same as `degrotate`, but with colors.
----* The first (most-significant) three bits of `param2` tells which color
----  is picked from the palette. The palette should have 8 pixels.
----* Remaining 5 bits store rotation in range 0–23 (i.e. in 15° steps)
+---* The three most significant bits of `param2` tells which color is picked
+---  from the palette. The palette should have 8 pixels.
+---* The five least significant bits store rotation in range 0–23 (i.e. in 15° steps)
 ---|"colordegrotate"
 ---* `param2` will not be used by the engine and can be used to store
 ---  an arbitrary value
@@ -191,8 +194,6 @@ local node = {}
 -----------------
 
 ---There are a bunch of different looking node types.
----
----Look for examples in `games/devtest` or `games/minetest_game`.
 ---
 ---`*_optional` drawtypes need less rendering time if deactivated.
 ---(always client-side).
@@ -233,7 +234,8 @@ local node = {}
 ---  'Connected Glass'.
 ---|"glasslike_framed_optional"
 ---* Often used for partially-transparent nodes.
----* External and internal sides of textures are visible.
+---* External sides of textures, and unlike other drawtypes, the external sides
+---  of other nodes, are visible from the inside.
 ---|"allfaces"
 ---* Often used for leaves nodes.
 ---* This switches between `normal`, `glasslike` and `allfaces` according to
@@ -305,7 +307,8 @@ local node = {}
 ---Node boxes
 -------------
 
----Node selection boxes are defined using "node boxes".
+---Node selection boxes and collision boxes, and the appearance of the `nodebox`
+---drawtype, are defined using "node boxes".
 ---
 ---A nodebox is defined as any of:
 ---
@@ -399,7 +402,8 @@ local box = {}
 
 ---A 'mapblock' (often abbreviated to 'block') is 16x16x16 nodes and is the
 ---fundamental region of a world that is stored in the world database, sent to
----clients and handled by many parts of the engine.
+---clients and handled by many parts of the engine. This size is available as the
+---constant `core.MAP_BLOCKSIZE` (=16).
 ---'mapblock' is preferred terminology to 'block' to help avoid confusion with
 ---'node', however 'block' often appears in the API.
 ---@alias mt.MapBlock table

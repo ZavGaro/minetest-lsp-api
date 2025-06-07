@@ -2,6 +2,12 @@
 ---HUD element types
 --------------------
 
+---@alias mt.HUDDirection
+---|0 from left to right
+---|1 from right to left
+---|2 from top to bottom
+---|3 from bottom to top
+
 ---@class mt.HUDProto
 -- The `position` field is used for all element types.
 --
@@ -35,8 +41,8 @@
 ---@class mt.HUDText:mt.HUDProto
 ---@field scale mt.Vector Defines the bounding rectangle of the text.
 -- The text to be displayed in the HUD element.
--- Supports `minetest.translate` (always)
--- and `minetest.colorize` (since protocol version 44)
+-- Supports `core.translate` (always)
+-- and `core.colorize` (since protocol version 44)
 ---@field text string
 ---@field number mt.ColorInteger Color used to draw the text.
 ---@field alignment mt.Vector The alignment of the text.
@@ -54,7 +60,7 @@
 -- If odd, will end with a vertically center-split texture.
 ---@field number number
 ---@field item number Same as `number` but for the "off state" texture.
----@field direction number To which direction the images will extend to.
+---@field direction mt.HUDDirection To which direction the images will extend to.
 -- If used, will force full-image size to this value
 -- (override texture pack image size)
 ---@field size mt.Vector|nil
@@ -63,7 +69,12 @@
 ---@field text string The name of the inventory list to be displayed.
 ---@field number number Number of items in the inventory to be displayed.
 ---@field item number Position of item that is selected.
----@field direction number
+---@field direction mt.HUDDirection
+---@field alignment mt.Vector The alignment of the inventory. Aligned at the top left corner if not specified.
+
+---@class mt.HUDHotBar:mt.HUDProto
+---@field direction mt.HUDDirection Direction the list will be displayed in
+---@field alignment mt.Vector The alignment of the inventory. Aligned at the top left corner if not specified.
 
 -- Displays distance to selected world position.
 ---@class mt.HUDWaypoint:mt.HUDProto
@@ -119,6 +130,11 @@
 -- Displays a minimap on the HUD.
 ---@class mt.HudMinimap:mt.HUDProto
 -- Size of the minimap to display. Minimap should be a square to avoid distortion.
+-- * Negative values represent percentages of the screen. If either `x` or `y`
+--   is specified as a percentage, the resulting pixel size will be used for
+--   both `x` and `y`. Example: On a 1920x1080 screen, `{x = 0, y = -25}` will
+--   result in a 270x270 minimap.
+-- * Negative values are supported starting with protocol version 45.
 ---@field size mt.Vector
 ---@field alignment mt.Vector The alignment of the minimap.
 

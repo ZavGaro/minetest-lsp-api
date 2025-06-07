@@ -1,6 +1,6 @@
 ---@meta
 
--- Used by `minetest.register_biome`.
+-- Used by `core.register_biome`.
 --
 -- The maximum number of biomes that can be used is 65535. However, using an
 -- excessive number of biomes will slow down map generation. Depending on
@@ -70,4 +70,9 @@
 -- * Heat and humidity have average values of `50`, vary mostly between
 --   `0` and `100` but can exceed these values.
 ---@field humidity_point number
+-- Relative weight of the biome in the Voronoi diagram.
+-- A value of 0 (or less) is ignored and equivalent to 1.0.
+--
+-- Defaults to `1.0`
+---@field weight number
 local biome

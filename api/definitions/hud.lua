@@ -5,7 +5,7 @@
 -- Used by `Player:hud_add`. Returned by `Player:hud_get`.
 ---@class mt.HUDDef
 ---@field hud_elem_type "image"|"text"|"statbar"|"inventory"|"compass"|"minimap" **Deprecated**, same as `type`. In case both are specified `type` will be used.
----@field type "image"|"text"|"statbar"|"inventory"|"compass"|"minimap"
+---@field type "hotbar"|"image"|"image_waypoint"|"text"|"waypoint"|"statbar"|"inventory"|"compass"|"minimap"
 ---@field position mt.Vector Left corner position of element.
 ---@field name string
 ---@field scale mt.Vector
