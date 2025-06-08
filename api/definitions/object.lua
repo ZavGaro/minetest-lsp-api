@@ -6,7 +6,7 @@
 -- These properties are not persistent, but are applied automatically to the
 -- corresponding Lua entity using the given registration fields.
 -- Player properties need to be saved manually.
----@class mt.ObjectProp
+---@class lt.ObjectProp
 -- Defines the maximum and default HP of the object.
 -- For Lua entities, the maximum is not enforced.
 -- For players, this defaults to `core.PLAYER_MAX_HP_DEFAULT` (20).
@@ -63,7 +63,7 @@
 ---@field visual "cube"|"sprite"|"upright_sprite"|"mesh"|"item"|"wielditem"|"node"
 -- Multipliers for the visual size. If `z` is not specified, `x` will be used
 -- to scale the entity along both horizontal axes.
----@field visual_size mt.Vector
+---@field visual_size lt.Vector
 -- File name of mesh when using "mesh" visual.
 --
 -- For legacy reasons, this uses a 10x scale for meshes: 10 units = 1 node.
@@ -76,9 +76,9 @@
 -- * Deprecated usage of "wielditem" expects 'textures = {itemname}'.
 ---@field textures string[]
 -- Currently unused.
----@field colors mt.ColorSpec[]
+---@field colors lt.ColorSpec[]
 -- Node to show when using the "node" visual
----@field node mt.Node
+---@field node lt.Node
 -- Use texture's alpha channel for transparency blending.
 -- * Note: currently causes visual issues when viewed through other
 -- semi-transparent materials such as water.
@@ -127,11 +127,11 @@
 -- To hide a nametag, set its color alpha to zero. That will disable it entirely.
 ---@field nametag string
 -- Sets text color of nametag
----@field nametag_color mt.ColorSpec
+---@field nametag_color lt.ColorSpec
 -- Sets background color of nametag
 -- `false` will cause the background to be set automatically based on user settings.
 -- Default: false
----@field nametag_bgcolor mt.ColorSpec
+---@field nametag_bgcolor lt.ColorSpec
 -- Same as infotext for nodes. Empty by default
 ---@field infotext string
 -- If false, never save this object statically. It will simply be

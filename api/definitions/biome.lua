@@ -5,7 +5,7 @@
 -- The maximum number of biomes that can be used is 65535. However, using an
 -- excessive number of biomes will slow down map generation. Depending on
 -- desired performance and computing power the practical limit is much lower.
----@class mt.BiomeDef
+---@class lt.BiomeDef
 ---@field name string
 -- Node dropped onto upper surface after all else is generated.
 ---@field node_dust string
@@ -52,11 +52,11 @@
 -- * XYZ limits for biome, an alternative to using `y_max`.
 -- * Biome is limited to a cuboid defined by these positions.
 -- * Any x, y or z field left undefined defaults to `-31000`.
----@field max_pos mt.Vector
+---@field max_pos lt.Vector
 -- * XYZ limits for biome, an alternative to using `y_min`.
 -- * Biome is limited to a cuboid defined by these positions.
 -- * Any x, y or z field left undefined defaults to `31000`.
----@field min_pos mt.Vector
+---@field min_pos lt.Vector
 -- * Vertical distance in nodes above `y_max` over which the biome will
 --   blend with the biome above.
 -- * Set to `0` for no vertical blend.

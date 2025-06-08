@@ -23,12 +23,12 @@ Spawn a small apple tree:
     }
     core.spawn_tree(pos,apple_tree)
 ]]
----@class mt.TreeDef
----@field axiom mt.TreeAxioms Initial tree axiom.
----@field rules_a mt.TreeAxioms Rules set A.
----@field rules_b mt.TreeAxioms Rules set B.
----@field rules_c mt.TreeAxioms Rules set C.
----@field rules_d mt.TreeAxioms Rules set D.
+---@class lt.TreeDef
+---@field axiom lt.TreeAxioms Initial tree axiom.
+---@field rules_a lt.TreeAxioms Rules set A.
+---@field rules_b lt.TreeAxioms Rules set B.
+---@field rules_c lt.TreeAxioms Rules set C.
+---@field rules_d lt.TreeAxioms Rules set D.
 ---@field trunk string Trunk node name.
 ---@field leaves string Leaves node name.
 ---@field leaves2 string Secondary leaves node name.
@@ -67,4 +67,4 @@ Spawn a small apple tree:
 - `[`: Save in stack current state info.
 - `]`: Recover from stack state info.
 ]]
----@alias mt.TreeAxioms string
+---@alias lt.TreeAxioms string

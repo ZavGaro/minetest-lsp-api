@@ -13,12 +13,12 @@ It can be created via `PseudoRandom(seed)`.
 Use `PseudoRandom` only if you need output to match the well-known LCG algorithm introduced by K&R.
 Otherwise, use `PcgRandom`.
 ]]
----@class mt.PseudoRandom
+---@class lt.PseudoRandom
 local PseudoRandomClass
 
 --- Create a pseudorandom number generator.
 ---@param seed number
----@return mt.PseudoRandom
+---@return lt.PseudoRandom
 function PseudoRandom(seed) end
 
 -- Return next integer random number.

@@ -3,7 +3,7 @@
 ---------------------------
 
 -- Used by `HTTPApiTable.fetch` and `HTTPApiTable.fetch_async`.
----@class mt.HTTPReqDef
+---@class lt.HTTPReqDef
 ---@field url string
 -- Timeout for request to be completed in seconds. Default depends on engine settings.
 ---@field timeout number

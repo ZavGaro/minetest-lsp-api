@@ -81,18 +81,18 @@
 --     * Returns `v` scaled by `s`.
 -- * `v / s`:
 --     * Returns `v` scaled by `1 / s`.
----@class mt.Vector
+---@class lt.Vector
 ---@field x number
 ---@field y number
 ---@field z number
 ---@field [1] number
 ---@field [2] number
 ---@field [3] number
----@operator unm: mt.Vector
----@operator sub(mt.Vector): mt.Vector
----@operator add(mt.Vector): mt.Vector
----@operator mul(number): mt.Vector
----@operator div(number): mt.Vector
+---@operator unm: lt.Vector
+---@operator sub(lt.Vector): lt.Vector
+---@operator add(lt.Vector): lt.Vector
+---@operator mul(number): lt.Vector
+---@operator div(number): lt.Vector
 vector = {}
 
 ---Create a new vector.
@@ -103,37 +103,37 @@ vector = {}
 ---@param x number
 ---@param y number
 ---@param z number
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
----@overload fun(v:mt.Vector|nil): mt.Vector
+---@overload fun(v:lt.Vector|nil): lt.Vector
 function vector.new(x, y, z) end
 
 ---Create a new vector `(0, 0, 0)`.
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.zero() end
 
 ---Returns a new vector of length 1, pointing into a direction chosen uniformly at random.
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.random_direction() end
 
 ---Returns a copy of the vector `v`.
----@param v mt.Vector
----@return mt.Vector
+---@param v lt.Vector
+---@return lt.Vector
 function vector.copy(v) end
 
 ---Returns `v, np`, where `v` is a vector read from the given string `s` and `np` is the next position in the string after the vector.
 ---Returns `nil` on failure.
 ---@param s string Has to begin with a substring of the form `"(x, y, z)"`
 ---@param init? integer If given starts looking for the vector at this string index.
----@return mt.Vector?
+---@return lt.Vector?
 ---@return integer?
 ---@nodiscard
 function vector.from_string(s, init) end
 
 ---Returns a string of the form `"(x, y, z)"`.
----@param v mt.Vector
+---@param v lt.Vector
 ---@return string
 ---@nodiscard
 function vector.to_string(v) end
@@ -141,21 +141,21 @@ function vector.to_string(v) end
 ---Returns a vector of length 1 with direction `p1` to `p2`.
 ---
 ---If `p1` and `p2` are identical, returns `(0, 0, 0)`.
----@param p1 mt.Vector
----@param p2 mt.Vector
----@return mt.Vector
+---@param p1 lt.Vector
+---@param p2 lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.direction(p1, p2) end
 
 ---Returns zero or a positive number, the distance between `p1` and `p2`.
----@param p1 mt.Vector
----@param p2 mt.Vector
+---@param p1 lt.Vector
+---@param p2 lt.Vector
 ---@return number
 ---@nodiscard
 function vector.distance(p1, p2) end
 
 ---Returns zero or a positive number, the length of vector `v`.
----@param v mt.Vector
+---@param v lt.Vector
 ---@return number
 ---@nodiscard
 function vector.length(v) end
@@ -163,100 +163,100 @@ function vector.length(v) end
 ---Returns a vector of length 1 with direction of vector `v`.
 ---
 ---If `v` has zero length, returns `(0, 0, 0)`.
----@param v mt.Vector
----@return mt.Vector
+---@param v lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.normalize(v) end
 
 ---Returns a vector, each dimension rounded down.
----@param v mt.Vector
----@return mt.Vector
+---@param v lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.floor(v) end
 
 ---Returns a vector, each dimension rounded up.
----@param v mt.Vector
----@return mt.Vector
+---@param v lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.ceil(v) end
 
 ---Returns a vector, each dimension rounded to nearest integer.
 ---
 ---At a multiple of `0.5`, rounds away from zero.
----@param v mt.Vector
----@return mt.Vector
+---@param v lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.round(v) end
 
 --- Returns a vector where `math.sign` was called for each component.
----@param v mt.Vector
+---@param v lt.Vector
 ---@param tolerance number
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.sign(v, tolerance) end
 
 ---Returns a vector with absolute values for each component.
----@param v mt.Vector
----@return mt.Vector
+---@param v lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.abs(v) end
 
 --- Returns a vector where the function `func` has been applied to each component.
----@param v mt.Vector
+---@param v lt.Vector
 ---@param func fun(i: number):number
 ---@param ... unknown optional arguments passed to `func`
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.apply(v, func, ...) end
 
 ---Returns a boolean, `true` if the vectors are identical.
----@param a mt.Vector
----@param b mt.Vector
+---@param a lt.Vector
+---@param b lt.Vector
 ---@return boolean
 ---@nodiscard
 function vector.equals(a, b) end
 
 ---Returns in order `minp`, `maxp` vectors of the cuboid defined by `v1`, `v2`.
----@param v1 mt.Vector
----@param v2 mt.Vector
----@return mt.Vector minp
----@return mt.Vector maxp
+---@param v1 lt.Vector
+---@param v2 lt.Vector
+---@return lt.Vector minp
+---@return lt.Vector maxp
 ---@nodiscard
 function vector.sort(v1, v2) end
 
 ---Returns the angle between `v1` and `v2` in radians.
----@param v1 mt.Vector
----@param v2 mt.Vector
+---@param v1 lt.Vector
+---@param v2 lt.Vector
 ---@return number
 ---@nodiscard
 function vector.angle(v1, v2) end
 
 ---Returns the dot product of `v1` and `v2`.
----@param v1 mt.Vector
----@param v2 mt.Vector
+---@param v1 lt.Vector
+---@param v2 lt.Vector
 ---@return number
 function vector.dot(v1, v2) end
 
 ---Returns the cross product of `v1` and `v2`.
----@param v1 mt.Vector
----@param v2 mt.Vector
----@return mt.Vector
+---@param v1 lt.Vector
+---@param v2 lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.cross(v1, v2) end
 
 ---Returns the sum of the vectors `v` and `(x, y, z)`.
----@param v mt.Vector
+---@param v lt.Vector
 ---@param x number
 ---@param y number
 ---@param z number
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.offset(v, x, y, z) end
 
 ---Returns a boolean value indicating whether `v` is a real vector, eg. created by a `vector.*` function.
 ---
 ---Returns `false` for anything else, including tables like `{x=3,y=1,z=4}`.
----@param v mt.Vector
+---@param v lt.Vector
 ---@return boolean
 ---@nodiscard
 function vector.check(v) end
@@ -265,64 +265,64 @@ function vector.check(v) end
 --- * `min` and `max` are inclusive.
 --- * If `min` is bigger than `max` on some axis, function always returns false.
 --- * You can use `vector.sort` if you have two vectors and don't know which are the minimum and the maximum.
----@param pos mt.Vector
----@param min mt.Vector
----@param max mt.Vector
+---@param pos lt.Vector
+---@param min lt.Vector
+---@param max lt.Vector
 function vector.in_area(pos, min, max) end
 
 --- Returns a random integer position in area formed by `min` and `max`
 --- * `min` and `max` are inclusive.
 --- * You can use `vector.sort` if you have two vectors and don't know which are the minimum and the maximum.
----@param min mt.Vector
----@param max mt.Vector
----@return mt.Vector
+---@param min lt.Vector
+---@param max lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.random_in_area(min, max) end
 
 ---If `x` is a vector: Returns the sum of `v` and `x`.
 ---
 ---If `x` is a number: Adds `x` to each component of `v`.
----@param v mt.Vector
----@param x mt.Vector | number
----@return mt.Vector
+---@param v lt.Vector
+---@param x lt.Vector | number
+---@return lt.Vector
 ---@nodiscard
 function vector.add(v, x) end
 
 ---If `x` is a vector: Returns the difference of `v` subtracted by `x`.
 ---
 ---If `x` is a number: Subtracts `x` from each component of `v`.
----@param v mt.Vector
----@param x mt.Vector | number
----@return mt.Vector
+---@param v lt.Vector
+---@param x lt.Vector | number
+---@return lt.Vector
 ---@nodiscard
 function vector.subtract(v, x) end
 
 ---Returns a scaled vector.
----@param v mt.Vector
+---@param v lt.Vector
 ---@param s number
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.multiply(v, s) end
 
 ---Returns a scaled vector.
----@param v mt.Vector
+---@param v lt.Vector
 ---@param s number
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.divide(v, s) end
 
 ---Applies the rotation `r` (in radians) to `v` and returns the result.
----@param v mt.Vector
+---@param v lt.Vector
 ---@param r number
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.rotate(v, r) end
 
 ---Returns `v1` rotated around axis `v2` by `a` radians according to the right hand rule.
----@param v1 mt.Vector
----@param v2 mt.Vector
+---@param v1 lt.Vector
+---@param v2 lt.Vector
 ---@param a number
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.rotate_around_axis(v1, v2, a) end
 
@@ -331,8 +331,8 @@ function vector.rotate_around_axis(v1, v2, a) end
 ---If `up` is omitted, the roll of the returned vector defaults to zero.
 ---
 ---Otherwise `direction` and `up` need to be vectors in a 90 degree angle to each other.
----@param direction mt.Vector
----@param up? mt.Vector
----@return mt.Vector
+---@param direction lt.Vector
+---@param up? lt.Vector
+---@return lt.Vector
 ---@nodiscard
 function vector.dir_to_rotation(direction, up) end

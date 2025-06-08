@@ -14,12 +14,12 @@
 -- [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/#named-color).
 -- To specify the value of the alpha channel, append `#A` or `#AA` to the end of
 -- the color name (e.g. `colorname#08`).
----@alias mt.ColorString string
+---@alias lt.ColorString string
 
 -- The raw integer value of an ARGB8 quad: `colorspec = 0xFF00FF00`.
----@alias mt.ColorInteger integer
+---@alias lt.ColorInteger integer
 
----@class mt.ColorTable
+---@class lt.ColorTable
 ---@field r number
 ---@field g number
 ---@field b number
@@ -32,4 +32,4 @@
 --   `colorspec = {a=255, r=0, g=255, b=0}`
 -- * Numerical form: The raw integer value of an ARGB8 quad.
 -- * String form: A ColorString: `colorspec = "green"`
----@alias mt.ColorSpec mt.ColorTable|mt.ColorString|mt.ColorInteger
+---@alias lt.ColorSpec lt.ColorTable|lt.ColorString|lt.ColorInteger

@@ -7,7 +7,7 @@
 --   `core.env:somefunction(somearguments)` instead of
 --   `core.somefunction(somearguments)`
 -- - Deprecated, but support is not to be dropped soon.
----@type mt.Core
+---@type lt.Core
 core.env = nil
 
 ---Global callback registration functions
@@ -76,29 +76,29 @@ core.registered_on_shutdown = {}
 ---If return `true` no item is taken from `itemstack`
 ---
 ---**Not recommended**: use `on_construct` or `after_place_node` in node definition then possible.
----@param func fun(pos: mt.Vector, newnode: string, placer?: mt.ObjectRef, oldnode: string, itemstack: mt.Item, pointed_thing: mt.PointedThing): boolean|nil
+---@param func fun(pos: lt.Vector, newnode: string, placer?: lt.ObjectRef, oldnode: string, itemstack: lt.Item, pointed_thing: lt.PointedThing): boolean|nil
 function core.register_on_placenode(func) end
 
 ---Map of registered on_placenode.
----@type (fun(pos: mt.Vector, newnode: mt.Node, placer?: mt.ObjectRef, oldnode: mt.Node, itemstack: mt.Item, pointed_thing: mt.PointedThing): boolean|nil)[]
+---@type (fun(pos: lt.Vector, newnode: lt.Node, placer?: lt.ObjectRef, oldnode: lt.Node, itemstack: lt.Item, pointed_thing: lt.PointedThing): boolean|nil)[]
 core.registered_on_placenodes = {}
 
 ---Register a function that will be called when a node has been dug.
 ---
 ---**Not recommended**: use `on_destruct` or `after_dig_node` in node definition then possible.
----@param func fun(pos: mt.Vector, oldnode: mt.Node|string, digger: mt.ObjectRef|nil)
+---@param func fun(pos: lt.Vector, oldnode: lt.Node|string, digger: lt.ObjectRef|nil)
 function core.register_on_dignode(func) end
 
 ---Map of registered on_dignode.
----@type fun(pos: mt.Vector, oldnode: mt.Node|string, digger: mt.ObjectRef)[]
+---@type fun(pos: lt.Vector, oldnode: lt.Node|string, digger: lt.ObjectRef)[]
 core.registered_on_dignodes = {}
 
 ---Register a function that will be called when a node has been punched.
----@param func fun(pos: mt.Vector, node: mt.Node, puncher: mt.ObjectRef, pointed_thing: mt.PointedThing)
+---@param func fun(pos: lt.Vector, node: lt.Node, puncher: lt.ObjectRef, pointed_thing: lt.PointedThing)
 function core.register_on_punchnode(func) end
 
 ---Map of registered on_punchnode.
----@type fun(pos: mt.Vector, node: mt.Node, puncher: mt.ObjectRef, pointed_thing: mt.PointedThing)[]
+---@type fun(pos: lt.Vector, node: lt.Node, puncher: lt.ObjectRef, pointed_thing: lt.PointedThing)[]
 core.registered_on_punchnodes = {}
 
 ---Register a function that will be called after generating a piece of world between `minp` and `maxp`.
@@ -114,11 +114,11 @@ function core.register_on_generated(func) end
 core.registered_on_generateds = {}
 
 ---Register a function that will be called when a player join for the first time.
----@param func fun(player: mt.PlayerObjectRef)
+---@param func fun(player: lt.PlayerObjectRef)
 function core.register_on_newplayer(func) end
 
 ---Map of registered on_newplayer.
----@type fun(player: mt.PlayerObjectRef)[]
+---@type fun(player: lt.PlayerObjectRef)[]
 core.registered_on_newplayers = {}
 
 ---Register a function that will be called when a player is punched.
@@ -126,23 +126,23 @@ core.registered_on_newplayers = {}
 ---Note: This callback is invoked even if the punched player is dead.
 ---
 ---Callback should return `true` to prevent the default damage mechanism.
----@param func fun(player: mt.PlayerObjectRef, hitter: mt.ObjectRef?, time_from_last_punch: number, tool_capabilities: mt.ToolCaps, dir: mt.Vector, damage: number): boolean|nil
+---@param func fun(player: lt.PlayerObjectRef, hitter: lt.ObjectRef?, time_from_last_punch: number, tool_capabilities: lt.ToolCaps, dir: lt.Vector, damage: number): boolean|nil
 function core.register_on_punchplayer(func) end
 
 ---Map of registered on_punchplayer.
----@type (fun(player: mt.PlayerObjectRef, hitter: mt.ObjectRef, time_from_last_punch: number, tool_capabilities: mt.ToolCaps, dir: mt.Vector, damage: number): boolean)[]
+---@type (fun(player: lt.PlayerObjectRef, hitter: lt.ObjectRef, time_from_last_punch: number, tool_capabilities: lt.ToolCaps, dir: lt.Vector, damage: number): boolean)[]
 core.registered_on_punchplayers = {}
 
 ---Register a function that will be called when a player is rightclicked (the `place/use` key was used while pointing a player).
----@param func fun(player: mt.PlayerObjectRef, clicker: mt.ObjectRef)
+---@param func fun(player: lt.PlayerObjectRef, clicker: lt.ObjectRef)
 function core.register_on_rightclickplayer(func) end
 
 ---Map of registered on_rightclickplayer.
----@type fun(player: mt.PlayerObjectRef, clicker: mt.ObjectRef)[]
+---@type fun(player: lt.PlayerObjectRef, clicker: lt.ObjectRef)[]
 core.registered_on_rightclickplayers = {}
 
 ---Register a function that will be called when a player is damaged or healed.
----@param func fun(player: mt.PlayerObjectRef, hp_change: integer, reason: mt.PlayerHPChangeReason): integer?, boolean?
+---@param func fun(player: lt.PlayerObjectRef, hp_change: integer, reason: lt.PlayerHPChangeReason): integer?, boolean?
 ---@param modifier boolean|nil  When true, the function should return the actual `hp_change`.
 ---Note: modifiers only get a temporary `hp_change` that can be modified by later modifiers.
 ---
@@ -151,7 +151,7 @@ core.registered_on_rightclickplayers = {}
 ---Non-modifiers receive the final HP change calculated by the modifiers.
 function core.register_on_player_hpchange(func, modifier) end
 
----@class mt.PlayerHPChangeReason
+---@class lt.PlayerHPChangeReason
 ---@field type
 -- A mod or the engine called `set_hp` without giving a type -
 -- use this for custom damage types.
@@ -163,9 +163,9 @@ function core.register_on_player_hpchange(func, modifier) end
 ---|"node_damage"
 ---|"drown"
 ---|"respawn"
----@field object mt.ObjectRef|nil
+---@field object lt.ObjectRef|nil
 ---@field node string|nil Node name (when `type` is `"node"`).
----@field node_pos mt.Vector|nil Node position (when `type` is `"node"`).
+---@field node_pos lt.Vector|nil Node position (when `type` is `"node"`).
 ---@field from
 ---|"mod"
 ---|"engine"
@@ -178,15 +178,15 @@ function core.register_on_player_hpchange(func, modifier) end
 ---@field modifier boolean
 
 ---Map of registered on_player_hpchange.
----@type {modifiers: (fun(player: mt.PlayerObjectRef, hp_change: integer, reason: mt.PlayerHPChangeReason): integer?, boolean?)[], loggers: (fun(player: mt.PlayerObjectRef, hp_change: integer, reason: mt.PlayerHPChangeReason): integer?, boolean?)[]}
+---@type {modifiers: (fun(player: lt.PlayerObjectRef, hp_change: integer, reason: lt.PlayerHPChangeReason): integer?, boolean?)[], loggers: (fun(player: lt.PlayerObjectRef, hp_change: integer, reason: lt.PlayerHPChangeReason): integer?, boolean?)[]}
 core.registered_on_player_hpchanges = { modifiers = {}, loggers = {} }
 
 ---Register a function that will be called when a player dies.
----@param func fun(player: mt.PlayerObjectRef, reason: mt.PlayerHPChangeReason)
+---@param func fun(player: lt.PlayerObjectRef, reason: lt.PlayerHPChangeReason)
 function core.register_on_dieplayer(func) end
 
 ---Map of registered on_dieplayers.
----@type fun(player: mt.PlayerObjectRef, reason: mt.PlayerHPChangeReason)[]
+---@type fun(player: lt.PlayerObjectRef, reason: lt.PlayerHPChangeReason)[]
 core.registered_on_dieplayers = {}
 
 ---Register a function that will be called when a player is to be respawned.
@@ -194,11 +194,11 @@ core.registered_on_dieplayers = {}
 ---Called **before** repositioning of player occurs.
 ---
 ---Return `true` in func to disable regular player placement.
----@param func fun(player: mt.PlayerObjectRef): boolean|nil
+---@param func fun(player: lt.PlayerObjectRef): boolean|nil
 function core.register_on_respawnplayer(func) end
 
 ---Map of registered on_respawnplayer.
----@type (fun(player: mt.PlayerObjectRef): boolean|nil)[]
+---@type (fun(player: lt.PlayerObjectRef): boolean|nil)[]
 core.registered_on_respawnplayers = {}
 
 ---Register a function that will be called when a client connects to the server, prior to authentication.
@@ -214,11 +214,11 @@ core.registered_on_prejoinplayers = {}
 ---Register a function that will be called when a player joined.
 ---
 ---`last_login`: The timestamp of the previous login, or `nil` if player is new
----@param func fun(player: mt.PlayerObjectRef, last_login?: integer)
+---@param func fun(player: lt.PlayerObjectRef, last_login?: integer)
 function core.register_on_joinplayer(func) end
 
 ---Map of registered on_joinplayer.
----@type fun(player: mt.PlayerObjectRef, last_login?: integer)[]
+---@type fun(player: lt.PlayerObjectRef, last_login?: integer)[]
 core.registered_on_joinplayers = {}
 
 ---Register a function that will be called when a player leaves the game.
@@ -226,11 +226,11 @@ core.registered_on_joinplayers = {}
 ---Does not get executed for connected players on shutdown.
 ---
 ---`timed_out`: True for timeout, false for other reasons.
----@param func fun(player: mt.PlayerObjectRef, timed_out: boolean|nil)
+---@param func fun(player: lt.PlayerObjectRef, timed_out: boolean|nil)
 function core.register_on_leaveplayer(func) end
 
 ---Map of registered on_leaveplayer.
----@type fun(player: mt.PlayerObjectRef, timed_out: boolean|nil)[]
+---@type fun(player: lt.PlayerObjectRef, timed_out: boolean|nil)[]
 core.registered_on_leaveplayers = {}
 
 ---Register a function that will be called when a client attempts to log into an account.
@@ -253,11 +253,11 @@ core.registered_on_authplayers = {}
 function core.register_on_auth_fail(func) end
 
 ---Register a function that will be called when a player is detected by builtin anticheat.
----@param func fun(player: mt.PlayerObjectRef, cheat: {type: '"moved_too_fast"'|'"interacted_too_far"'|'"interacted_with_self"'|'"interacted_while_dead"'|'"finished_unknown_dig"'|'"dug_unbreakable"'|'"dug_too_fast"'})
+---@param func fun(player: lt.PlayerObjectRef, cheat: {type: '"moved_too_fast"'|'"interacted_too_far"'|'"interacted_with_self"'|'"interacted_while_dead"'|'"finished_unknown_dig"'|'"dug_unbreakable"'|'"dug_too_fast"'})
 function core.register_on_cheat(func) end
 
 ---Map of registered on_cheat.
----@type fun(player: mt.PlayerObjectRef, cheat: {type: '"moved_too_fast"'|'"interacted_too_far"'|'"interacted_with_self"'|'"interacted_while_dead"'|'"finished_unknown_dig"'|'"dug_unbreakable"'|'"dug_too_fast"'})[]
+---@type fun(player: lt.PlayerObjectRef, cheat: {type: '"moved_too_fast"'|'"interacted_too_far"'|'"interacted_with_self"'|'"interacted_while_dead"'|'"finished_unknown_dig"'|'"dug_unbreakable"'|'"dug_too_fast"'})[]
 core.registered_on_cheats = {}
 
 ---Register a function that will be called when a player send a chat message.
@@ -316,11 +316,11 @@ core.registered_on_chatcommands = {}
 ---Newest functions are called first.
 ---
 ---If function returns `true`, remaining functions are not called.
----@param func fun(player: mt.PlayerObjectRef, formname: string, fields: table<string, any>): boolean|nil
+---@param func fun(player: lt.PlayerObjectRef, formname: string, fields: table<string, any>): boolean|nil
 function core.register_on_player_receive_fields(func) end
 
 ---Map of registered on_player_receive_fields.
----@type (fun(player: mt.PlayerObjectRef, formname: string, fields: table<string, any>): boolean|nil)[]
+---@type (fun(player: lt.PlayerObjectRef, formname: string, fields: table<string, any>): boolean|nil)[]
 core.registered_on_player_receive_fields = {}
 
 ---Register a function that will be called when a player craft something.
@@ -328,28 +328,28 @@ core.registered_on_player_receive_fields = {}
 ---* `old_craft_grid` contains the recipe (Note: the one in the inventory is cleared).
 ---* `craft_inv` is the inventory with the crafting grid
 ---* Return either an `ItemStack`, to replace the output, or `nil`, to not modify it.
----@param func fun(itemstack: mt.ItemStack, player: mt.PlayerObjectRef, old_craft_grid: table, craft_inv: mt.InvRef): mt.ItemStack?
+---@param func fun(itemstack: lt.ItemStack, player: lt.PlayerObjectRef, old_craft_grid: table, craft_inv: lt.InvRef): lt.ItemStack?
 function core.register_on_craft(func) end
 
 ---Map of registered on_craft.
----@type (fun(itemstack: mt.Item, player: mt.PlayerObjectRef, old_craft_grid: table, craft_inv: mt.InvRef): mt.ItemStack?)[]
+---@type (fun(itemstack: lt.Item, player: lt.PlayerObjectRef, old_craft_grid: table, craft_inv: lt.InvRef): lt.ItemStack?)[]
 core.registered_on_crafts = {}
 
 ---Register a function that will be called before a player craft something to make the crafting prediction.
 ---
 ---Similar to `core.register_on_craft`.
----@param func fun(itemstack: mt.Item, player: mt.PlayerObjectRef, old_craft_grid: table, craft_inv: mt.InvRef)
+---@param func fun(itemstack: lt.Item, player: lt.PlayerObjectRef, old_craft_grid: table, craft_inv: lt.InvRef)
 function core.register_craft_predict(func) end
 
 ---Map of registered craft_predicts.
----@type fun(itemstack: mt.Item, player: mt.PlayerObjectRef, old_craft_grid: table, craft_inv: mt.InvRef)[]
+---@type fun(itemstack: lt.Item, player: lt.PlayerObjectRef, old_craft_grid: table, craft_inv: lt.InvRef)[]
 core.registered_craft_predicts = {}
 
 ---List of possible `action` (string) values and their `inventory_info` (table) contents:
 ---* `move`: `{from_list=string, to_list=string, from_index=number, to_index=number, count=number}`
 ---* `put`:  `{listname=string, index=number, stack=ItemStack}`
 ---* `take`: Same as `put`
----@alias mt.InvInfo {from_list: string, to_list: string, from_index: integer, to_index: integer, count: integer}|{listname: string, index: integer, stack: mt.Item}
+---@alias lt.InvInfo {from_list: string, to_list: string, from_index: integer, to_index: integer, count: integer}|{listname: string, index: integer, stack: lt.Item}
 
 ---Determines how much of a stack may be taken, put or moved to a player inventory.
 ---* `core.register_on_player_inventory_action(function(player, action, inventory, inventory_info))`
@@ -369,11 +369,11 @@ core.registered_craft_predicts = {}
 ---Return a numeric value to limit the amount of items to be taken, put or moved.
 ---
 ---A value of `-1` for `take` will make the source stack infinite.
----@param func fun(player: mt.PlayerObjectRef, action: '"move"'|'"put"'|'"take"', inventory: mt.InvRef, inventory_info: mt.InvInfo): integer
+---@param func fun(player: lt.PlayerObjectRef, action: '"move"'|'"put"'|'"take"', inventory: lt.InvRef, inventory_info: lt.InvInfo): integer
 function core.register_allow_player_inventory_action(func) end
 
 ---Map of registered allow_player_inventory_action.
----@type (fun(player: mt.PlayerObjectRef, action: '"move"'|'"put"'|'"take"', inventory: mt.InvRef, inventory_info: mt.InvInfo): integer)[]
+---@type (fun(player: lt.PlayerObjectRef, action: '"move"'|'"put"'|'"take"', inventory: lt.InvRef, inventory_info: lt.InvInfo): integer)[]
 core.registered_allow_player_inventory_action = {}
 
 ---Called after a take, put or move event from/to/in a player inventory.
@@ -381,11 +381,11 @@ core.registered_allow_player_inventory_action = {}
 ---Function arguments: see `core.register_allow_player_inventory_action`
 ---
 ---Does not accept or handle any return value.
----@param func fun(player: mt.PlayerObjectRef, action: '"move"'|'"put"'|'"take"', inventory: mt.InvRef, inventory_info: {from_list: string, to_list: string, from_index: integer, to_index: integer, count: integer}|{listname: string, index: integer, stack: mt.ItemStack})
+---@param func fun(player: lt.PlayerObjectRef, action: '"move"'|'"put"'|'"take"', inventory: lt.InvRef, inventory_info: {from_list: string, to_list: string, from_index: integer, to_index: integer, count: integer}|{listname: string, index: integer, stack: lt.ItemStack})
 function core.register_on_player_inventory_action(func) end
 
 ---Map of registered on_player_inventory_action.
----@type fun(player: mt.PlayerObjectRef, action: '"move"'|'"put"'|'"take"', inventory: mt.InvRef, inventory_info: mt.InvInfo)[]
+---@type fun(player: lt.PlayerObjectRef, action: '"move"'|'"put"'|'"take"', inventory: lt.InvRef, inventory_info: lt.InvInfo)[]
 core.registered_on_player_inventory_action = {}
 
 ---Called by `builtin` and mods when a player violates protection at a position (eg, digs a node or punches a protected entity).
@@ -393,21 +393,21 @@ core.registered_on_player_inventory_action = {}
 ---The registered functions can be called using `core.record_protection_violation`.
 ---
 ---The provided function should check that the position is protected by the mod calling this function before it prints a message, if it does, to allow for multiple protection mods.
----@param func fun(pos: mt.Vector, name: string)
+---@param func fun(pos: lt.Vector, name: string)
 function core.register_on_protection_violation(func) end
 
 ---Map of registered on_protection_violation.
----@type fun(pos: mt.Vector, name: string)[]
+---@type fun(pos: lt.Vector, name: string)[]
 core.registered_on_protection_violation = {}
 
 ---Called when an item is eaten, by `core.item_eat`.
 ---
 ---Return `itemstack` to cancel the default item eat response (i.e.: hp increase).
----@param func fun(hp_change: integer, replace_with_item, itemstack: mt.ItemStack, user: mt.ObjectRef, pointed_thing: mt.PointedThing): mt.ItemStack?
+---@param func fun(hp_change: integer, replace_with_item, itemstack: lt.ItemStack, user: lt.ObjectRef, pointed_thing: lt.PointedThing): lt.ItemStack?
 function core.register_on_item_eat(func) end
 
 ---Map of registered on_item_eat.
----@type (fun(hp_change: integer, replace_with_item, itemstack: mt.ItemStack, user: mt.ObjectRef, pointed_thing: mt.PointedThing): mt.ItemStack?)[]
+---@type (fun(hp_change: integer, replace_with_item, itemstack: lt.ItemStack, user: lt.ObjectRef, pointed_thing: lt.PointedThing): lt.ItemStack?)[]
 core.registered_on_item_eat = {}
 
 -- Called by `core.item_pickup` before an item is picked up.
@@ -417,21 +417,21 @@ core.registered_on_item_eat = {}
 -- * Parameters are the same as in the `on_pickup` callback.
 -- * Return an itemstack to cancel the default item pick-up response (i.e.: adding
 --   the item into inventory).
----@param func fun(itemstack:mt.ItemStack, picker:mt.ObjectRef, pointed_thing:mt.PointedThing, time_from_last_punch:number, ...:any): mt.ItemStack?
+---@param func fun(itemstack:lt.ItemStack, picker:lt.ObjectRef, pointed_thing:lt.PointedThing, time_from_last_punch:number, ...:any): lt.ItemStack?
 function core.register_on_item_pickup(func) end
 
 ---Map of registered on_item_pickup
----@type (fun(itemstack:mt.ItemStack, picker:mt.ObjectRef, pointed_thing:mt.PointedThing, time_from_last_punch:number, ...:any): mt.ItemStack?)[]
+---@type (fun(itemstack:lt.ItemStack, picker:lt.ObjectRef, pointed_thing:lt.PointedThing, time_from_last_punch:number, ...:any): lt.ItemStack?)[]
 core.registered_on_item_pickup = {}
 
 -- Called when the local player uses an item.
 --
 -- * Newest functions are called first.
 -- * If any function returns true, the item use is not sent to server.
----@param func fun(item:mt.ItemStack, pointed_thing:mt.PointedThing): boolean?
+---@param func fun(item:lt.ItemStack, pointed_thing:lt.PointedThing): boolean?
 function core.register_on_item_use(func) end
 
----@type (fun(item:mt.ItemStack, pointed_thing:mt.PointedThing): boolean?)[]
+---@type (fun(item:lt.ItemStack, pointed_thing:lt.PointedThing): boolean?)[]
 core.registered_on_item_use = {}
 
 ---Called when `granter` grants the priv `priv` to `name`.
@@ -489,7 +489,7 @@ function core.register_on_modchannel_signal(func) end
 --
 -- * Newest functions are called first.
 -- * If any function returns true, inventory doesn't open.
----@param func fun(inventory:mt.InvRef):boolean?
+---@param func fun(inventory:lt.InvRef):boolean?
 function core.register_on_inventory_open(func) end
 
 ---Map of registered on_modchannel_message.
@@ -499,11 +499,11 @@ core.registered_on_modchannel_message = {}
 ---Called after liquid nodes (`liquidtype ~= "none"`) are modified by the engine's liquid transformation process.
 ---* `pos_list` is an array of all modified positions.
 ---* `node_list` is an array of the old node that was previously at the position with the corresponding index in `pos_list`.
----@param func fun(pos_list: mt.Vector[], node_list: mt.Node[])
+---@param func fun(pos_list: lt.Vector[], node_list: lt.Node[])
 function core.register_on_liquid_transformed(func) end
 
 ---Map of registered on_liquid_transformed.
----@type fun(pos_list: mt.Vector[], node_list: mt.Node[])[]
+---@type fun(pos_list: lt.Vector[], node_list: lt.Node[])[]
 core.registered_on_liquid_transformed = {}
 
 ---@param func function

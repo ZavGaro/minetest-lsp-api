@@ -44,7 +44,7 @@ function core.get_mod_data_path() end
 function core.is_singleplayer() end
 
 -- Table containing API feature flags.
----@class mt.Feature
+---@class lt.Feature
 ---@field glasslike_framed boolean (0.4.7).
 ---@field nodebox_as_selectionbox boolean (0.4.7).
 ---@field get_all_craft_recipes_works boolean (0.4.7).
@@ -141,12 +141,12 @@ function core.is_singleplayer() end
 ---@field override_item_remove_fields boolean
 core.features = {}
 
----@param arg string | table<mt.Feature, boolean>
----@return boolean, table<mt.Feature, boolean> missing
+---@param arg string | table<lt.Feature, boolean>
+---@return boolean, table<lt.Feature, boolean> missing
 function core.has_feature(arg) end
 
 -- Table containing information about a player.
----@class mt.PlayerInfo
+---@class lt.PlayerInfo
 ---@field address string IP address of client
 ---@field ip_version integer ip_version
 ---@field connection_uptime number seconds since client connected
@@ -167,7 +167,7 @@ function core.has_feature(arg) end
 ---@field state string DEBUG ONLY! current client state
 
 ---@param player_name string
----@return mt.PlayerInfo
+---@return lt.PlayerInfo
 function core.get_player_information(player_name) end
 
 --- Will only be present if the client sent this information (requires v5.7+)
@@ -178,7 +178,7 @@ function core.get_player_information(player_name) end
 --- real_gui_scaling and real_hud_scaling can be used instead of DPI.
 --- OSes don't necessarily give the physical DPI, as they may allow user configuration.
 --- real_*_scaling is just OS DPI / 96 but with another level of user configuration.
----@class mt.PlayerWindowInfo
+---@class lt.PlayerWindowInfo
 --- Current size of the in-game render target (pixels).
 ---
 --- This is usually the window size, but may be smaller in certain situations,
@@ -206,7 +206,7 @@ function core.get_player_information(player_name) end
 ---
 --- Note that none of these things are constant, they are likely to change during a client
 --- connection as the player resizes the window and moves it between monitors
----@return mt.PlayerWindowInfo
+---@return lt.PlayerWindowInfo
 function core.get_player_window_information(player_name) end
 
 -- Creates a directory specified by `path`, creating parent directories
@@ -255,10 +255,10 @@ function core.get_dir_list(path, is_dir) end
 function core.safe_file_write(path, content) end
 
 -- Returns a table containing components of the engine version.
----@return mt.EngineVersion
+---@return lt.EngineVersion
 function core.get_version() end
 
----@class mt.EngineVersion
+---@class lt.EngineVersion
 ---@field project string Name of the project, eg, "Minetest".
 ---@field string string Simple version, eg, "1.2.3-dev".
 ---@field proto_min string The minimum supported protocol version.
@@ -288,12 +288,12 @@ function core.sha256    (data, raw) end
 
 -- Converts a ColorSpec to a ColorString.
 -- If the ColorSpec is invalid, returns `nil`.
----@param colorspec mt.ColorSpec
----@return mt.ColorString|nil
+---@param colorspec lt.ColorSpec
+---@return lt.ColorString|nil
 function core.colorspec_to_colorstring(colorspec) end
 
 -- Converts a ColorSpec to a raw string of four bytes in an RGBA layout.
----@param colorspec mt.ColorSpec
+---@param colorspec lt.ColorSpec
 ---@return string
 function core.colorspec_to_bytes(colorspec) end
 
@@ -309,7 +309,7 @@ function core.colorspec_to_bytes(colorspec) end
 -- You can use `colorspec_to_bytes` to generate raw RGBA values.
 -- Palettes are not supported at the moment.
 -- You may use this to procedurally generate textures during server init.
----@param data mt.ColorSpec[]|string
+---@param data lt.ColorSpec[]|string
 ---@param compression integer|nil Optional zlib compression level from 0 to 9.
 function core.encode_png(width, height, data, compression) end
 

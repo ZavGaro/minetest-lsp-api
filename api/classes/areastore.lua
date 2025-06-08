@@ -7,51 +7,51 @@
 --
 -- Despite its name, mods must take care of persisting AreaStore data.
 -- They may use the provided load and write functions for this.
----@class mt.AreaStore
+---@class lt.AreaStore
 ---@field data string Mod-relevant information to the specified area.
----@operator call: fun(type_name:string|nil):mt.AreaStore
+---@operator call: fun(type_name:string|nil):lt.AreaStore
 local AreaStore = {}
 
----@alias mt.AreaID string|number
+---@alias lt.AreaID string|number
 
----@class mt.AreaInfo
----@field min mt.Vector|nil Position (if `include_corners` == `true`).
----@field max mt.Vector|nil Position (if `include_corners` == `true`).
+---@class lt.AreaInfo
+---@field min lt.Vector|nil Position (if `include_corners` == `true`).
+---@field max lt.Vector|nil Position (if `include_corners` == `true`).
 ---@field data string|nil (if `include_data` == `true`)
 
 -- * Returns the area information about the specified ID.
 -- * Returns nil if area not found.
 -- * Returns boolean if `include_corners` and `include_data` are not true.
----@param id mt.AreaID
+---@param id lt.AreaID
 ---@param include_corners boolean|nil
 ---@param include_data boolean|nil
----@return nil|true|mt.AreaInfo
+---@return nil|true|lt.AreaInfo
 function AreaStore:get_area(id, include_corners, include_data) end
 
 -- Returns all areas as table, indexed by the area ID.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param include_corners boolean|nil
 ---@param include_data boolean|nil
----@return table<mt.AreaID, mt.AreaInfo>
+---@return table<lt.AreaID, lt.AreaInfo>
 function AreaStore:get_areas_for_pos(pos, include_corners, include_data) end
 
 -- Returns all areas that contain all nodes inside the area specified by
 -- `corner1` and `corner2` (inclusive).
----@param corner1 mt.Vector
----@param corner2 mt.Vector
+---@param corner1 lt.Vector
+---@param corner2 lt.Vector
 ---@param accept_overlap boolean|nil If `true`, areas are returned that have nodes in common (intersect) with the specified area.
 ---@param include_corners boolean|nil
 ---@param include_data boolean|nil
----@return table<mt.AreaID, mt.AreaInfo>
+---@return table<lt.AreaID, lt.AreaInfo>
 function AreaStore:get_areas_in_area(corner1, corner2, accept_overlap, include_corners, include_data) end
 
 -- * Returns the new area's ID, or nil if the insertion failed.
 -- * The (inclusive) positions `corner1` and `corner2` describe the area.
----@param corner1 mt.Vector
----@param corner2 mt.Vector
+---@param corner1 lt.Vector
+---@param corner2 lt.Vector
 ---@param data string
----@param id mt.AreaID|nil Will be used as the internal area ID if it is an unique number between 0 and 2^32-2.
----@return mt.AreaID|nil
+---@param id lt.AreaID|nil Will be used as the internal area ID if it is an unique number between 0 and 2^32-2.
+---@return lt.AreaID|nil
 function insert_area(corner1, corner2, data, id) end
 
 -- * Requires SpatialIndex, no-op function otherwise.
@@ -62,11 +62,11 @@ function insert_area(corner1, corner2, data, id) end
 function AreaStore:reserve(count) end
 
 -- Removes the area with the given id from the store, returns success.
----@param id mt.AreaID
+---@param id lt.AreaID
 ---@return boolean
 function AreaStore:remove_area(id) end
 
----@class mt.AreaCacheParams
+---@class lt.AreaCacheParams
 -- Whether to enable, default `true`.
 ---@field enabled boolean
 -- The radius (in nodes) of the areas the cache enerates prefiltered lists for,
@@ -77,7 +77,7 @@ function AreaStore:remove_area(id) end
 
 -- Sets params for the included prefiltering cache.
 -- Calling invalidates the cache, so that its elements have to be newly generated.
----@param params mt.AreaCacheParams
+---@param params lt.AreaCacheParams
 function AreaStore:set_cache_params(params) end
 
 -- Experimental. Returns area store serialized as a (binary) string.

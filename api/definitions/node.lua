@@ -4,8 +4,8 @@
 ------------------
 
 ---Used by `core.register_node`.
----@class mt.NodeDef:mt.ItemDef
----@field drawtype mt.DrawType|nil
+---@class lt.NodeDef:lt.ItemDef
+---@field drawtype lt.DrawType|nil
 -- * Supported for drawtypes "plantlike", "signlike", "torchlike",
 --   "firelike", "mesh", "nodebox", "allfaces".
 -- * For plantlike and firelike, the image will start at the bottom of the node.
@@ -16,21 +16,21 @@
 -- * Textures of node; +Y, -Y, +X, -X, +Z, -Z
 -- * Old field name was 'tile_images'.
 -- * List can be shortened to needed length.
----@field tiles mt.TileDef[]|nil
+---@field tiles lt.TileDef[]|nil
 -- Same as `tiles`, but these textures are drawn on top of the base
 -- tiles. You can use this to colorize only specific parts of your
 -- texture. If the texture name is an empty string, that overlay is not
 -- drawn. Since such tiles are drawn twice, it is not recommended to use
 -- overlays on very common nodes.
----@field overlay_tiles mt.TileDef[]|nil
+---@field overlay_tiles lt.TileDef[]|nil
 -- * Special textures of node; used rarely.
 -- * Old field name was 'special_materials'.
 -- * List can be shortened to needed length.
----@field special_tiles mt.TileDef[]|nil
+---@field special_tiles lt.TileDef[]|nil
 -- * The node's original color will be multiplied with this color.
 -- * If the node has a palette, then this setting only has an effect in
 --   the inventory and on the wield item.
----@field color mt.ColorSpec|nil
+---@field color lt.ColorSpec|nil
 -- Specifies how the texture's alpha channel will be used for rendering.
 -- Possible values:
 -- * "opaque":
@@ -57,13 +57,13 @@
 ---@field palette string|nil
 -- Screen tint if a player is inside this node, see `ColorSpec`.
 -- Color is alpha-blended over the screen.
----@field post_effect_color mt.ColorSpec|nil
+---@field post_effect_color lt.ColorSpec|nil
 -- Determines whether `post_effect_color` is affected by lighting.
 ---@field post_effect_color_shaded boolean|nil
----@field paramtype mt.ParamType|nil
----@field paramtype2 mt.ParamType2|nil
+---@field paramtype lt.ParamType|nil
+---@field paramtype2 lt.ParamType2|nil
 -- Force value for param2 when player places node.
----@field place_param2 mt.NodeParam|nil
+---@field place_param2 lt.NodeParam|nil
 -- If true, place_param2 is nil, and this is a wallmounted node,
 -- this node might use the special 90° rotation when placed
 -- on the floor or ceiling, depending on the direction.
@@ -149,7 +149,7 @@
 ---@field drowning number|nil
 -- If player is inside node, this damage is caused.
 ---@field damage_per_second number|nil
----@field node_box mt.NodeBox|nil
+---@field node_box lt.NodeBox|nil
 -- Used for nodebox nodes with the type == "connected".
 -- Specifies to what neighboring nodes connections will be drawn.
 -- e.g. `{"group:fence", "default:wood"}` or `"default:stone"`.
@@ -173,13 +173,13 @@
 -- Custom selection box definition. Multiple boxes can be defined.
 -- If "nodebox" drawtype is used and selection_box is nil, then node_box
 -- definition is used for the selection box.
----@field selection_box mt.NodeBox|nil
+---@field selection_box lt.NodeBox|nil
 -- Custom collision box definition. Multiple boxes can be defined.
 -- If "nodebox" drawtype is used and collision_box is nil, then node_box
 -- definition is used for the collision box.
 --
 -- Support maps made in and before January 2012.
----@field collision_box mt.NodeBox|nil
+---@field collision_box lt.NodeBox|nil
 ---@field legacy_facedir_simple boolean|nil
 ---@field legacy_wallmounted boolean|nil
 -- Valid for drawtypes:
@@ -192,9 +192,9 @@
 -- allfaces_optional drawtype can only wave like leaves.
 -- liquid, flowingliquid drawtypes can only wave like liquids.
 ---@field waving number|nil
----@field sounds mt.NodeSoundsDef|nil
----@field drop string|mt.NodeDropDef|nil
----@field drops (string|mt.NodeDropDef)[]|nil
+---@field sounds lt.NodeSoundsDef|nil
+---@field drop string|lt.NodeDropDef|nil
+---@field drops (string|lt.NodeDropDef)[]|nil
 -- * Stores which mod actually registered a node.
 -- * If it can not find a source, returns "??".
 -- * Useful for getting what mod truly registered something.
@@ -207,20 +207,20 @@ local node = {}
 -- * Can set up metadata and stuff like that.
 -- * Not called for bulk node placement (i.e. schematics and VoxelManip).
 -- * Default: `nil`.
----@param pos mt.Vector
+---@param pos lt.Vector
 function node.on_construct(pos) end
 
 -- * Node destructor; called before removing node.
 -- * Not called for bulk node placement.
 -- * Default: `nil`.
----@param pos mt.Vector
+---@param pos lt.Vector
 function node.on_destruct(pos) end
 
 -- * Node destructor; called after removing node.
 -- * Not called for bulk node placement.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param oldnode mt.Node
+---@param pos lt.Vector
+---@param oldnode lt.Node
 function node.after_destruct(pos, oldnode) end
 
 -- * Called when a liquid (newnode) is about to flood oldnode, if it has
@@ -231,9 +231,9 @@ function node.after_destruct(pos, oldnode) end
 --   likely be called over and over again every liquid update interval.
 -- * Default: `nil`.
 -- * Warning: making a liquid node 'floodable' will cause problems.
----@param pos mt.Vector
----@param oldnode mt.Node
----@param newnode mt.Node
+---@param pos lt.Vector
+---@param oldnode lt.Node
+---@param newnode lt.Node
 function node.on_flood(pos, oldnode, newnode) end
 
 -- * Called when `oldnode` is about be converted to an item, but before the
@@ -241,45 +241,45 @@ function node.on_flood(pos, oldnode, newnode) end
 -- * This is generally the result of either the node being dug or an attached
 --   node becoming detached.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param oldnode mt.Node Node table of node before it was deleted.
----@param oldmeta mt.NodeMetaRef Metadata of node before it was deleted, as a metadata table.
----@param drops table<unknown, mt.Item>
+---@param pos lt.Vector
+---@param oldnode lt.Node Node table of node before it was deleted.
+---@param oldmeta lt.NodeMetaRef Metadata of node before it was deleted, as a metadata table.
+---@param drops table<unknown, lt.Item>
 function node.preserve_metadata(pos, oldnode, oldmeta, drops) end
 
 -- * Called after constructing node when node was placed using
 --   `core.item_place_node` / `core.place_node`.
 -- * If return true no item is taken from itemstack.
 -- * Default: `nil`.
----@param pos mt.Vector Node position.
----@param placer mt.ObjectRef|nil 
----@param itemstack mt.Item
----@param pointed_thing mt.PointedThing
+---@param pos lt.Vector Node position.
+---@param placer lt.ObjectRef|nil 
+---@param itemstack lt.Item
+---@param pointed_thing lt.PointedThing
 function node.after_place_node(pos, placer, itemstack, pointed_thing) end
 
 -- * Called after destructing the node when node was dug using
 --   `core.node_dig` / `core.dig_node`.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param oldnode mt.Node Node table of node before it was dug.
+---@param pos lt.Vector
+---@param oldnode lt.Node Node table of node before it was dug.
 ---@param oldmetadata table Metadata of node before it was dug, as a metadata table.
----@param digger mt.ObjectRef
+---@param digger lt.ObjectRef
 function node.after_dig_node(pos, oldnode, oldmetadata, digger) end
 
 -- * Returns true if node can be dug, or false if not.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param player mt.ObjectRef
+---@param pos lt.Vector
+---@param player lt.ObjectRef
 ---@return boolean
 function node.can_dig(pos, player) end
 
 -- * Default: `core.node_punch`.
 -- * Called when puncher punches the `node` at `pos`.
 -- * By default calls `core.register_on_punchnode` callbacks.
----@param pos mt.Vector
----@param node mt.Node
----@param puncher mt.ObjectRef
----@param pointed_thing mt.PointedThing
+---@param pos lt.Vector
+---@param node lt.Node
+---@param puncher lt.ObjectRef
+---@param pointed_thing lt.PointedThing
 function node.on_punch(pos, node, puncher, pointed_thing) end
 
 -- * Called when clicker used the 'place/build' key
@@ -291,28 +291,28 @@ function node.on_punch(pos, node, puncher, pointed_thing) end
 -- * This function does not get triggered by clients <=0.4.16 if the
 --   "formspec" node metadata field is set.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param node mt.Node
----@param clicker mt.ObjectRef
----@param itemstack mt.Item
----@param pointed_thing mt.PointedThing|nil
----@return mt.ItemStack|nil leftover
+---@param pos lt.Vector
+---@param node lt.Node
+---@param clicker lt.ObjectRef
+---@param itemstack lt.Item
+---@param pointed_thing lt.PointedThing|nil
+---@return lt.ItemStack|nil leftover
 function node.on_rightclick(pos, node, clicker, itemstack, pointed_thing) end
 
 -- * Default: `core.node_dig`.
 -- * By default checks privileges, wears out item (if tool) and removes node.
 -- * Return `true` if the node was dug successfully, `false` otherwise.
 -- * Deprecated: returning nil is the same as returning true.
----@param pos mt.Vector
----@param node mt.Node
----@param digger mt.ObjectRef
+---@param pos lt.Vector
+---@param node lt.Node
+---@param digger lt.ObjectRef
 ---@return boolean
 function node.on_dig(pos, node, digger) end
 
--- * Called by NodeTimers, see `core.get_node_timer` and `mt.NodeTimerRef`.
+-- * Called by NodeTimers, see `core.get_node_timer` and `lt.NodeTimerRef`.
 -- * Return `true` to run the timer for another cycle with the same timeout.
 -- * Default: `nil`.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param elapsed number The total time passed since the timer was started.
 ---@return boolean
 function node.on_timer(pos, elapsed) end
@@ -320,15 +320,15 @@ function node.on_timer(pos, elapsed) end
 -- * Called when an UI form (e.g. sign text input) returns data.
 -- * See `core.register_on_player_receive_fields` for more info.
 -- * Default: `nil`.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param formname string
 ---@param fields table<string, unknown> Name = Value.
----@param sender mt.ObjectRef
+---@param sender lt.ObjectRef
 function node.on_receive_fields(pos, formname, fields, sender) end
 
 -- * If defined, called when an explosion touches the node,
 --   instead of removing the node.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param intensity number 1.0 = mid range of regular TNT.
 function node.on_blast(pos, intensity) end
 
@@ -338,26 +338,26 @@ function node.on_blast(pos, intensity) end
 -- * Moving items in the inventory.
 -- * The `allow_*` callbacks return how many items can be moved.
 -- * This callback triggered `before` the action.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param from_list unknown
 ---@param from_index integer
 ---@param to_list unknown
 ---@param to_index integer
 ---@param count integer
----@param player mt.ObjectRef
+---@param player lt.ObjectRef
 ---@return integer allowed
 function node.allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player) end
 
 -- Called after the actual action has happened, according to what was allowed.
 --
 -- * No return value.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param from_list unknown
 ---@param from_index integer
 ---@param to_list unknown
 ---@param to_index integer
 ---@param count integer
----@param player mt.ObjectRef
+---@param player lt.ObjectRef
 function node.on_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player) end
 
 -- Called when a player wants to put something into the inventory.
@@ -367,11 +367,11 @@ function node.on_metadata_inventory_move(pos, from_list, from_index, to_list, to
 -- * Putting items to the inventory.
 -- * The `allow_*` callbacks return how many items can be moved.
 -- * This callback triggered `before` the action.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param listname string
 ---@param index integer
----@param stack mt.Item
----@param player mt.ObjectRef
+---@param stack lt.Item
+---@param player lt.ObjectRef
 ---@return integer allowed
 function node.allow_metadata_inventory_put(pos, listname, index, stack, player) end
 
@@ -381,11 +381,11 @@ function node.allow_metadata_inventory_put(pos, listname, index, stack, player) 
 -- * Moving items in the inventory.
 -- * The `on_*` callbacks are called after the items have been placed in the inventories.
 -- * This callback triggered `after` the action.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param listname string
 ---@param index integer
----@param stack mt.Item
----@param player mt.ObjectRef
+---@param stack lt.Item
+---@param player lt.ObjectRef
 function node.on_metadata_inventory_put(pos, listname, index, stack, player) end
 
 -- Called when a player wants to take something out of the inventory.
@@ -395,11 +395,11 @@ function node.on_metadata_inventory_put(pos, listname, index, stack, player) end
 -- * Taking items from the inventory.
 -- * The `allow_*` callbacks return how many items can be moved.
 -- * This callback triggered `before` the action.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param listname string
 ---@param index integer
----@param stack mt.Item
----@param player mt.ObjectRef
+---@param stack lt.Item
+---@param player lt.ObjectRef
 ---@return integer allowed
 function node.allow_metadata_inventory_take(pos, listname, index, stack, player) end
 
@@ -409,22 +409,22 @@ function node.allow_metadata_inventory_take(pos, listname, index, stack, player)
 -- * Taking items from the inventory.
 -- * The `on_*` callbacks are called after the items have been placed in the inventories.
 -- * This callback triggered `after` the action.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param listname string
 ---@param index integer
----@param stack mt.Item
----@param player mt.ObjectRef
+---@param stack lt.Item
+---@param player lt.ObjectRef
 function node.on_metadata_inventory_take(pos, listname, index, stack, player) end
 
 -- * Definition of node sounds to be played at various events.
 -- * All fields in this table are optional.
----@class mt.NodeSoundsDef
+---@class lt.NodeSoundsDef
 -- * If walkable, played when object walks on it.
 -- * If node is climbable or a liquid, played when object moves through it.
 -- * Sound is played at the base of the object's collision-box.
 -- * Gain is multiplied by `0.6`.
 -- * For local player, it's played position-less, with normal gain.
----@field footstep mt.SimpleSoundSpec
+---@field footstep lt.SimpleSoundSpec
 -- * While digging node.
 -- * If `"__group"`, then the sound will be `default_dig_<groupname>`,
 --   where `<groupname>` is the name of the item's digging group
@@ -432,17 +432,17 @@ function node.on_metadata_inventory_take(pos, listname, index, stack, player) en
 -- * In case of a tie, one of the sounds will be played (but we
 --   cannot predict which one)
 -- * Default value: `"__group"`
----@field dig mt.SimpleSoundSpec|"__group"
----@field dug mt.SimpleSoundSpec Node was dug.
----@field place mt.SimpleSoundSpec Node was placed. Also played after falling.
+---@field dig lt.SimpleSoundSpec|"__group"
+---@field dug lt.SimpleSoundSpec Node was dug.
+---@field place lt.SimpleSoundSpec Node was placed. Also played after falling.
 -- * When node placement failed.
 -- * Note: This happens if the _built-in_ node placement failed.
 -- * This sound will still be played if the node is placed in the
 --   `on_place` callback manually.
----@field place_failed mt.SimpleSoundSpec
----@field fall mt.SimpleSoundSpec When node starts to fall or is detached.
+---@field place_failed lt.SimpleSoundSpec
+---@field fall lt.SimpleSoundSpec When node starts to fall or is detached.
 
----@class mt.NodeDropDef
+---@class lt.NodeDropDef
 -- * Maximum number of item lists to drop.
 -- * The entries in 'items' are processed in order. For each:
 --   Item filtering is applied, chance of drop is applied, if both are
@@ -451,9 +451,9 @@ function node.on_metadata_inventory_take(pos, listname, index, stack, player) en
 --   equals 'max_items'.
 -- * Therefore, entries should progress from low to high drop chance.
 ---@field max_items integer
----@field items mt.NodeDropItemsDef
+---@field items lt.NodeDropItemsDef
 
----@class mt.NodeDropItemsDef
+---@class lt.NodeDropItemsDef
 -- 1 in 1000 chance of dropping a diamond.
 -- Default rarity is '1'.
 ---@field rarity integer

@@ -3,13 +3,13 @@
 ---Inventory
 ------------
 
----@class mt.InvLocation
+---@class lt.InvLocation
 ---@field type "player"|"node"|"detached"|"undefined"
 ---@field name string|nil
----@field pos mt.Vector|nil
+---@field pos lt.Vector|nil
 
----@param location mt.InvLocation
----@return mt.InvRef
+---@param location lt.InvLocation
+---@return lt.InvRef
 function core.get_inventory(location) end
 
 -- Creates a detached inventory. If it already exists, it is cleared.
@@ -19,9 +19,9 @@ function core.get_inventory(location) end
 -- Note that this parameter is mostly just a workaround and will be removed
 -- in future releases.
 ---@param name string
----@param callbacks mt.DetachedInvDef
+---@param callbacks lt.DetachedInvDef
 ---@param player_name string|nil
----@return mt.InvRef
+---@return lt.InvRef
 function core.create_detached_inventory(name, callbacks, player_name) end
 
 ---@param name string
@@ -29,11 +29,11 @@ function core.create_detached_inventory(name, callbacks, player_name) end
 function core.remove_detached_inventory(name) end
 
 ---@param hp_change integer
----@param replace_with_item mt.Item
----@param itemstack mt.Item
----@param user mt.ObjectRef
----@param pointed_thing mt.PointedThing
----@return mt.ItemStack leftover
+---@param replace_with_item lt.Item
+---@param itemstack lt.Item
+---@param user lt.ObjectRef
+---@param pointed_thing lt.PointedThing
+---@return lt.ItemStack leftover
 function core.do_item_eat(
   hp_change,
   replace_with_item,

@@ -29,7 +29,7 @@
 -- did not get a timestamp set. This means LBMs introduced between generation time
 -- and time of first activation will never run.
 -- Currently the only workaround is to use `run_at_every_load = true`.
----@class mt.LBMDef
+---@class lt.LBMDef
 -- Descriptive label for profiling purposes (optional).
 -- Definitions with identical labels will be listed as one.
 ---@field label string|nil
@@ -48,9 +48,9 @@
 -- Function triggered for each qualifying node.
 -- `dtime_s` is the in-game time (in seconds) elapsed since the mapblock
 -- was last active (available since 5.7.0).
----@field action fun(pos:mt.Vector, node:mt.Node, dtime_s: number)
+---@field action fun(pos:lt.Vector, node:lt.Node, dtime_s: number)
 -- Function triggered with a list of all applicable node positions at once.
 -- This can be provided as an alternative to `action` (not both).
 -- Available since `core.features.bulk_lbms` (5.10.0)
 -- `dtime_s`: as above
----@field bulk_action fun(pos_list: mt.Vector[], dtime_s: number)
+---@field bulk_action fun(pos_list: lt.Vector[], dtime_s: number)

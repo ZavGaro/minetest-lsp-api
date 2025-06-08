@@ -3,7 +3,7 @@
 ------------------------------------
 
 -- Used by `core.register_authentication_handler`.
----@class mt.AuthHandlerDef
+---@class lt.AuthHandlerDef
 local auth = {}
 
 -- Get authentication data for existing player `name` (`nil` if player doesn't exist).

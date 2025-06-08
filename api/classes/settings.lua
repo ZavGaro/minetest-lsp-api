@@ -4,13 +4,13 @@
 
 -- Settings constructor.
 ---@param filename string
----@return mt.Settings
+---@return lt.Settings
 function Settings(filename) end
 
 -- An interface to read config files in the format of `core.conf`.
 --
 -- It can be created via `Settings(filename)`.
----@class mt.Settings
+---@class lt.Settings
 local SettingsClass
 
 -- Returns a value.
@@ -24,12 +24,12 @@ function SettingsClass:get(key) end
 ---@return boolean|nil
 function SettingsClass:get_bool(key, default) end
 
----@return mt.NoiseParams
+---@return lt.NoiseParams
 function SettingsClass:get_np_group(key) end
 
 -- Is currently limited to mapgen flags `mg_flags` and mapgen-specific flags
 -- like `mgv5_spflags`.
----@return mt.OreFlagsTable
+---@return lt.OreFlagsTable
 function SettingsClass:get_flags(key) end
 
 -- - Setting names can't contain whitespace or any of `="{}#`.
@@ -53,7 +53,7 @@ function SettingsClass:set_bool(key, value) end
 -- - Setting names starting with "secure." can't be set on the main settings
 --   object (`core.settings`).
 ---@param key string
----@param value mt.NoiseParams
+---@param value lt.NoiseParams
 function SettingsClass:set_np_group(key, value) end
 
 -- Returns a boolean (`true` for success).
@@ -78,7 +78,7 @@ function SettingsClass:has(key) end
 ---@return boolean
 function SettingsClass:write() end
 
----@return mt.SettingsTable
+---@return lt.SettingsTable
 function SettingsClass:to_table() end
 
 --[[
@@ -90,4 +90,4 @@ The settings have the format `key = value`. Example:
     value
     """
 ]]
----@class mt.SettingsTable
+---@class lt.SettingsTable

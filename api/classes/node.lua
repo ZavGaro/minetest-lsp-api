@@ -5,7 +5,7 @@
 -- `param1` and `param2` are 8-bit integers ranging from 0 to 255. The engine uses
 -- them for certain automated functions. If you don't use these functions, you can
 -- use them to store arbitrary values.
----@alias mt.NodeParam integer
+---@alias lt.NodeParam integer
 
 ---Nodes are the bulk data of the world: cubes and other things that take the
 ---space of a cube. Huge amounts of them are handled efficiently, but they
@@ -19,13 +19,13 @@
 ---They are represented by a table:
 ---
 ---    {name="name", param1=num, param2=num}
----@class mt.Node
+---@class lt.Node
 ---@field name string
----@field param1 mt.NodeParam
----@field param2 mt.NodeParam
+---@field param1 lt.NodeParam
+---@field param2 lt.NodeParam
 local node = {}
 
----@class mt.MapNode:mt.Node
+---@class lt.MapNode:lt.Node
 -- (alias `param1`): the probability of this node being placed (default: 255).
 --
 -- * A probability value of `0` or `1` means that node will never appear
@@ -47,7 +47,7 @@ local node = {}
 ---
 ---The function of `param1` is determined by `paramtype` in node definition.
 ---`param1` is reserved for the engine when `paramtype != "none"`.
----@alias mt.ParamType
+---@alias lt.ParamType
 ---* The value stores light with and without sun in its lower and upper 4 bits
 ---  respectively.
 ---* Required by a light source node to enable spreading its light.
@@ -69,7 +69,7 @@ local node = {}
 
 ---The function of `param2` is determined by `paramtype2` in node definition.
 ---`param2` is reserved for the engine when `paramtype2 != "none"`.
----@alias mt.ParamType2
+---@alias lt.ParamType2
 ---* Used by `drawtype = "flowingliquid"` and `liquidtype = "flowing"`
 ---* The liquid level and a flag of the liquid are stored in `param2`
 ---* Bits 0-2: Liquid level (0-7). The higher, the more liquid is in this node;
@@ -197,7 +197,7 @@ local node = {}
 ---
 ---`*_optional` drawtypes need less rendering time if deactivated.
 ---(always client-side).
----@alias mt.DrawType string
+---@alias lt.DrawType string
 ---* A node-sized cube.
 ---|"normal"
 ---* Invisible, uses no texture.
@@ -373,25 +373,25 @@ local node = {}
 ---To avoid collision issues, keep each value within the range of +/- 1.45.
 ---This also applies to leveled nodeboxes, where the final height shall not
 ---exceed this soft limit.
----@class mt.NodeBox
----@field type mt.ParamType2|"regular"|"fixed"|"connected"
----@field fixed mt.NodeBox|mt.NodeBox[]
----@field wall_top mt.NodeBox
----@field wall_bottom mt.NodeBox
----@field wall_side mt.NodeBox
----@field connect_top mt.NodeBox|mt.NodeBox[]
----@field connect_bottom mt.NodeBox|mt.NodeBox[]
----@field connect_front mt.NodeBox|mt.NodeBox[]
----@field connect_left mt.NodeBox|mt.NodeBox[]
----@field connect_back mt.NodeBox|mt.NodeBox[]
----@field connect_right mt.NodeBox|mt.NodeBox[]
----@field disconnect_top mt.NodeBox|mt.NodeBox[]
----@field disconnect_bottom mt.NodeBox|mt.NodeBox[]
----@field disconnect_front mt.NodeBox|mt.NodeBox[]
----@field disconnect_left mt.NodeBox|mt.NodeBox[]
----@field disconnect_back mt.NodeBox|mt.NodeBox[]
----@field disconnect_right mt.NodeBox|mt.NodeBox[]
----@field disconnected_sides mt.NodeBox|mt.NodeBox[]
+---@class lt.NodeBox
+---@field type lt.ParamType2|"regular"|"fixed"|"connected"
+---@field fixed lt.NodeBox|lt.NodeBox[]
+---@field wall_top lt.NodeBox
+---@field wall_bottom lt.NodeBox
+---@field wall_side lt.NodeBox
+---@field connect_top lt.NodeBox|lt.NodeBox[]
+---@field connect_bottom lt.NodeBox|lt.NodeBox[]
+---@field connect_front lt.NodeBox|lt.NodeBox[]
+---@field connect_left lt.NodeBox|lt.NodeBox[]
+---@field connect_back lt.NodeBox|lt.NodeBox[]
+---@field connect_right lt.NodeBox|lt.NodeBox[]
+---@field disconnect_top lt.NodeBox|lt.NodeBox[]
+---@field disconnect_bottom lt.NodeBox|lt.NodeBox[]
+---@field disconnect_front lt.NodeBox|lt.NodeBox[]
+---@field disconnect_left lt.NodeBox|lt.NodeBox[]
+---@field disconnect_back lt.NodeBox|lt.NodeBox[]
+---@field disconnect_right lt.NodeBox|lt.NodeBox[]
+---@field disconnected_sides lt.NodeBox|lt.NodeBox[]
 ---@field [1] number x1
 ---@field [2] number y1
 ---@field [3] number z1
@@ -406,10 +406,10 @@ local box = {}
 ---constant `core.MAP_BLOCKSIZE` (=16).
 ---'mapblock' is preferred terminology to 'block' to help avoid confusion with
 ---'node', however 'block' often appears in the API.
----@alias mt.MapBlock table
+---@alias lt.MapBlock table
 
 ---A 'mapchunk' (sometimes abbreviated to 'chunk') is usually 5x5x5 mapblocks
 ---(80x80x80 nodes) and is the volume of world generated in one operation by
 ---the map generator.
 ---The size in mapblocks has been chosen to optimize map generation.
----@alias mt.MapChunk table
+---@alias lt.MapChunk table

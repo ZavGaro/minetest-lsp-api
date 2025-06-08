@@ -2,7 +2,7 @@
 ---Decoration definition
 ------------------------
 
----@alias mt.DecorType
+---@alias lt.DecorType
 -- Creates a 1 times `H` times 1 column of a specified node (or a random node from
 -- a list, if a decoration list is specified). Can specify a certain node it must
 -- spawn next to, such as water or lava, for example. Can also generate a
@@ -21,10 +21,10 @@
 ---|"lsystem"
 
 -- Used by `core.register_decoration`.
----@alias mt.DecorDef mt.DecorDefSimple|mt.DecorDefSchematic|mt.DecorDefLSystem
+---@alias lt.DecorDef lt.DecorDefSimple|lt.DecorDefSchematic|lt.DecorDefLSystem
 
----@class mt.DecorDefCommon
----@field deco_type mt.DecorType
+---@class lt.DecorDefCommon
+---@field deco_type lt.DecorType
 -- Node (or list of nodes) that the decoration can be placed on.
 ---@field place_on string|string[]
 -- Size of the square divisions of the mapchunk being generated.
@@ -43,7 +43,7 @@
 -- `decorations per surface node` within each division.
 -- If the noise value >= 10.0 complete coverage is enabled and
 -- decoration placement uses a different and much faster method.
----@field noise_params mt.NoiseParams
+---@field noise_params lt.NoiseParams
 -- List of biomes in which this decoration occurs. Occurs in all biomes
 -- if this is omitted, and ignored if the Mapgen being used does not
 -- support biomes.
@@ -86,7 +86,7 @@
 --   ceiling decorations will be aligned vertically.
 ---@field flags string
 
----@class mt.DecorDefSimple:mt.DecorDefCommon
+---@class lt.DecorDefSimple:lt.DecorDefCommon
 -- The node name used as the decoration.
 -- If instead a list of strings, a randomly selected node from the list
 -- is placed as the decoration.
@@ -113,11 +113,11 @@
 -- to the `place_on` node.
 ---@field place_offset_y number
 
----@class mt.DecorDefSchematic:mt.DecorDefCommon
+---@class lt.DecorDefSchematic:lt.DecorDefCommon
 -- If schematic is a string, it is the filepath relative to the current
 -- working directory of the specified Luanti schematic file.
 -- Could also be the ID of a previously registered schematic.
----@field schematic string|mt.SchematicSpec
+---@field schematic string|lt.SchematicSpec
 ---@field replacements table
 -- Flags for schematic decorations.
 ---@field flags string
@@ -130,5 +130,5 @@
 -- to the `place_on` node.
 ---@field place_offset_y number
 
----@class mt.DecorDefLSystem:mt.DecorDefCommon
----@field treedef mt.TreeDef
+---@class lt.DecorDefLSystem:lt.DecorDefCommon
+---@field treedef lt.TreeDef

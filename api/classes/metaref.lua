@@ -5,7 +5,7 @@
 -----------------
 
 ---Base class used by `StorageRef`, `NodeMetaRef`, `ItemStackMetaRef` and `PlayerMetaRef`.
----@class mt.MetaDataRef
+---@class lt.MetaDataRef
 local MetaDataRef = {}
 
 ---Returns `true` if key present, otherwise `false`.
@@ -67,7 +67,7 @@ function MetaDataRef:to_table() end
 function MetaDataRef:from_table(table) end
 
 ---Returns `true` if this metadata has the same key-value pairs as `other`.
----@param other mt.MetaDataRef
+---@param other lt.MetaDataRef
 ---@return boolean
 function MetaDataRef:equals(other) end
 
@@ -119,7 +119,7 @@ meta:from_table({
 })
 ```
 ]]
----@class mt.NodeMetaRef: mt.MetaDataRef
+---@class lt.NodeMetaRef: lt.MetaDataRef
 local NodeMetaRef = {}
 
 --- * Returns `nil` or a table with keys:
@@ -137,7 +137,7 @@ function NodeMetaRef:to_table() end
 ---@return boolean
 function NodeMetaRef:from_table(table) end
 
----@return mt.InvRef
+---@return lt.InvRef
 function NodeMetaRef:get_inventory() end
 
 ---Mark specific vars as private.
@@ -204,31 +204,31 @@ print(stack:get_short_description()) --> Short
 print(ItemStack("mod:item_with_no_desc"):get_description()) --> mod:item_with_no_desc
 ```
 ]]
----@class mt.ItemStackMetaRef: mt.MetaDataRef
+---@class lt.ItemStackMetaRef: lt.MetaDataRef
 local ItemStackMetaRef = {}
 
 ---Overrides the item's tool capabilities
 ---
 ---A nil value will clear the override data and restore the original behavior.
----@param tool_capabilities mt.ToolCaps
+---@param tool_capabilities lt.ToolCaps
 function ItemStackMetaRef:set_tool_capabilities(tool_capabilities) end
 
 ----------------
 -- StorageRef --
 ----------------
 
----@class mt.StorageRef: mt.MetaDataRef
+---@class lt.StorageRef: lt.MetaDataRef
 local StorageRef = {}
 
 ---Returns reference to mod private `StorageRef`.
 ---
 ---Must be called during mod load time.
----@return mt.StorageRef
+---@return lt.StorageRef
 function core.get_mod_storage() end
 
 -------------------
 -- PlayerMetaRef --
 -------------------
 
----@class mt.PlayerMetaRef: mt.MetaDataRef
+---@class lt.PlayerMetaRef: lt.MetaDataRef
 local PlayerMetaRef = {}

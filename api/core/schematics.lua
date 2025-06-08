@@ -10,11 +10,11 @@
 -- - Apply the specified probability to the specified horizontal slices according
 --   to the `slice_prob_list`.
 -- - Saves schematic in the Minetest Schematic format to `filename`.
----@param p1 mt.Vector
----@param p2 mt.Vector
----@param probability_list mt.SchematicProbability[]
+---@param p1 lt.Vector
+---@param p2 lt.Vector
+---@param probability_list lt.SchematicProbability[]
 ---@param filename string
----@param slice_prob_list mt.SchematicSliceProbability[]|nil
+---@param slice_prob_list lt.SchematicSliceProbability[]|nil
 function core.create_schematic(p1, p2, probability_list, filename, slice_prob_list) end
 
 -- Place the schematic specified by schematic at `pos`.
@@ -26,8 +26,8 @@ function core.create_schematic(p1, p2, probability_list, filename, slice_prob_li
 -- list defined for it, regardless of whether the file or the replacement list
 -- parameter have changed. The only way to load the file anew is to restart the
 -- server.
----@param pos mt.Vector
----@param schematic mt.SchematicSpec
+---@param pos lt.Vector
+---@param schematic lt.SchematicSpec
 ---@param rotation "0"|"90"|"180"|"270"|"random"
 ---@param replacements {[string]: string}|nil
 ---@param force_placement boolean|nil Nodes other than `air` and `ignore` are replaced by the schematic.
@@ -35,14 +35,14 @@ function core.create_schematic(p1, p2, probability_list, filename, slice_prob_li
 function core.place_schematic(pos, schematic, rotation, replacements, force_placement, flags) end
 
 -- Return the serialized schematic specified by schematic.
----@param schematic mt.SchematicSpec
----@param format mt.SchematicFormat
----@param options mt.SchematicSerializeOptions
+---@param schematic lt.SchematicSpec
+---@param format lt.SchematicFormat
+---@param options lt.SchematicSerializeOptions
 ---@return string
 function core.serialize_schematic(schematic, format, options) end
 
 -- Returns a Lua table representing the schematic.
----@param schematic mt.SchematicSpec
----@param options mt.SchematicReadOptions
----@return  mt.SchematicSpec
+---@param schematic lt.SchematicSpec
+---@param options lt.SchematicReadOptions
+---@return  lt.SchematicSpec
 function core.read_schematic(schematic, options) end

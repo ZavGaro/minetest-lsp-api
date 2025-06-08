@@ -2,13 +2,13 @@
 ---Tile definition
 ------------------
 
--- Can be a name (string) or `mt.TileTableDef`.
----@alias mt.TileDef mt.TileTableDef|string
+-- Can be a name (string) or `lt.TileTableDef`.
+---@alias lt.TileDef lt.TileTableDef|string
 
 -- Tile definition.
----@class mt.TileTableDef
+---@class lt.TileTableDef
 ---@field name string|nil
----@field animation mt.TileAnimDef|nil
+---@field animation lt.TileAnimDef|nil
 -- Backface culling enabled by default for most nodes.
 ---@field backface_culling boolean|nil
 -- Align style determines whether the texture will be rotated with the node
@@ -24,11 +24,11 @@
 ---@field scale integer|nil
 -- * The texture's color will be multiplied with this color.
 -- * The tile's color overrides the owning node's color in all cases.
----@field color mt.ColorSpec|nil
+---@field color lt.ColorSpec|nil
 ---@field image string|nil Deprecated synonym for field `name`.
 
 -- Tile animation definition.
----@class mt.TileAnimDef
+---@class lt.TileAnimDef
 ---@field type "vertical_frames"|"sheet_2d"|nil
 ---@field aspect_w number|nil Width of a frame in pixels ("vertical_frames").
 ---@field aspect_h number|nil Height of a frame in pixels ("vertical_frames").

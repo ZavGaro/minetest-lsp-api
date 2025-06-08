@@ -2,7 +2,7 @@
 ---HTTP Requests
 ----------------
 
----@class mt.HTTPRequest
+---@class lt.HTTPRequest
 local request = {}
 
 ---@type string
@@ -42,7 +42,7 @@ request.extra_headers = nil
 ---@type boolean
 request.multipart = nil
 
----@class mt.HTTPRequestResult
+---@class lt.HTTPRequestResult
 local result = {}
 
 -- If true, the request has finished (either succeeded, failed or timed out).
@@ -65,25 +65,25 @@ result.code = nil
 ---@type string
 result.data = nil
 
----@class mt.HTTPApiTable
+---@class lt.HTTPApiTable
 local api = {}
 
 -- Performs given request asynchronously and calls callback upon completion.
 --
 -- Use this HTTP function if you are unsure, the others are for advanced use.
----@param req mt.HTTPRequest
----@param callback fun(res: mt.HTTPRequestResult)
+---@param req lt.HTTPRequest
+---@param callback fun(res: lt.HTTPRequestResult)
 function api.fetch(req, callback) end
 
 -- Performs given request asynchronously
 -- and returns handle for `HTTPApiTable.fetch_async_get`.
----@param req mt.HTTPRequest
+---@param req lt.HTTPRequest
 ---@return any
 function api.fetch_async(req) end
 
 -- Return response data for given asynchronous HTTP request.
 ---@param handle any
----@return mt.HTTPRequestResult
+---@return lt.HTTPRequestResult
 function api.fetch_async_get(handle) end
 
 -- Returns `HTTPApiTable` containing http functions if the calling mod has been
@@ -95,5 +95,5 @@ function api.fetch_async_get(handle) end
 -- Function only exists if minetest server was built with cURL support.
 --
 -- **DO NOT ALLOW ANY OTHER MODS TO ACCESS THE RETURNED TABLE, STORE IT IN A LOCAL VARIABLE!**
----@return mt.HTTPApiTable
+---@return lt.HTTPApiTable
 function core.request_http_api() end

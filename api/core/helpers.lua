@@ -18,8 +18,8 @@ function dump2(obj, name, dumped) end
 
 -- Get the hypotenuse of a triangle with legs x and y. Useful for distance
 -- calculation.
----@param x mt.Vector
----@param y mt.Vector
+---@param x lt.Vector
+---@param y lt.Vector
 ---@return number
 function math.hypot(x, y) end
 
@@ -69,7 +69,7 @@ function string.trim(str) end
 function core.wrap_text(str, limit, as_table) end
 
 -- Convert a vector to human-readable string `"(X,Y,Z)"`.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param decimal_places number|nil If specified, the x, y and z values of the position are rounded to the given decimal place.
 ---@return string
 function core.pos_to_string(pos, decimal_places) end
@@ -77,7 +77,7 @@ function core.pos_to_string(pos, decimal_places) end
 -- Convert a string like `"(X,Y,Z)"` to a vector.
 --
 -- If string can't be parsed to a position, nothing is returned.
----@return mt.Vector|nil
+---@return lt.Vector|nil
 function core.string_to_pos(string) end
 
 --[[
@@ -92,8 +92,8 @@ Convert a string like `"(X1, Y1, Z1) (X2, Y2, Z2)"` to two vectors - box angles.
   returns `{x=1,y=2,z=3}, {x=15,y=5,z=10}`.
 ]]
 ---@param str string
----@param relative_to mt.Vector|nil
----@return mt.Vector, mt.Vector
+---@param relative_to lt.Vector|nil
+---@return lt.Vector, lt.Vector
 function core.string_to_area(str, relative_to) end
 
 -- Escapes the characters `"["`, `"]"`, `"\"`, `","` and `";"`,
@@ -174,9 +174,9 @@ function table.key_value_swap(t) end
 function table.shuffle(table, from, to, random_func) end
 
 -- Returns the exact position on the surface of a pointed node.
----@param placer mt.ObjectRef
----@param pointed_thing mt.PointedThing
----@return mt.Vector position
+---@param placer lt.ObjectRef
+---@param pointed_thing lt.PointedThing
+---@return lt.Vector position
 function core.pointed_thing_to_face_pos(placer, pointed_thing) end
 
 --[[
@@ -190,13 +190,13 @@ after `uses` times of uses.
 function core.get_tool_wear_after_use(uses, initial_wear) end
 
 -- Simulates an item that digs a node.
----@param groups mt.ObjectGroups
----@param tool_capabilities mt.ToolCaps
+---@param groups lt.ObjectGroups
+---@param tool_capabilities lt.ToolCaps
 ---@param wear number|nil Amount of wear the tool starts with (default: `0`).
----@return mt.DigParams
+---@return lt.DigParams
 function core.get_dig_params(groups, tool_capabilities, wear) end
 
----@class mt.DigParams
+---@class lt.DigParams
 ---@field diggable boolean `true` if node can be dug, `false` otherwise.
 ---@field time number|nil Time it would take to dig the node.
 -- How much wear would be added to the tool (ignored for non-tools).
@@ -223,16 +223,16 @@ You can read the rating of a group for an item or a node by using
 
     core.get_item_group(itemname, groupname)
 ]]
----@alias mt.ObjectGroups table<string, number>
+---@alias lt.ObjectGroups table<string, number>
 
 -- Simulates an item that punches an object.
----@param groups mt.ObjectGroups
----@param tool_caps mt.ToolCaps
+---@param groups lt.ObjectGroups
+---@param tool_caps lt.ToolCaps
 ---@param last_punch_time number|nil Time in seconds since last punch action.
 ---@param wear number|nil Amount of wear the item starts with (default: `0`).
----@return mt.HitParams
+---@return lt.HitParams
 function core.get_hit_params(groups, tool_caps, last_punch_time, wear) end
 
----@class mt.HitParams
+---@class lt.HitParams
 ---@field hp number
 ---@field wear number

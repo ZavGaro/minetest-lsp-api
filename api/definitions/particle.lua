@@ -3,11 +3,11 @@
 ----------------------
 
 -- Used by `core.add_particle`.
----@class mt.ParticleDef
----@field pos mt.Vector
----@field velocity mt.Vector
+---@class lt.ParticleDef
+---@field pos lt.Vector
+---@field velocity lt.Vector
 -- Spawn particle at pos with velocity and acceleration.
----@field acceleration mt.Vector
+---@field acceleration lt.Vector
 -- Disappears after expirationtime seconds.
 ---@field expirationtime number
 -- * Scales the visual size of the particle texture.
@@ -31,14 +31,14 @@
 -- Optional, if specified spawns particle only on the player's client.
 ---@field playername string|nil
 -- Optional, specifies how to animate the particle texture.
----@field animation mt.TileAnimDef|nil
+---@field animation lt.TileAnimDef|nil
 -- * Optional, specify particle self-luminescence in darkness.
 -- * Values: `0..14`.
 ---@field glow number|nil
 -- * Optional, if specified the particle will have the same appearance as
 --   node dig particles for the given node.
 -- * `texture` and `animation` will be ignored if this is set.
----@field node mt.Node|nil
+---@field node lt.Node|nil
 -- * Optional, only valid in combination with `node`
 --   If set to a valid number 1-6, specifies the tile from which the
 --   particle texture is picked.
@@ -54,19 +54,19 @@
 -- Applies to: pos, velocity, acceleration, expirationtime, size.
 -- If `node` is set, min and maxsize can be set to 0 to spawn
 -- randomly-sized particles (just like actual node dig particles).
----@class mt.ParticleSpawnerDef
+---@class lt.ParticleSpawnerDef
 -- Number of particles spawned over the time period `time`.
 ---@field amount number
 -- Lifespan of spawner in seconds.
 -- If time is 0 spawner has infinite lifespan and spawns the `amount` on
 -- a per-second basis.
 ---@field time number
----@field minpos mt.Vector
----@field maxpos mt.Vector
----@field minvel mt.Vector
----@field maxvel mt.Vector
----@field minacc mt.Vector
----@field maxacc mt.Vector
+---@field minpos lt.Vector
+---@field maxpos lt.Vector
+---@field minvel lt.Vector
+---@field maxvel lt.Vector
+---@field minacc lt.Vector
+---@field maxacc lt.Vector
 ---@field minexptime number
 ---@field maxexptime number
 ---@field minsize number
@@ -83,7 +83,7 @@
 ---@field object_collision boolean
 -- If defined, particle positions, velocities and accelerations are
 -- relative to this object's position and yaw.
----@field attached mt.ObjectRef
+---@field attached lt.ObjectRef
 -- If true face player using y axis only.
 ---@field vertical boolean
 -- The texture of the particle.
@@ -91,21 +91,21 @@
 -- Optional, if specified spawns particles only on the player's client.
 ---@field playername string|nil
 -- Optional, specifies how to animate the particles' texture.
----@field animation mt.TileAnimDef|nil
+---@field animation lt.TileAnimDef|nil
 -- * Optional, specify particle self-luminescence in darkness.
 -- * Values: `0..14`.
 ---@field glow number|nil
 -- Optional, if specified the particles will have the same appearance as
 -- node dig particles for the given node.
 -- `texture` and `animation` will be ignored if this is set.
----@field node mt.Node|nil
+---@field node lt.Node|nil
 -- * Optional, only valid in combination with `node`.
 -- * If set to a valid number 1-6, specifies the tile from which the
 --   particle texture is picked.
 -- * Otherwise, the default behavior is used (currently: any random tile).
 ---@field node_tile number|nil
 
----@class mt.ParticleTexture
+---@class lt.ParticleTexture
 --- the texture specification string
 ---@field name string
 --- controls how visible the particle is; at 1.0 the particle is fully
@@ -156,4 +156,4 @@
 ---|"sub"
 --- overrides the particlespawner's global animation property for a single
 --- specific texture
----@field animation mt.TileAnimDef
+---@field animation lt.TileAnimDef

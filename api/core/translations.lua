@@ -15,7 +15,7 @@
 --- S(str, ...)
 --- ```
 ---@param textdomain string
----@return mt.Translator, mt.Translator
+---@return lt.Translator, lt.Translator
 ---@nodiscard
 function core.get_translator(textdomain) end
 
@@ -68,7 +68,7 @@ function core.get_translator(textdomain) end
 -- 
 -- and CoolGuy has set a German locale, they will see `Hallo CoolGuy, wie geht es
 -- dir heute?`
----@alias mt.Translator fun(...: string): string
+---@alias lt.Translator fun(...: string): string
 
 --- Translates the string `str` with
 --- the given `textdomain` for disambiguation. The textdomain must match the
@@ -107,7 +107,7 @@ function core.translate(textdomain, str, ...) end
 ---@nodiscard
 function core.translate_n(textdomain, str, str_plural, n, ...) end
 
----@alias mt.LangCode
+---@alias lt.LangCode
 ---| "be"
 ---| "bg"
 ---| "ca"
@@ -172,7 +172,7 @@ IMPORTANT: This functionality should only be used for sorting, filtering or
 similar purposes. You do not need to use this to get translated strings to show
 up on the client.
 ]]
----@param lang_code mt.LangCode
+---@param lang_code lt.LangCode
 ---@param string string
 ---@return string
 ---@nodiscard

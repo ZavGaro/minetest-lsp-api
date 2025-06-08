@@ -3,7 +3,7 @@
 -------------
 
 -- An interface to use mod channels on client and server.
----@class mt.ModChannel
+---@class lt.ModChannel
 local ModChannel
 
 -- - Server leaves channel `channel_name`.
@@ -29,5 +29,5 @@ function ModChannel:send_all(message) end
 -- You should listen for incoming messages with
 -- `core.register_on_modchannel_message`.
 ---@param channel_name string
----@return mt.ModChannel
+---@return lt.ModChannel
 function core.mod_channel_join(channel_name) end

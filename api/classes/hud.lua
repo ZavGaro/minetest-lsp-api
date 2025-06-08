@@ -2,13 +2,13 @@
 ---HUD element types
 --------------------
 
----@alias mt.HUDDirection
+---@alias lt.HUDDirection
 ---|0 from left to right
 ---|1 from right to left
 ---|2 from top to bottom
 ---|3 from bottom to top
 
----@class mt.HUDProto
+---@class lt.HUDProto
 -- The `position` field is used for all element types.
 --
 -- To account for differing resolutions, the position coordinates are the
@@ -16,17 +16,17 @@
 --
 -- The name field is not yet used, but should contain a description of what the
 -- HUD element represents.
----@field position mt.Vector
+---@field position lt.Vector
 -- The `offset` field specifies a pixel offset from the position. Contrary to
 -- position, the offset is not scaled to screen size. This allows for some
 -- precisely positioned items in the HUD.
 --
 -- **Note**: `offset` _will_ adapt to screen DPI as well as user defined scaling
 -- factor!
----@field offset mt.Vector
+---@field offset lt.Vector
 
 -- Displays an image on the HUD.
----@class mt.HUDImage:mt.HUDProto
+---@class lt.HUDImage:lt.HUDProto
 -- * The scale of the image, with `{x = 1, y = 1}` being the original texture size.
 -- * The `x` and `y` fields apply to the respective axes.
 -- * Positive values scale the source image.
@@ -35,22 +35,22 @@
 --   and 3 times as high as the source image is.
 ---@field scale number
 ---@field text string The name of the texture that is displayed.
----@field alignment mt.Vector The alignment of the image.
+---@field alignment lt.Vector The alignment of the image.
 
 -- Displays text on the HUD.
----@class mt.HUDText:mt.HUDProto
----@field scale mt.Vector Defines the bounding rectangle of the text.
+---@class lt.HUDText:lt.HUDProto
+---@field scale lt.Vector Defines the bounding rectangle of the text.
 -- The text to be displayed in the HUD element.
 -- Supports `core.translate` (always)
 -- and `core.colorize` (since protocol version 44)
 ---@field text string
----@field number mt.ColorInteger Color used to draw the text.
----@field alignment mt.Vector The alignment of the text.
+---@field number lt.ColorInteger Color used to draw the text.
+---@field alignment lt.Vector The alignment of the text.
 -- The player-set font size is multiplied by size.x (y value isn't used).
----@field size mt.Vector
+---@field size lt.Vector
 
 -- Displays a horizontal bar made up of half-images with an optional background.
----@class mt.HUDStatBar:mt.HUDProto
+---@class lt.HUDStatBar:lt.HUDProto
 ---@field text string The name of the texture to use.
 -- Optional texture name to enable a background / "off state"
 -- texture (useful to visualize the maximal value). Both textures
@@ -60,24 +60,24 @@
 -- If odd, will end with a vertically center-split texture.
 ---@field number number
 ---@field item number Same as `number` but for the "off state" texture.
----@field direction mt.HUDDirection To which direction the images will extend to.
+---@field direction lt.HUDDirection To which direction the images will extend to.
 -- If used, will force full-image size to this value
 -- (override texture pack image size)
----@field size mt.Vector|nil
+---@field size lt.Vector|nil
 
----@class mt.HUDInventory:mt.HUDProto
+---@class lt.HUDInventory:lt.HUDProto
 ---@field text string The name of the inventory list to be displayed.
 ---@field number number Number of items in the inventory to be displayed.
 ---@field item number Position of item that is selected.
----@field direction mt.HUDDirection
----@field alignment mt.Vector The alignment of the inventory. Aligned at the top left corner if not specified.
+---@field direction lt.HUDDirection
+---@field alignment lt.Vector The alignment of the inventory. Aligned at the top left corner if not specified.
 
----@class mt.HUDHotBar:mt.HUDProto
----@field direction mt.HUDDirection Direction the list will be displayed in
----@field alignment mt.Vector The alignment of the inventory. Aligned at the top left corner if not specified.
+---@class lt.HUDHotBar:lt.HUDProto
+---@field direction lt.HUDDirection Direction the list will be displayed in
+---@field alignment lt.Vector The alignment of the inventory. Aligned at the top left corner if not specified.
 
 -- Displays distance to selected world position.
----@class mt.HUDWaypoint:mt.HUDProto
+---@class lt.HUDWaypoint:lt.HUDProto
 ---@field name string The name of the waypoint.
 ---@field text string Distance suffix. Can be blank.
 -- * Waypoint precision, integer >= 0.
@@ -91,33 +91,33 @@
 -- * `precision = 5` will show multiples of `0.2` and so on:
 -- * `precision = n` will show multiples of `1/n`.
 ---@field precision integer
----@field number mt.ColorInteger Color used to draw the text.
----@field world_pos mt.Vector World position of the waypoint.
----@field alignment mt.Vector The alignment of the waypoint.
+---@field number lt.ColorInteger Color used to draw the text.
+---@field world_pos lt.Vector World position of the waypoint.
+---@field alignment lt.Vector The alignment of the waypoint.
 
--- Same as `mt.HUDWaypoint`, but does not accept a `position`;
+-- Same as `lt.HUDWaypoint`, but does not accept a `position`;
 -- the position is instead determined by `world_pos`,
 -- the world position of the waypoint.
----@class mt.HUDImageWaypoint:mt.HUDProto
+---@class lt.HUDImageWaypoint:lt.HUDProto
 -- * The scale of the image, with `{x = 1, y = 1}` being the original texture size.
 -- * The `x` and `y` fields apply to the respective axes.
 -- * Positive values scale the source image.
 -- * Negative values represent percentages relative to screen dimensions.
 -- * Example: `{x = -20, y = 3}` means the image will be drawn 20% of screen width wide,
 --   and 3 times as high as the source image is.
----@field scale mt.Vector
+---@field scale lt.Vector
 ---@field text string The name of the texture that is displayed.
----@field alignment mt.Vector The alignment of the image.
----@field world_pos mt.Vector World position of the waypoint.
+---@field alignment lt.Vector The alignment of the image.
+---@field world_pos lt.Vector World position of the waypoint.
 
 -- Displays an image oriented or translated according to current heading direction.
----@class mt.HUDCompass:mt.HUDProto
+---@class lt.HUDCompass:lt.HUDProto
 -- The size of this element. Negative values represent percentage
 -- of the screen; e.g. `x=-100` means 100% (width).
----@field size mt.Vector
+---@field size lt.Vector
 ---@field scale number Scale of the translated image (used only for dir = 2 or dir = 3).
 ---@field text string The name of the texture to use.
----@field alignment mt.Vector The alignment of the image.
+---@field alignment lt.Vector The alignment of the image.
 -- How the image is rotated/translated:
 --
 -- * 0 - Rotate as heading direction
@@ -128,14 +128,14 @@
 ---@field dir integer
 
 -- Displays a minimap on the HUD.
----@class mt.HudMinimap:mt.HUDProto
+---@class lt.HudMinimap:lt.HUDProto
 -- Size of the minimap to display. Minimap should be a square to avoid distortion.
 -- * Negative values represent percentages of the screen. If either `x` or `y`
 --   is specified as a percentage, the resulting pixel size will be used for
 --   both `x` and `y`. Example: On a 1920x1080 screen, `{x = 0, y = -25}` will
 --   result in a 270x270 minimap.
 -- * Negative values are supported starting with protocol version 45.
----@field size mt.Vector
----@field alignment mt.Vector The alignment of the minimap.
+---@field size lt.Vector
+---@field alignment lt.Vector The alignment of the minimap.
 
----@alias mt.HUDElement mt.HudMinimap|mt.HUDWaypoint|mt.HUDInventory|mt.HUDCompass|mt.HUDStatBar|mt.HUDText|mt.HUDImageWaypoint|mt.HUDImage|mt.HUDFlags
+---@alias lt.HUDElement lt.HudMinimap|lt.HUDWaypoint|lt.HUDInventory|lt.HUDCompass|lt.HUDStatBar|lt.HUDText|lt.HUDImageWaypoint|lt.HUDImage|lt.HUDFlags

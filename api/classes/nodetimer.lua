@@ -4,7 +4,7 @@
 
 -- Node Timers: a high resolution persistent per-node timer. Can be gotten via
 -- `core.get_node_timer(pos)`.
----@class mt.NodeTimerRef
+---@class lt.NodeTimerRef
 local NodeTimerRef
 
 -- - Set a timer's state.

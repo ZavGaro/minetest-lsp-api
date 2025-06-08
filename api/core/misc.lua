@@ -7,19 +7,19 @@
 ---Returns reference to mod private `StorageRef`.
 ---
 ---Must be called during mod load time.
----@return mt.StorageRef
+---@return lt.StorageRef
 function core.get_mod_storage() end
 
 ---Misc
 -------
 
 ---Returns list of `ObjectRefs`.
----@return mt.PlayerObjectRef[]
+---@return lt.PlayerObjectRef[]
 ---@nodiscard
 function core.get_connected_players() end
 
 ---Returns whether `obj` is a player
----@param obj mt.ObjectRef
+---@param obj lt.ObjectRef
 ---@return boolean
 ---@nodiscard
 function core.is_player(obj) end
@@ -32,7 +32,7 @@ function core.player_exists(name) end
 
 ---Replaces definition of a builtin hud element.
 ---@param name 'breath'|'health'|'minimap'
----@param hud_definition mt.HUDDef
+---@param hud_definition lt.HUDDef
 function core.hud_replace_builtin(name, hud_definition) end
 
 ---This function can be overridden by mods to change the join message.
@@ -47,14 +47,14 @@ function core.send_leave_message(player_name, timed_out) end
 ---Returns an 48-bit integer.
 ---
 ---Gives a unique hash number for a node position (16+16+16=48bit).
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@return integer
 ---@nodiscard
 function core.hash_node_position(pos) end
 
 ---Inverse transform of `core.hash_node_position`.
 ---@param hash integer
----@return mt.Vector
+---@return lt.Vector
 ---@nodiscard
 function core.get_position_from_hash(hash) end
 
@@ -167,7 +167,7 @@ function core.decompress(compressed_data, method, ...) end
 ---@param green integer
 ---@param blue integer
 ---@param alpha? integer
----@return mt.ColorString
+---@return lt.ColorString
 ---@nodiscard
 function core.rgba(red, green, blue, alpha) end
 
@@ -204,14 +204,14 @@ function core.decode_base64(string) end
 ---    return old_is_protected(pos, name)
 ---end
 ---```
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param name string
 ---@return boolean
 ---@nodiscard
 function core.is_protected(pos, name) end
 
 ---This function calls functions registered with `core.register_on_protection_violation`.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param name string
 function core.record_protection_violation(pos, name) end
 
@@ -237,11 +237,11 @@ function core.is_creative_enabled(name) end
 ---All corners and edges of the defined volume are checked.
 ---
 ---Like `core.is_protected`, this function may be extended or overwritten by mods to provide a faster implementation to check the cuboid for intersections.
----@param pos1 mt.Vector
----@param pos2 mt.Vector
+---@param pos1 lt.Vector
+---@param pos2 lt.Vector
 ---@param player_name string
 ---@param interval integer Should be carefully chosen and maximized to avoid an excessive number of points being checked, default: 4
----@return mt.Vector|false
+---@return lt.Vector|false
 ---@nodiscard
 function core.is_area_protected(pos1, pos2, player_name, interval) end
 
@@ -258,13 +258,13 @@ function core.is_area_protected(pos1, pos2, player_name, interval) end
 ---* `prevent_after_place` is directly passed to `core.item_place_node`
 ---
 ---Returns the new itemstack after placement.
----@param itemstack mt.Item
----@param placer? mt.ObjectRef
----@param pointed_thing mt.PointedThing
+---@param itemstack lt.Item
+---@param placer? lt.ObjectRef
+---@param pointed_thing lt.PointedThing
 ---@param infinitestacks boolean|nil
 ---@param orient_flags {invert_wall: boolean|nil, force_wall: boolean|nil, force_ceiling: boolean|nil, force_floor: boolean|nil, force_facedir: boolean|nil}
 ---@param prevent_after_place boolean|nil
----@return mt.ItemStack
+---@return lt.ItemStack
 ---@nodiscard
 function core.rotate_and_place(
   itemstack,
@@ -277,9 +277,9 @@ function core.rotate_and_place(
 end
 
 ---Calls `rotate_and_place()` with `infinitestacks` set according to the state of the creative mode setting, checks for "sneak" to set the `invert_wall` parameter and `prevent_after_place` set to `true`.
----@param itemstack mt.Item
----@param placer mt.ObjectRef
----@param pointed_thing mt.PointedThing
+---@param itemstack lt.Item
+---@param placer lt.ObjectRef
+---@param pointed_thing lt.PointedThing
 function core.rotate_node(itemstack, placer, pointed_thing) end
 
 ---Returns the amount of knockback applied on the punched player.
@@ -289,11 +289,11 @@ function core.rotate_node(itemstack, placer, pointed_thing) end
 ---
 ---This function can be overridden by mods that wish to modify this behavior.
 ---You may want to cache and call the old function to allow multiple mods to change knockback behavior.
----@param player mt.ObjectRef
----@param hitter? mt.ObjectRef
+---@param player lt.ObjectRef
+---@param hitter? lt.ObjectRef
 ---@param time_from_last_punch number
----@param tool_capabilities mt.ToolCaps
----@param dir mt.Vector
+---@param tool_capabilities lt.ToolCaps
+---@param dir lt.Vector
 ---@param distance number
 ---@param damage number
 ---@return number
@@ -320,7 +320,7 @@ end
 ---forceloaded at once. If `limit` is negative, there is no limit. If it is
 ---absent, the limit is the value of the setting `"max_forceloaded_blocks"`.
 ---If the call would put the number of blocks over the limit, the call fails.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param transient? boolean
 ---@param limit? number
 function core.forceload_block(pos, transient, limit) end
@@ -329,7 +329,7 @@ function core.forceload_block(pos, transient, limit) end
 ---
 ---If `transient` is `false` or absent, frees a persistent forceload.
 ---If `true`, frees a transient forceload.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param transient? boolean
 function core.forceload_free_block(pos, transient) end
 
@@ -346,7 +346,7 @@ function core.forceload_free_block(pos, transient) end
 ---* `false`: Mapblock does not fulfil the wanted condition
 ---* `true`: Mapblock meets the requirement
 ---* `nil`: Unsupported `condition` value
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param condition '"unknown"'|'"emerging"'|'"loaded"'|'"active"'
 ---@return boolean|nil
 ---@nodiscard

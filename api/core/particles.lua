@@ -2,10 +2,10 @@
 ---Particles
 ------------
 
----@param particle mt.ParticleDef
+---@param particle lt.ParticleDef
 function core.add_particle(particle) end
 
----@param particlespawner mt.ParticleSpawnerDef
+---@param particlespawner lt.ParticleSpawnerDef
 ---@return number id
 function core.add_particlespawner(particlespawner) end
 

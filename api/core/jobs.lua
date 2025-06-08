@@ -3,7 +3,7 @@
 ---------
 
 -- Returned by `core.after`.
----@class mt.Job
+---@class lt.Job
 local job = {}
 
 -- Cancels the job function from being called.
@@ -16,7 +16,7 @@ function job:cancel() end
 ---@param time number
 ---@param func function
 ---@param ... unknown Arguments that will be passed to `func`.
----@return mt.Job
+---@return lt.Job
 function core.after(time, func, ...) end
 
 ---Async environment
@@ -91,5 +91,5 @@ function core.register_async_dofile(path) end
 ---You must register the metatable in both the main environment
 ---and the async environment for this mechanism to work.
 ---@param name string string that identifies the metatable. It is recommended to follow the `modname:name` convention for this identifier.
----@param mt mt.MetaDataRef metatable to register.
+---@param mt lt.MetaDataRef metatable to register.
 function core.register_portable_metatable(name, mt) end

@@ -4,35 +4,35 @@
 
 ---A **set** of privileges:
 ---a table where the keys are names of privileges and the values are `true`.
----@alias mt.PrivsSet { [string]: boolean|nil }
+---@alias lt.PrivsSet { [string]: boolean|nil }
 
 ---Converts string representation of privs into table form
 ---@param str string String to convert.
 ---@param delim? string String separating the privs. Defaults to `","`.
----@return mt.PrivsSet # `{ priv1 = true, ... }`
+---@return lt.PrivsSet # `{ priv1 = true, ... }`
 function core.string_to_privs(str, delim) end
 
 ---Returns the string representation of `privs`
----@param privs mt.PrivsSet `{ priv1 = true, ... }`
+---@param privs lt.PrivsSet `{ priv1 = true, ... }`
 ---@param delim? string String to delimit privs. Defaults to `","`.
 ---@return string
 function core.privs_to_string(privs, delim) end
 
 ---@param name string
----@return mt.PrivsSet # `{ priv1 = true, ... }`
+---@return lt.PrivsSet # `{ priv1 = true, ... }`
 ---Calls the authentication handler.
----@see mt.AuthHandlerDef
+---@see lt.AuthHandlerDef
 function core.get_player_privs(name) end
 
 ---A quickhand for checking privileges.
 ---`player_or_name`: Either a Player object or the name of a player.
 ---`...` is either a list of strings, e.g. `"priva", "privb"` or
 ---a table, e.g. `{ priva = true, privb = true }`.
----@param player_or_name mt.PlayerObjectRef|string
+---@param player_or_name lt.PlayerObjectRef|string
 ---@param ... string
 ---@return boolean
 ---@return string[]?
----@overload fun(player_or_name: mt.PlayerObjectRef|string, privs: mt.PrivsSet): boolean?, string[]?
+---@overload fun(player_or_name: lt.PlayerObjectRef|string, privs: lt.PrivsSet): boolean?, string[]?
 function core.check_player_privs(player_or_name, ...) end
 
 ---Returns true if the "password entry" for a player with name matches given
@@ -64,7 +64,7 @@ function core.get_password_hash(name, raw_password) end
 ---The player needs to be online for this to be successful.
 function core.get_player_ip(name) end
 
----@return mt.AuthHandlerDef # currently active auth handler
+---@return lt.AuthHandlerDef # currently active auth handler
 ---* Must be called *after* load time, to ensure that any custom auth handler was
 ---  already registered.
 ---* Use this to e.g. get the authentication data for a player:
@@ -73,14 +73,14 @@ function core.get_auth_handler() end
 
 ---@param name string; if omitted, all auth data should be considered modified
 ---Must be called by the authentication handler for privilege changes.
----@see mt.AuthHandlerDef
+---@see lt.AuthHandlerDef
 function core.notify_authentication_modified(name) end
 
 ---Set password hash of player `name`.
 ---@param name string
 ---@param password_hash string
 ---Calls the authentication handler.
----@see mt.AuthHandlerDef
+---@see lt.AuthHandlerDef
 function core.set_player_password(name, password_hash) end
 
 ---Set privileges of player `name`.
@@ -89,9 +89,9 @@ function core.set_player_password(name, password_hash) end
 ---This **sets** the player privileges to `interact` and `fly`;
 ---`singleplayer` will only have these two privileges afterwards.
 ---@param name string
----@param privs mt.PrivsSet a **set** of privileges
+---@param privs lt.PrivsSet a **set** of privileges
 ---Calls the authentication handler.
----@see mt.AuthHandlerDef
+---@see lt.AuthHandlerDef
 function core.set_player_privs(name, privs) end
 
 ---Helper to grant or revoke privileges.
@@ -106,5 +106,5 @@ function core.change_player_privs(name, changes) end
 
 ---* See `reload()` in authentication handler definition
 ---Calls the authentication handler.
----@see mt.AuthHandlerDef
+---@see lt.AuthHandlerDef
 function core.auth_reload() end

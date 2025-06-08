@@ -3,7 +3,7 @@
 --------------------------
 
 -- Used by `core.register_chatcommand`.
----@class mt.ChatCmdDef
+---@class lt.ChatCmdDef
 -- Short parameter description.
 --
 -- Use of symbols is as follows:

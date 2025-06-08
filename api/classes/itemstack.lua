@@ -15,12 +15,12 @@
 ---  as stack metadata can be serialized in arbitrary order.
 ---* Note: if `stack2` is an itemstring or table representation of an
 ---  ItemStack, this will always return false, even if it is "equivalent".
----@class mt.ItemStack
+---@class lt.ItemStack
 local ItemStackObject = {}
 
 ---`ItemStack` constructor.
----@param x mt.Item
----@return mt.ItemStack
+---@param x lt.Item
+---@return lt.ItemStack
 function ItemStack(x) end
 
 ---Defines the coloring of the bar that appears under damaged tools.
@@ -38,7 +38,7 @@ function ItemStack(x) end
 ---    }
 ---}
 ---```
----@class mt.WearBarColor
+---@class lt.WearBarColor
 ---@field blend
 ---|"linear" blends smoothly between each defined color point
 ---|"constant" each color starts at its defined point, and continues up to the next point
@@ -46,7 +46,7 @@ function ItemStack(x) end
 ---Specified as `ColorSpec` color values assigned to `float` durability keys.
 ---
 ---"Durability" is defined as `1 - (wear / 65535)`.
----@field color_stops table<number, mt.ColorSpec>
+---@field color_stops table<number, lt.ColorSpec>
 
 ---Returns `true` if stack is empty.
 ---@return boolean
@@ -140,12 +140,12 @@ function ItemStackObject:get_free_space() end
 function ItemStackObject:is_known() end
 
 ---Returns the item definition table.
----@return mt.ItemDef
+---@return lt.ItemDef
 function ItemStackObject:get_definition() end
 
 ---Returns the digging properties of the item, or those of the hand if none are
 ---defined for this item type.
----@return mt.ToolCaps
+---@return lt.ToolCaps
 function ItemStackObject:get_tool_capabilities() end
 
 ---Increases wear by `amount` if the item is a tool, otherwise does nothing
@@ -158,37 +158,37 @@ function ItemStackObject:add_wear(amount) end
 ---@param max_uses integer 0..65536
 function ItemStackObject:add_wear_by_uses(max_uses) end
 
----@return mt.WearBarColor wear bar parameters of the item, or nil if none are defined for this item type or in the stack's meta
+---@return lt.WearBarColor wear bar parameters of the item, or nil if none are defined for this item type or in the stack's meta
 function ItemStackObject:get_wear_bar_params() end
 
 ---Overrides the item's wear bar parameters
 ---
 ---A nil value will clear the override data and restore the original
 ---behavior.
----@param wear_bar_params? mt.WearBarColor
+---@param wear_bar_params? lt.WearBarColor
 function set_wear_bar_params(wear_bar_params) end
 
 ---* Returns leftover `ItemStack`.
 ---* Put some item or stack onto this stack.
----@param item mt.Item
----@return mt.ItemStack leftover
+---@param item lt.Item
+---@return lt.ItemStack leftover
 function ItemStackObject:add_item(item) end
 
 ---Returns `true` if item or stack can be fully added to this one.
----@param item mt.Item
+---@param item lt.Item
 ---@return boolean
 function ItemStackObject:item_fits(item) end
 
 ---* Returns taken `ItemStack`.
 ---* Take (and remove) up to `n` items from this stack.
 ---@param n number|nil Default: `1`.
----@return mt.ItemStack taken
+---@return lt.ItemStack taken
 function ItemStackObject:take_item(n) end
 
 ---* Returns taken `ItemStack`.
 ---* Copy (don't remove) up to `n` items from this stack.
 ---@param n number|nil Default: `1`.
----@return mt.ItemStack taken
+---@return lt.ItemStack taken
 function ItemStackObject:peek_item(n) end
 
 ---* Returns `true` if this stack is identical to `other`.
@@ -197,8 +197,8 @@ function ItemStackObject:peek_item(n) end
 ---* Note: if `other` is an itemstring or table representation of an
 ---  ItemStack, this will always return false, even if it is
 ---  "equivalent".
----@param other mt.Item
+---@param other lt.Item
 function ItemStackObject:equals(other) end
 
----@return mt.ItemStackMetaRef
+---@return lt.ItemStackMetaRef
 function ItemStackObject:get_meta() end

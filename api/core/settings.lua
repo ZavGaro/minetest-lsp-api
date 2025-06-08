@@ -4,11 +4,11 @@
 
 -- Returns a `Settings` object.
 ---@param filename string
----@return mt.Settings
+---@return lt.Settings
 function Settings(filename) end
 
 -- The settings have the format `key = value`.
----@class mt.Settings
+---@class lt.Settings
 local settings = {}
 
 -- Returns a value.
@@ -27,7 +27,7 @@ function settings:get_bool(key, default) end
 
 -- Returns a `NoiseParams` table.
 ---@param key string
----@return mt.NoiseParams
+---@return lt.NoiseParams
 function settings:get_np_group(key) end
 
 -- * Returns `{flag = true/false, ...}` according to the set flags.
@@ -39,7 +39,7 @@ function settings:get_flags(key) end
 --- * Returns a `vector`
 --- * Returns `nil` if no value is found or parsing failed.
 ---@param key string
----@return mt.Vector?
+---@return lt.Vector?
 function settings:get_pos(key)end
 
 -- * Setting names can't contain whitespace or any of `="{}#`.
@@ -56,11 +56,11 @@ function settings:set_bool(key, value) end
 
 -- Set a `NoiseParams` table.
 ---@param key string
----@param value mt.NoiseParams
+---@param value lt.NoiseParams
 function settings:set_np_group(key, value) end
 
 ---@param key string
----@param value mt.Vector
+---@param value lt.Vector
 function settings:set_pos(key, value) end
 
 -- Returns a boolean (`true` for success).
@@ -83,12 +83,12 @@ function settings:write() end
 function settings:to_table() end
 
 -- Settings object containing all of the settings from the main config file (`core.conf`).
----@type mt.Settings
+---@type lt.Settings
 core.settings = {}
 
 -- Loads a setting from the main settings and parses it as a position (in the format `(1,2,3)`).
 --
 -- Returns a position or `nil`.
 ---@param name string
----@return mt.Vector?
+---@return lt.Vector?
 function core.setting_get_pos(name) end

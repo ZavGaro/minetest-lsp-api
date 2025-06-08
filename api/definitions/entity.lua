@@ -10,15 +10,15 @@
 --
 -- You can define arbitrary member variables here by using a '_' prefix:
 --
--- `_custom_field = whatever:mt.ItemDef`.
----@class mt.EntityDef
+-- `_custom_field = whatever:lt.ItemDef`.
+---@class lt.EntityDef
 -- * A table of object properties.
 -- * Object properties being read directly from the entity definition
 --   table is deprecated.
 -- * Define object properties in this `initial_properties` table instead.
----@field initial_properties mt.ObjectProp
+---@field initial_properties lt.ObjectProp
 ---@field name string Registered name `("mod:thing")`.
----@field object mt.ObjectRef
+---@field object lt.ObjectRef
 local entity = {}
 
 ---@param staticdata string
@@ -36,7 +36,7 @@ function entity:on_deactivate(removal) end
 
 -- Called every server step.
 ---@param dtime number Elapsed time.
----@param moveresult mt.CollisionInfo|nil Only available if `physical` == `true`.
+---@param moveresult lt.CollisionInfo|nil Only available if `physical` == `true`.
 function entity:on_step(dtime, moveresult) end
 
 --[[
@@ -63,27 +63,27 @@ Entities can define a special armor group, which is `punch_operable`. This group
 disables the regular damage mechanism for players punching it by hand or a
 non-tool item, so that it can do something else than take damage.
 ]]
----@param puncher mt.ObjectRef|nil
+---@param puncher lt.ObjectRef|nil
 ---@param time_from_last_punch number|nil
----@param tool_capabilities mt.ToolCaps|nil
----@param dir mt.Vector Pointing from the source of the punch to the punched object.
+---@param tool_capabilities lt.ToolCaps|nil
+---@param dir lt.Vector Pointing from the source of the punch to the punched object.
 ---@param damage number
 ---@return boolean is_damaged
 function entity:on_punch(puncher, time_from_last_punch, tool_capabilities, dir, damage) end
 
 -- Called when the object dies.
----@param killer mt.ObjectRef|nil
+---@param killer lt.ObjectRef|nil
 function entity:on_death(killer) end
 
 -- Called when `clicker` pressed the 'place/use' key while pointing to the
 -- object (not necessarily an actual rightclick).
----@param clicker mt.ObjectRef
+---@param clicker lt.ObjectRef
 function entity:on_rightclick(clicker) end
 
----@param child mt.ObjectRef
+---@param child lt.ObjectRef
 function entity:on_attach_child(child) end
 
----@param child mt.ObjectRef|nil
+---@param child lt.ObjectRef|nil
 function entity:on_detach_child(child) end
 
 -- Called sometimes; the string returned is passed to `on_activate` when
@@ -92,21 +92,21 @@ function entity:on_detach_child(child) end
 function entity:get_staticdata() end
 
 ---Collision info passed to `on_step` (`moveresult` argument).
----@class mt.CollisionInfo
+---@class lt.CollisionInfo
 ---@field touching_ground boolean
 ---@field collides boolean
 ---@field standing_on_object boolean
----@field collisions mt.Collisions
+---@field collisions lt.Collisions
 
--- `mt.Collisions` does not contain data of unloaded mapblock collisions
+-- `lt.Collisions` does not contain data of unloaded mapblock collisions
 -- or when the velocity changes are negligibly small.
----@class mt.Collisions
+---@class lt.Collisions
 ---@field type "node"|"object"
 ---@field axis "x"|"y"|"z"
----@field node_pos mt.Vector If type is "node".
----@field object mt.ObjectRef If type is "object".
+---@field node_pos lt.Vector If type is "node".
+---@field object lt.ObjectRef If type is "object".
 -- The position of the entity when the collision occurred.
 -- Available since feature "moveresult_new_pos".
----@field new_pos mt.Vector
----@field old_velocity mt.Vector
----@field new_velocity mt.Vector
+---@field new_pos lt.Vector
+---@field old_velocity lt.Vector
+---@field new_velocity lt.Vector

@@ -5,13 +5,13 @@
 -- Crypto-secure PRNG constructor.
 --
 -- Returns `nil` if a secure random device cannot be found on the system.
----@return mt.SecureRandom|nil
+---@return lt.SecureRandom|nil
 function SecureRandom() end
 
 -- Interface for the operating system's crypto-secure PRNG.
 --
 -- It can be created via `SecureRandom()`.
----@class mt.SecureRandom
+---@class lt.SecureRandom
 local SecureRandomClass
 
 -- Return next `count`.

@@ -2,7 +2,7 @@
 ---Logging functions
 --------------------
 
----@alias mt.LogLevel
+---@alias lt.LogLevel
 ---|"none"
 ---|"error"
 ---|"warning"
@@ -10,7 +10,7 @@
 ---|"info"
 ---|"verbose"
 
----@param level mt.LogLevel
+---@param level lt.LogLevel
 ---@param text string
 function core.log(level, text) end
 

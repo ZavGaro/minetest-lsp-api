@@ -3,7 +3,7 @@
 ---------
 
 -- These sound files are played back by the engine if provided.
----@alias mt.SpecialSoundFile
+---@alias lt.SpecialSoundFile
 -- Played when the local player takes damage (gain = 0.5).
 ---|"player_damage"
 -- Played when the local player takes damage by falling (gain = 0.5).
@@ -36,8 +36,8 @@
 ---* `{name = "default_place_node", gain = 0.5}`: 50% volume
 ---* `{name = "default_place_node", gain = 0.9, pitch = 1.1}`: 90% volume, 110% pitch
 ---
----@class mt.SimpleSoundSpecTable
----@field name string|mt.SpecialSoundFile
+---@class lt.SimpleSoundSpecTable
+---@field name string|lt.SpecialSoundFile
 --- * Volume (`1.0` = 100%), must be non-negative.
 --- * At the end, OpenAL clamps sound gain to a maximum of `1.0`. By setting gain for
 --- a positional sound higher than `1.0`, one can increase the radius inside which
@@ -57,7 +57,7 @@
 ---@field fade? number
 local sound_spec = {}
 
----@alias mt.SimpleSoundSpec mt.SimpleSoundSpecTable|string|mt.SpecialSoundFile
+---@alias lt.SimpleSoundSpec lt.SimpleSoundSpecTable|string|lt.SpecialSoundFile
 
 ---Looped sounds must either be connected to an object or played locationless to
 ---one player using `to_player = name`.
@@ -67,7 +67,7 @@ local sound_spec = {}
 ---
 ---`exclude_player = name` can be applied to locationless, positional and object-
 ---bound sounds to exclude a single player from hearing them.
----@class mt.SoundParameters
+---@class lt.SoundParameters
 ---@field gain? number Scales the gain specified in `SimpleSoundSpec`. Default: `1.0`.
 ---@field pitch? number Overwrites the pitch specified in `SimpleSoundSpec`. Default: `1.0`.
 ---@field fade? number Overwrites the fade specified in `SimpleSoundSpec`. Default: `0.0`. Change to a value > 0 to fade the sound in.
@@ -82,8 +82,8 @@ local sound_spec = {}
 -- * Default: `1.0`.
 ---@field start_time? string
 ---@field loop? boolean Default: `false`.
----@field pos? mt.Vector Play sound at a position. <br> Can't be used together with `object`.
----@field object? mt.ObjectRef Attach the sound to an object. <br> Can't be used together with `pos`.
+---@field pos? lt.Vector Play sound at a position. <br> Can't be used together with `object`.
+---@field object? lt.ObjectRef Attach the sound to an object. <br> Can't be used together with `pos`.
 ---@field to_player? string A player name. Only play for this player. <br> Can't be used together with `exclude_player`.
 ---@field exclude_player? string A player name. Don't play sound for this player. <br> Can't be used together with `to_player`.
 --- * Only play for players that are at most this far away when the sound starts playing.

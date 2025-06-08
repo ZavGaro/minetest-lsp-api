@@ -3,7 +3,7 @@
 -----------------------
 
 -- Used by `core.register_privilege`.
----@class mt.PrivDef
+---@class lt.PrivDef
 ---@field description string|nil Privilege description.
 -- Whether to grant the privilege to singleplayer.
 ---@field give_to_singleplayer boolean|nil

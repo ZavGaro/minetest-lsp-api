@@ -23,19 +23,19 @@ It can be created via `Raycast(pos1, pos2, objects, liquids)` or
 - `liquids`: if false, liquid nodes (`liquidtype ~= "none"`) won't be returned.
   Default is false.
 ]]
----@class mt.Raycast
+---@class lt.Raycast
 local RaycastClass
 
----@param pos1 mt.Vector Start of the ray.
----@param pos2 mt.Vector End of the ray.
+---@param pos1 lt.Vector Start of the ray.
+---@param pos2 lt.Vector End of the ray.
 ---@param objects boolean If false, only nodes will be returned. Default is true.
 ---@param liquids boolean if false (default), liquid nodes (`liquidtype ~= "none"`) won't be returned.
----@return mt.Raycast
+---@return lt.Raycast
 function Raycast(pos1, pos2, objects, liquids) end
 
 core.raycast = Raycast
 
 -- Returns a `pointed_thing` with exact pointing location
 -- - Returns the next thing pointed by the ray or `nil`.
----@return mt.PointedThing|nil
+---@return lt.PointedThing|nil
 function RaycastClass:next() end

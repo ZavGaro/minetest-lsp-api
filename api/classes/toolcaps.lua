@@ -23,7 +23,7 @@
 ---* Digging times
 ---* Damage groups
 ---* Punch attack uses (until the tool breaks)
----@class mt.ToolCaps
+---@class lt.ToolCaps
 local tool_capabilities = {}
 
 ---When used as a weapon, the item will do full damage if this time is spent
