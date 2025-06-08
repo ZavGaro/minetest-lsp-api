@@ -1,11 +1,11 @@
 ---@meta
 
--- Used by `minetest.register_biome`.
+-- Used by `core.register_biome`.
 --
 -- The maximum number of biomes that can be used is 65535. However, using an
 -- excessive number of biomes will slow down map generation. Depending on
 -- desired performance and computing power the practical limit is much lower.
----@class mt.BiomeDef
+---@class lt.BiomeDef
 ---@field name string
 -- Node dropped onto upper surface after all else is generated.
 ---@field node_dust string
@@ -52,11 +52,11 @@
 -- * XYZ limits for biome, an alternative to using `y_max`.
 -- * Biome is limited to a cuboid defined by these positions.
 -- * Any x, y or z field left undefined defaults to `-31000`.
----@field max_pos mt.Vector
+---@field max_pos lt.Vector
 -- * XYZ limits for biome, an alternative to using `y_min`.
 -- * Biome is limited to a cuboid defined by these positions.
 -- * Any x, y or z field left undefined defaults to `31000`.
----@field min_pos mt.Vector
+---@field min_pos lt.Vector
 -- * Vertical distance in nodes above `y_max` over which the biome will
 --   blend with the biome above.
 -- * Set to `0` for no vertical blend.
@@ -70,4 +70,9 @@
 -- * Heat and humidity have average values of `50`, vary mostly between
 --   `0` and `100` but can exceed these values.
 ---@field humidity_point number
+-- Relative weight of the biome in the Voronoi diagram.
+-- A value of 0 (or less) is ignored and equivalent to 1.0.
+--
+-- Defaults to `1.0`
+---@field weight number
 local biome

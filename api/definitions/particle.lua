@@ -2,12 +2,12 @@
 ---Particle definition
 ----------------------
 
--- Used by `minetest.add_particle`.
----@class mt.ParticleDef
----@field pos mt.Vector
----@field velocity mt.Vector
+-- Used by `core.add_particle`.
+---@class lt.ParticleDef
+---@field pos lt.Vector
+---@field velocity lt.Vector
 -- Spawn particle at pos with velocity and acceleration.
----@field acceleration mt.Vector
+---@field acceleration lt.Vector
 -- Disappears after expirationtime seconds.
 ---@field expirationtime number
 -- * Scales the visual size of the particle texture.
@@ -31,14 +31,14 @@
 -- Optional, if specified spawns particle only on the player's client.
 ---@field playername string|nil
 -- Optional, specifies how to animate the particle texture.
----@field animation mt.TileAnimDef|nil
+---@field animation lt.TileAnimDef|nil
 -- * Optional, specify particle self-luminescence in darkness.
 -- * Values: `0..14`.
 ---@field glow number|nil
 -- * Optional, if specified the particle will have the same appearance as
 --   node dig particles for the given node.
 -- * `texture` and `animation` will be ignored if this is set.
----@field node mt.Node|nil
+---@field node lt.Node|nil
 -- * Optional, only valid in combination with `node`
 --   If set to a valid number 1-6, specifies the tile from which the
 --   particle texture is picked.
@@ -48,25 +48,25 @@
 ---ParticleSpawner definition
 -------------------------------
 
--- Used by `minetest.add_particlespawner`.
+-- Used by `core.add_particlespawner`.
 --
 -- The particles' properties are random values between the min and max values.
 -- Applies to: pos, velocity, acceleration, expirationtime, size.
 -- If `node` is set, min and maxsize can be set to 0 to spawn
 -- randomly-sized particles (just like actual node dig particles).
----@class mt.ParticleSpawnerDef
+---@class lt.ParticleSpawnerDef
 -- Number of particles spawned over the time period `time`.
 ---@field amount number
 -- Lifespan of spawner in seconds.
 -- If time is 0 spawner has infinite lifespan and spawns the `amount` on
 -- a per-second basis.
 ---@field time number
----@field minpos mt.Vector
----@field maxpos mt.Vector
----@field minvel mt.Vector
----@field maxvel mt.Vector
----@field minacc mt.Vector
----@field maxacc mt.Vector
+---@field minpos lt.Vector
+---@field maxpos lt.Vector
+---@field minvel lt.Vector
+---@field maxvel lt.Vector
+---@field minacc lt.Vector
+---@field maxacc lt.Vector
 ---@field minexptime number
 ---@field maxexptime number
 ---@field minsize number
@@ -83,7 +83,7 @@
 ---@field object_collision boolean
 -- If defined, particle positions, velocities and accelerations are
 -- relative to this object's position and yaw.
----@field attached mt.ObjectRef
+---@field attached lt.ObjectRef
 -- If true face player using y axis only.
 ---@field vertical boolean
 -- The texture of the particle.
@@ -91,16 +91,69 @@
 -- Optional, if specified spawns particles only on the player's client.
 ---@field playername string|nil
 -- Optional, specifies how to animate the particles' texture.
----@field animation mt.TileAnimDef|nil
+---@field animation lt.TileAnimDef|nil
 -- * Optional, specify particle self-luminescence in darkness.
 -- * Values: `0..14`.
 ---@field glow number|nil
 -- Optional, if specified the particles will have the same appearance as
 -- node dig particles for the given node.
 -- `texture` and `animation` will be ignored if this is set.
----@field node mt.Node|nil
+---@field node lt.Node|nil
 -- * Optional, only valid in combination with `node`.
 -- * If set to a valid number 1-6, specifies the tile from which the
 --   particle texture is picked.
 -- * Otherwise, the default behavior is used (currently: any random tile).
 ---@field node_tile number|nil
+
+---@class lt.ParticleTexture
+--- the texture specification string
+---@field name string
+--- controls how visible the particle is; at 1.0 the particle is fully
+--- visible, at 0, it is completely invisible.
+---@field alpha number
+--- can be used instead of `alpha` to animate the alpha value over the
+--- particle's lifetime. these tween tables work identically to the tween
+--- tables used in particlespawner properties, except that time references
+--- are understood with respect to the particle's lifetime, not the
+--- spawner's. {1,0} fades the particle out over its lifetime.
+--- 
+--- Defaults to {1, 0}
+---@field alpha_tween [number, number]
+-- scales the texture onscreen
+---@field scale number|{x: number, y: number}
+--- animates the scale over the particle's lifetime. works like the
+--- alpha_tween table, but can accept two-dimensional vectors as well as
+--- integer values. the example value would cause the particle to shrink
+--- in one dimension over the course of its life until it disappears
+---
+--- defaults to {{x = 1, y = 1}, {x = 0, y = 1}}
+---@field scale_tween [number|{x: number, y: number}, number|{x: number, y: number}]
+---@field blend
+--- (default) blends transparent pixels with those they are drawn atop
+--- according to the alpha channel of the source texture. useful for
+--- e.g. material objects like rocks, dirt, smoke, or node chunks
+--- note: there will be rendering bugs when particles interact with
+--- translucent nodes. particles are also not transparency-sorted
+--- relative to each other.
+---|"alpha"
+--- pixels are either fully opaque or fully transparent,
+--- depending on whether alpha is greater than or less than 50%
+--- (just like `use_texture_alpha = "clip"` for nodes).
+--- you should prefer this if you don't need semi-transparency, as it's faster.
+---|"clip"
+--- adds the value of pixels to those underneath them, modulo the sources
+--- alpha channel. useful for e.g. bright light effects like sparks or fire
+---|"add"
+-- like "add" but less bright. useful for subtler light effects. note that
+-- this is NOT formally equivalent to the "screen" effect used in image
+-- editors and compositors, as it does not respect the alpha channel of
+-- of the image being blended
+---|"screen"
+-- the inverse of "add"; the value of the source pixel is subtracted from
+-- the pixel underneath it. a white pixel will turn whatever is underneath
+-- it black; a black pixel will be "transparent". useful for creating
+-- darkening effects
+---|"sub"
+--- overrides the particlespawner's global animation property for a single
+--- specific texture
+---@field animation lt.TileAnimDef

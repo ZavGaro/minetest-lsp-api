@@ -2,16 +2,16 @@
 ---Crafting recipes
 -------------------
 
--- Used by `minetest.register_craft`.
----@alias mt.CraftRecipe mt.CraftRecipeRepair|mt.CraftRecipeFuel|mt.CraftRecipeShaped|mt.CraftRecipeCooking|mt.CraftRecipeShapeless
+-- Used by `core.register_craft`.
+---@alias lt.CraftRecipe lt.CraftRecipeRepair|lt.CraftRecipeFuel|lt.CraftRecipeShaped|lt.CraftRecipeCooking|lt.CraftRecipeShapeless
 
----@class mt.CraftRecipeShaped
+---@class lt.CraftRecipeShaped
 ---@field output string|nil
 ---@field recipe string[][]|nil
 -- Replace one input item with another item on crafting.
 ---@field replacements nil|{[1]:string, [2]:string}[]
 
----@class mt.CraftRecipeShapeless
+---@class lt.CraftRecipeShapeless
 ---@field type "shapeless"|nil
 ---@field output string|nil
 ---@field recipe string[]|nil
@@ -32,17 +32,17 @@
 --
 -- The result is rounded and can't be lower than 0. If the result is 65536 or higher,
 -- no crafting is possible.
----@class mt.CraftRecipeRepair
+---@class lt.CraftRecipeRepair
 ---@field type "toolrepair"|nil
 ---@field additional_wear number|nil Multiplier of 65536.
 
----@class mt.CraftRecipeCooking
+---@class lt.CraftRecipeCooking
 ---@field type "cooking"|nil
 ---@field output string|nil
 ---@field recipe string|nil
 ---@field cooktime number|nil
 
----@class mt.CraftRecipeFuel
+---@class lt.CraftRecipeFuel
 ---@field type "fuel"|nil
 ---@field recipe string|nil
 ---@field burntime number|nil

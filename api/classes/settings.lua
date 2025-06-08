@@ -4,13 +4,13 @@
 
 -- Settings constructor.
 ---@param filename string
----@return mt.Settings
+---@return lt.Settings
 function Settings(filename) end
 
--- An interface to read config files in the format of `minetest.conf`.
+-- An interface to read config files in the format of `core.conf`.
 --
 -- It can be created via `Settings(filename)`.
----@class mt.Settings
+---@class lt.Settings
 local SettingsClass
 
 -- Returns a value.
@@ -24,18 +24,18 @@ function SettingsClass:get(key) end
 ---@return boolean|nil
 function SettingsClass:get_bool(key, default) end
 
----@return mt.NoiseParams
+---@return lt.NoiseParams
 function SettingsClass:get_np_group(key) end
 
 -- Is currently limited to mapgen flags `mg_flags` and mapgen-specific flags
 -- like `mgv5_spflags`.
----@return mt.OreFlagsTable
+---@return lt.OreFlagsTable
 function SettingsClass:get_flags(key) end
 
 -- - Setting names can't contain whitespace or any of `="{}#`.
 -- - Setting values can't contain the sequence `\n"""`.
 -- - Setting names starting with "secure." can't be set on the main settings
---   object (`minetest.settings`).
+--   object (`core.settings`).
 ---@param key string
 ---@param value any
 function SettingsClass:set(key, value) end
@@ -43,7 +43,7 @@ function SettingsClass:set(key, value) end
 -- - Setting names can't contain whitespace or any of `="{}#`.
 -- - Setting values can't contain the sequence `\n"""`.
 -- - Setting names starting with "secure." can't be set on the main settings
---   object (`minetest.settings`).
+--   object (`core.settings`).
 ---@param key string
 ---@param value boolean
 function SettingsClass:set_bool(key, value) end
@@ -51,9 +51,9 @@ function SettingsClass:set_bool(key, value) end
 -- - Setting names can't contain whitespace or any of `="{}#`.
 -- - Setting values can't contain the sequence `\n"""`.
 -- - Setting names starting with "secure." can't be set on the main settings
---   object (`minetest.settings`).
+--   object (`core.settings`).
 ---@param key string
----@param value mt.NoiseParams
+---@param value lt.NoiseParams
 function SettingsClass:set_np_group(key, value) end
 
 -- Returns a boolean (`true` for success).
@@ -64,10 +64,10 @@ function SettingsClass:remove(key) end
 ---@return string[]
 function SettingsClass:get_names() end
 
---- * Note that for the main settings object (`minetest.settings`), `get(key)`
---- might return a value even if `has(key)` returns `false`. That's because
---- `get` can fall back to the so-called parent of the `Settings` object, i.e.
---- the default values.
+--- * In contrast to the various getter functions, `has()` doesn't consider
+---   any default values.
+--- * This means that on the main settings object (`core.settings`),
+---   `get(key)` might return a value even if `has(key)` returns `false`.
 ---@param key string
 ---@return boolean # Is `key` exists.
 function SettingsClass:has(key) end
@@ -78,7 +78,7 @@ function SettingsClass:has(key) end
 ---@return boolean
 function SettingsClass:write() end
 
----@return mt.SettingsTable
+---@return lt.SettingsTable
 function SettingsClass:to_table() end
 
 --[[
@@ -90,4 +90,4 @@ The settings have the format `key = value`. Example:
     value
     """
 ]]
----@class mt.SettingsTable
+---@class lt.SettingsTable

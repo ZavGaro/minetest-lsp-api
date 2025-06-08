@@ -2,9 +2,9 @@
 ---Ore definition
 -----------------
 
--- Used by `minetest.register_ore`.
----@class mt.OreDef
----@field ore_type mt.OreType
+-- Used by `core.register_ore`.
+---@class lt.OreDef
+---@field ore_type lt.OreType
 ---@field ore string
 ---@field ore_param2 number Facedir rotation. Default is 0 (unchanged rotation).
 ---@field wherein string|string[]
@@ -19,24 +19,23 @@
 ---@field clust_size number
 ---@field y_min number Lower limit for ore.
 ---@field y_max number Upper limit for ore.
----@field flags mt.OreFlags
+---@field flags lt.OreFlags
 -- If noise is above this threshold, ore is placed. Not needed for a
 -- uniform distribution.
 ---@field noise_threshold number
----@field noise_params mt.NoiseParams
+---@field noise_params lt.NoiseParams
 ---@field biomes string[]
 ---@field column_height_min number "sheet" type only.
 ---@field column_height_max number "sheet" type only.
 ---@field column_midpoint_factor number "sheet" type only.
----@field np_puff_top mt.NoiseParams "puff" type only.
----@field np_puff_bottom mt.NoiseParams "puff" type only.
+---@field np_puff_top lt.NoiseParams "puff" type only.
+---@field np_puff_bottom lt.NoiseParams "puff" type only.
 ---@field random_factor number "vein" type only.
----@field np_stratum_thickness mt.NoiseParams "stratum" type only.
+---@field np_stratum_thickness lt.NoiseParams "stratum" type only.
 ---@field stratum_thickness number "stratum" type only.
 
 --[[
-NoiseParams structure describing one of the perlin noises
-used for ore distribution.
+NoiseParams structure describing one of the noises used for ore distribution.
 
 * Needed by "sheet", "puff", "blob" and "vein" ores.
 * Omit from "scatter" ore for a uniform ore distribution.
@@ -58,7 +57,7 @@ Example for 2D or 3D perlin noise or perlin noise maps:
 For 2D noise the Z component of `spread` is still defined but is ignored. A
 single noise parameter table can be used for 2D or 3D noise.
 ]]
----@class mt.NoiseParams
+---@class lt.NoiseParams
 --[[ After the multiplication by `scale` this is added to the result and is the
 final step in creating the noise value. Can be positive or negative. ]]
 ---@field offset number
@@ -76,7 +75,7 @@ the final noise variation.
 `spread` is a vector with values for x, y, z to allow the noise variation to be
 stretched or compressed in the desired axes. Values are positive numbers.
 ]]
----@field spread mt.Vector
+---@field spread lt.Vector
 --[[
 This is a whole number that determines the entire pattern of the noise
 variation. Altering it enables different noise patterns to be created. With
@@ -118,6 +117,8 @@ A positive or negative non-zero number, often between 0.3 and 1.0. A common
 medium value is 0.5, such that each octave has half the amplitude of the
 previous octave. This may need to be tuned when altering `lacunarity`; when
 doing so consider that a common medium value is 1 / lacunarity.
+
+Instead of `persistence`, the key `persist` may be used to the same effect.
 ]]
 ---@field persistence number
 --[[
@@ -151,7 +152,7 @@ noise at the expense of requiring more octaves to cover a paticular range of
 -- These tell in what manner the ore is generated.
 --
 -- All default ores are of the uniformly-distributed `scatter` type.
----@alias mt.OreType
+---@alias lt.OreType
 -- Randomly chooses a location and generates a cluster of ore.
 --
 -- If `noise_params` is specified, the ore will be placed if the 3D perlin noise
@@ -223,7 +224,7 @@ noise at the expense of requiring more octaves to cover a paticular range of
 -- Creates a single undulating ore stratum that is continuous across mapchunk
 -- borders and horizontally spans the world.
 --
--- The 2D perlin noise described by `noise_params` defines the Y co-ordinate of
+-- The 2D perlin noise described by `noise_params` defines the Y coordinate of
 -- the stratum midpoint. The 2D perlin noise described by `np_stratum_thickness`
 -- defines the stratum's vertical thickness (in units of nodes). Due to being
 -- continuous across mapchunk borders the stratum's vertical thickness is
@@ -249,7 +250,7 @@ noise at the expense of requiring more octaves to cover a paticular range of
 -- `random_factor` are ignored by this ore type.
 ---|"stratum"
 
----@alias mt.OreFlagString
+---@alias lt.OreFlagString
 -- If set, puff ore generation will not taper down large differences in
 -- displacement when approaching the edge of a puff. This flag has no effect for
 -- ore types other than `puff`.
@@ -261,6 +262,6 @@ noise at the expense of requiring more octaves to cover a paticular range of
 -- other than `puff`.
 ---|"puff_additive_composition"
 
----@alias mt.OreFlagsTable table<mt.OreFlagString|string, boolean>
+---@alias lt.OreFlagsTable table<lt.OreFlagString|string, boolean>
 
----@alias mt.OreFlags mt.OreFlagString|mt.OreFlagsTable
+---@alias lt.OreFlags lt.OreFlagString|lt.OreFlagsTable

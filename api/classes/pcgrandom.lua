@@ -4,16 +4,16 @@
 
 -- A 32-bit pseudorandom number generator. Uses PCG32, an algorithm of the permuted
 -- congruential generator family, offering very strong randomness.
----@param seed number
----@param sequence number|nil
----@return mt.PcgRandom
+---@param seed integer 64-bit unsigned seed
+---@param sequence integer|nil 64-bit unsigned sequence
+---@return lt.PcgRandom
 function PcgRandom(seed, sequence) end
 
 -- A 32-bit pseudorandom number generator. Uses PCG32, an algorithm of the permuted
 -- congruential generator family, offering very strong randomness.
 --
 -- It can be created via `PcgRandom(seed)` or `PcgRandom(seed, sequence)`.
----@class mt.PcgRandom
+---@class lt.PcgRandom
 local rnd = {}
 
 -- - Return next integer random number [`-2147483648`...`2147483647`].
@@ -34,3 +34,11 @@ function rnd:next(min, max) end
 ---@param num_trials number
 ---@return integer
 function rnd:rand_normal_dist(min, max, num_trials) end
+
+---@return string # generator state encoded in string
+function rnd:get_state() end
+
+--- Restore generator state from encoded string
+---@param state_string string
+function rnd:set_state(state_string) end
+

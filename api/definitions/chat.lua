@@ -2,8 +2,8 @@
 ---Chat command definition
 --------------------------
 
--- Used by `minetest.register_chatcommand`.
----@class mt.ChatCmdDef
+-- Used by `core.register_chatcommand`.
+---@class lt.ChatCmdDef
 -- Short parameter description.
 --
 -- Use of symbols is as follows:

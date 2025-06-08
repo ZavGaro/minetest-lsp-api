@@ -5,7 +5,7 @@
 -----------------
 
 ---Base class used by `StorageRef`, `NodeMetaRef`, `ItemStackMetaRef` and `PlayerMetaRef`.
----@class mt.MetaDataRef
+---@class lt.MetaDataRef
 local MetaDataRef = {}
 
 ---Returns `true` if key present, otherwise `false`.
@@ -67,7 +67,7 @@ function MetaDataRef:to_table() end
 function MetaDataRef:from_table(table) end
 
 ---Returns `true` if this metadata has the same key-value pairs as `other`.
----@param other mt.MetaDataRef
+---@param other lt.MetaDataRef
 ---@return boolean
 function MetaDataRef:equals(other) end
 
@@ -92,7 +92,7 @@ Some of the values in the key-value store are handled specially:
 Example:
 
 ```lua
-local meta = minetest.get_meta(pos)
+local meta = core.get_meta(pos)
 meta:set_string("formspec",
   "size[8,9]"..
   "list[context;main;0,0;8,4;]"..
@@ -119,7 +119,7 @@ meta:from_table({
 })
 ```
 ]]
----@class mt.NodeMetaRef: mt.MetaDataRef
+---@class lt.NodeMetaRef: lt.MetaDataRef
 local NodeMetaRef = {}
 
 --- * Returns `nil` or a table with keys:
@@ -137,7 +137,7 @@ function NodeMetaRef:to_table() end
 ---@return boolean
 function NodeMetaRef:from_table(table) end
 
----@return mt.InvRef
+---@return lt.InvRef
 function NodeMetaRef:get_inventory() end
 
 ---Mark specific vars as private.
@@ -175,6 +175,8 @@ Some of the values in the key-value store are handled specially:
   4th bit specify the alignment in y-direction: 0 = default, 1 = left / up, 2 =
   middle, 3 = right / down The default currently is the same as right/down.
   Example: 6 = 2 + 1\*4 = middle,up
+- `range`: Overrides the pointing range
+  Example: `meta:set_float("range", 4.2)`
 
 Example:
 
@@ -202,31 +204,31 @@ print(stack:get_short_description()) --> Short
 print(ItemStack("mod:item_with_no_desc"):get_description()) --> mod:item_with_no_desc
 ```
 ]]
----@class mt.ItemStackMetaRef: mt.MetaDataRef
+---@class lt.ItemStackMetaRef: lt.MetaDataRef
 local ItemStackMetaRef = {}
 
 ---Overrides the item's tool capabilities
 ---
 ---A nil value will clear the override data and restore the original behavior.
----@param tool_capabilities mt.ToolCaps
+---@param tool_capabilities lt.ToolCaps
 function ItemStackMetaRef:set_tool_capabilities(tool_capabilities) end
 
 ----------------
 -- StorageRef --
 ----------------
 
----@class mt.StorageRef: mt.MetaDataRef
+---@class lt.StorageRef: lt.MetaDataRef
 local StorageRef = {}
 
 ---Returns reference to mod private `StorageRef`.
 ---
 ---Must be called during mod load time.
----@return mt.StorageRef
-function minetest.get_mod_storage() end
+---@return lt.StorageRef
+function core.get_mod_storage() end
 
 -------------------
 -- PlayerMetaRef --
 -------------------
 
----@class mt.PlayerMetaRef: mt.MetaDataRef
+---@class lt.PlayerMetaRef: lt.MetaDataRef
 local PlayerMetaRef = {}

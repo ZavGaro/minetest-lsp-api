@@ -3,8 +3,8 @@
 ---------------
 
 -- Node Timers: a high resolution persistent per-node timer. Can be gotten via
--- `minetest.get_node_timer(pos)`.
----@class mt.NodeTimerRef
+-- `core.get_node_timer(pos)`.
+---@class lt.NodeTimerRef
 local NodeTimerRef
 
 -- - Set a timer's state.

@@ -5,7 +5,7 @@
 -- `param1` and `param2` are 8-bit integers ranging from 0 to 255. The engine uses
 -- them for certain automated functions. If you don't use these functions, you can
 -- use them to store arbitrary values.
----@alias mt.NodeParam integer
+---@alias lt.NodeParam integer
 
 ---Nodes are the bulk data of the world: cubes and other things that take the
 ---space of a cube. Huge amounts of them are handled efficiently, but they
@@ -13,19 +13,19 @@
 ---
 ---The definition of a node is stored and can be accessed by using
 ---
----    minetest.registered_nodes[node.name]
+---    core.registered_nodes[node.name]
 ---
 ---Nodes are passed by value between Lua and the engine.
 ---They are represented by a table:
 ---
 ---    {name="name", param1=num, param2=num}
----@class mt.Node
+---@class lt.Node
 ---@field name string
----@field param1 mt.NodeParam
----@field param2 mt.NodeParam
+---@field param1 lt.NodeParam
+---@field param2 lt.NodeParam
 local node = {}
 
----@class mt.MapNode:mt.Node
+---@class lt.MapNode:lt.Node
 -- (alias `param1`): the probability of this node being placed (default: 255).
 --
 -- * A probability value of `0` or `1` means that node will never appear
@@ -47,7 +47,7 @@ local node = {}
 ---
 ---The function of `param1` is determined by `paramtype` in node definition.
 ---`param1` is reserved for the engine when `paramtype != "none"`.
----@alias mt.ParamType
+---@alias lt.ParamType
 ---* The value stores light with and without sun in its lower and upper 4 bits
 ---  respectively.
 ---* Required by a light source node to enable spreading its light.
@@ -69,29 +69,33 @@ local node = {}
 
 ---The function of `param2` is determined by `paramtype2` in node definition.
 ---`param2` is reserved for the engine when `paramtype2 != "none"`.
----@alias mt.ParamType2
+---@alias lt.ParamType2
 ---* Used by `drawtype = "flowingliquid"` and `liquidtype = "flowing"`
 ---* The liquid level and a flag of the liquid are stored in `param2`
 ---* Bits 0-2: Liquid level (0-7). The higher, the more liquid is in this node;
----  see `minetest.get_node_level`, `minetest.set_node_level` and `minetest.add_node_level`
+---  see `core.get_node_level`, `core.set_node_level` and `core.add_node_level`
 ---  to access/manipulate the content of this field
 ---* Bit 3: If set, liquid is flowing downwards (no graphical effect)
 ---|"flowingliquid"
 ---* Supported drawtypes: "torchlike", "signlike", "plantlike",
----  "plantlike_rooted", "normal", "nodebox", "mesh"
+---"plantlike_rooted", "normal", "nodebox", "mesh"
 ---* The rotation of the node is stored in `param2`
 ---* Node is 'mounted'/facing towards one of 6 directions
----* You can make this value by using `minetest.dir_to_wallmounted()`
----* Values range 0 - 5
+---* You can make this value by using `core.dir_to_wallmounted()`
+---* Values range 0 - 7
 ---* The value denotes at which direction the node is "mounted":
----  `0 = y+,   1 = y-,   2 = x+,   3 = x-,   4 = z+,   5 = z-`
+---0 = y+,   1 = y-,   2 = x+,   3 = x-,   4 = z+,   5 = z-
+---6 = y+, but rotated by  90°
+---7 = y-, but rotated by -90°
 ---* By default, on placement the param2 is automatically set to the
----  appropriate rotation, depending on which side was pointed at
+---appropriate rotation (0 to 5), depending on which side was
+---pointed at. With the node field `wallmounted_rotate_vertical = true`,
+---the param2 values 6 and 7 might additionally be set
 ---|"wallmounted"
 ---* Supported drawtypes: "normal", "nodebox", "mesh"
 ---* The rotation of the node is stored in `param2`.
 ---* Node is rotated around face and axis; 24 rotations in total.
----* Can be made by using `minetest.dir_to_facedir()`.
+---* Can be made by using `core.dir_to_facedir()`.
 ---* Chests and furnaces can be rotated that way, and also 'flipped'
 ---* Values range 0 - 23
 ---* facedir / 4 = axis direction:
@@ -108,7 +112,7 @@ local node = {}
 ---* Supported drawtypes: "normal", "nodebox", "mesh"
 ---* The rotation of the node is stored in `param2`.
 ---* Allows node to be rotated horizontally, 4 rotations in total
----* Can be made by using `minetest.dir_to_fourdir()`.
+---* Can be made by using `core.dir_to_fourdir()`.
 ---* Chests and furnaces can be rotated that way, but not flipped
 ---* Values range 0 - 3
 ---* 4dir modulo 4 = rotation
@@ -152,16 +156,19 @@ local node = {}
 ---  The palette should have 256 pixels.
 ---|"color"
 ---* Same as `facedir`, but with colors.
----* The first three bits of `param2` tells which color is picked from the
+---* The three most significant bits of `param2` tells which color is picked from the
 ---  palette. The palette should have 8 pixels.
+---* The five least significant bits contain the `facedir` value.
 ---|"colorfacedir"
----* Same as `facedir`, but with colors.
----* The first six bits of `param2` tells which color is picked from the
+---* Same as `4dir`, but with colors.
+---* The six most significant bits of `param2` tells which color is picked from the
 ---  palette. The palette should have 64 pixels.
+---* The two least significant bits contain the `4dir` rotation.
 ---|"color4dir"
 ---* Same as `wallmounted`, but with colors.
----* The first five bits of `param2` tells which color is picked from the
+---* The five most significant bits of `param2` tells which color is picked from the
 ---  palette. The palette should have 32 pixels.
+---* The three least significant bits contain the `wallmounted` value.
 ---|"colorwallmounted"
 ---* Only valid for "glasslike_framed" or "glasslike_framed_optional"
 ---  drawtypes. "glasslike_framed_optional" nodes are only affected if the
@@ -175,9 +182,9 @@ local node = {}
 ---* Liquid texture is defined using `special_tiles = {"modname_tilename.png"}`
 ---|"glasslikeliquidlevel"
 ---* Same as `degrotate`, but with colors.
----* The first (most-significant) three bits of `param2` tells which color
----  is picked from the palette. The palette should have 8 pixels.
----* Remaining 5 bits store rotation in range 0–23 (i.e. in 15° steps)
+---* The three most significant bits of `param2` tells which color is picked
+---  from the palette. The palette should have 8 pixels.
+---* The five least significant bits store rotation in range 0–23 (i.e. in 15° steps)
 ---|"colordegrotate"
 ---* `param2` will not be used by the engine and can be used to store
 ---  an arbitrary value
@@ -188,19 +195,16 @@ local node = {}
 
 ---There are a bunch of different looking node types.
 ---
----Look for examples in `games/devtest` or `games/minetest_game`.
----
 ---`*_optional` drawtypes need less rendering time if deactivated.
 ---(always client-side).
----@alias mt.DrawType string
+---@alias lt.DrawType string
 ---* A node-sized cube.
 ---|"normal"
 ---* Invisible, uses no texture.
 ---|"airlike"
 ---* The cubic source node for a liquid.
 ---* Faces bordering to the same node are never rendered.
----* Connects to node specified in `liquid_alternative_flowing`.
----* You *must* set `liquid_alternative_source` to the node's own name.
+---* Connects to node specified in `liquid_alternative_flowing` if specified.
 ---* Use `backface_culling = false` for the tiles you want to make
 ---  visible when inside the node.
 ---|"liquid"
@@ -230,7 +234,8 @@ local node = {}
 ---  'Connected Glass'.
 ---|"glasslike_framed_optional"
 ---* Often used for partially-transparent nodes.
----* External and internal sides of textures are visible.
+---* External sides of textures, and unlike other drawtypes, the external sides
+---  of other nodes, are visible from the inside.
 ---|"allfaces"
 ---* Often used for leaves nodes.
 ---* This switches between `normal`, `glasslike` and `allfaces` according to
@@ -285,7 +290,7 @@ local node = {}
 ---* For supported model formats see Irrlicht engine documentation.
 ---|"mesh"
 ---* Enables underwater `plantlike` without air bubbles around the nodes.
----* Consists of a base cube at the co-ordinates of the node plus a
+---* Consists of a base cube at the coordinates of the node plus a
 ---  `plantlike` extension above
 ---* If `paramtype2="leveled", the `plantlike` extension has a height
 ---  of `param2 / 16` nodes, otherwise it's the height of 1 node
@@ -302,7 +307,8 @@ local node = {}
 ---Node boxes
 -------------
 
----Node selection boxes are defined using "node boxes".
+---Node selection boxes and collision boxes, and the appearance of the `nodebox`
+---drawtype, are defined using "node boxes".
 ---
 ---A nodebox is defined as any of:
 ---
@@ -367,25 +373,25 @@ local node = {}
 ---To avoid collision issues, keep each value within the range of +/- 1.45.
 ---This also applies to leveled nodeboxes, where the final height shall not
 ---exceed this soft limit.
----@class mt.NodeBox
----@field type mt.ParamType2|"regular"|"fixed"|"connected"
----@field fixed mt.NodeBox|mt.NodeBox[]
----@field wall_top mt.NodeBox
----@field wall_bottom mt.NodeBox
----@field wall_side mt.NodeBox
----@field connect_top mt.NodeBox|mt.NodeBox[]
----@field connect_bottom mt.NodeBox|mt.NodeBox[]
----@field connect_front mt.NodeBox|mt.NodeBox[]
----@field connect_left mt.NodeBox|mt.NodeBox[]
----@field connect_back mt.NodeBox|mt.NodeBox[]
----@field connect_right mt.NodeBox|mt.NodeBox[]
----@field disconnect_top mt.NodeBox|mt.NodeBox[]
----@field disconnect_bottom mt.NodeBox|mt.NodeBox[]
----@field disconnect_front mt.NodeBox|mt.NodeBox[]
----@field disconnect_left mt.NodeBox|mt.NodeBox[]
----@field disconnect_back mt.NodeBox|mt.NodeBox[]
----@field disconnect_right mt.NodeBox|mt.NodeBox[]
----@field disconnected_sides mt.NodeBox|mt.NodeBox[]
+---@class lt.NodeBox
+---@field type lt.ParamType2|"regular"|"fixed"|"connected"
+---@field fixed lt.NodeBox|lt.NodeBox[]
+---@field wall_top lt.NodeBox
+---@field wall_bottom lt.NodeBox
+---@field wall_side lt.NodeBox
+---@field connect_top lt.NodeBox|lt.NodeBox[]
+---@field connect_bottom lt.NodeBox|lt.NodeBox[]
+---@field connect_front lt.NodeBox|lt.NodeBox[]
+---@field connect_left lt.NodeBox|lt.NodeBox[]
+---@field connect_back lt.NodeBox|lt.NodeBox[]
+---@field connect_right lt.NodeBox|lt.NodeBox[]
+---@field disconnect_top lt.NodeBox|lt.NodeBox[]
+---@field disconnect_bottom lt.NodeBox|lt.NodeBox[]
+---@field disconnect_front lt.NodeBox|lt.NodeBox[]
+---@field disconnect_left lt.NodeBox|lt.NodeBox[]
+---@field disconnect_back lt.NodeBox|lt.NodeBox[]
+---@field disconnect_right lt.NodeBox|lt.NodeBox[]
+---@field disconnected_sides lt.NodeBox|lt.NodeBox[]
 ---@field [1] number x1
 ---@field [2] number y1
 ---@field [3] number z1
@@ -396,13 +402,14 @@ local box = {}
 
 ---A 'mapblock' (often abbreviated to 'block') is 16x16x16 nodes and is the
 ---fundamental region of a world that is stored in the world database, sent to
----clients and handled by many parts of the engine.
+---clients and handled by many parts of the engine. This size is available as the
+---constant `core.MAP_BLOCKSIZE` (=16).
 ---'mapblock' is preferred terminology to 'block' to help avoid confusion with
 ---'node', however 'block' often appears in the API.
----@alias mt.MapBlock table
+---@alias lt.MapBlock table
 
 ---A 'mapchunk' (sometimes abbreviated to 'chunk') is usually 5x5x5 mapblocks
 ---(80x80x80 nodes) and is the volume of world generated in one operation by
 ---the map generator.
 ---The size in mapblocks has been chosen to optimize map generation.
----@alias mt.MapChunk table
+---@alias lt.MapChunk table

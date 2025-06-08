@@ -2,14 +2,14 @@
 ---pointed_thing
 ----------------
 
----@class mt.PointedThing
+---@class lt.PointedThing
 ---@field type "nothing"|"node"|"object"
----@field under mt.Vector Refers to the node position behind the pointed face.
----@field above mt.Vector Refers to the node position in front of the pointed face.
----@field ref mt.ObjectRef|nil
+---@field under lt.Vector Refers to the node position behind the pointed face.
+---@field above lt.Vector Refers to the node position in front of the pointed face.
+---@field ref lt.ObjectRef|nil
 ---The absolute world coordinates of the point on the selection box which is
 ---pointed at. May be in the selection box if the pointer is in the box too.
----@field intersection_point mt.Vector|nil
+---@field intersection_point lt.Vector|nil
 ---The ID of the pointed selection box (counting starts from 1).
 ---@field box_id number|nil
 ---Unit vector, points outwards of the
@@ -17,4 +17,4 @@
 ---Is a null vector `vector.zero()` when the pointer is inside the selection box.
 ---For entities with rotated selection boxes, this will be rotated properly
 ---by the entity's rotation - it will always be in absolute world space.
----@field intersection_normal mt.Vector|nil
+---@field intersection_normal lt.Vector|nil

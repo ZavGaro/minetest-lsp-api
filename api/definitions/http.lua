@@ -3,17 +3,17 @@
 ---------------------------
 
 -- Used by `HTTPApiTable.fetch` and `HTTPApiTable.fetch_async`.
----@class mt.HTTPReqDef
+---@class lt.HTTPReqDef
 ---@field url string
 -- Timeout for request to be completed in seconds. Default depends on engine settings.
 ---@field timeout number
 -- The http method to use. Defaults to "GET".
----@field method "GET"|"POST"|"PUT"|"DELETE"
--- Data for the POST, PUT or DELETE request.
+---@field method "GET"|"HEAD"|"POST"|"PUT"|"PATCH"|"DELETE"
+-- Data for the POST, PUT, PATCH or DELETE request.
 -- Accepts both a string and a table. If a table is specified, encodes
 -- table as x-www-form-urlencoded key-value pairs.
 ---@field data string|table
--- Optional, if specified replaces the default minetest user agent with
+-- Optional, if specified replaces the default Luanti user agent with
 -- given string.
 ---@field user_agent string|nil
 -- Optional, if specified adds additional headers to the HTTP request.

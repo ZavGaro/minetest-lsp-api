@@ -2,8 +2,12 @@
 ---ABM (ActiveBlockModifier) definition
 ---------------------------------------
 
----Used by `minetest.register_abm`.
----@class mt.ABMDef
+--- Used by `core.register_abm`.
+--- 
+--- An active block modifier (ABM) is used to define a function that is continously
+--- and randomly called for specific nodes (defined by `nodenames` and other conditions)
+--- in active mapblocks.
+---@class lt.ABMDef
 -- Descriptive label for profiling purposes (optional).
 -- Definitions with identical labels will be listed as one.
 ---@field label string|nil
@@ -15,8 +19,14 @@
 -- If left out or empty, any neighbor will do.
 -- `group:groupname` can also be used here.
 ---@field neighbors string|string[]
+-- `without_neighbors = {"default:lava_source", "default:lava_flowing"}`
+--
+-- Only apply `action` to nodes that have no one of these neighbors.
+-- If left out or empty, it has no effect.
+-- `group:groupname` can also be used here.
+---@field without_neighbors string[]
 ---@field interval number Operation interval in seconds.
--- Chance of triggering `action` per-node per-interval is 1.0 / this value
+-- Probability of triggering `action` per-node per-interval is 1.0 / chance (integers only)
 ---@field chance number
 -- Min height level where ABM will be processed can be used to reduce CPU usage.
 ---@field min_y number
@@ -33,8 +43,8 @@ local abm = {}
 --
 -- If any neighboring mapblocks are unloaded an estmate is calculated for them
 -- based on loaded mapblocks.
----@param pos mt.Vector
----@param node mt.Node
+---@param pos lt.Vector
+---@param node lt.Node
 ---@param active_object_count number Active objects in the node's mapblock.
 ---@param active_object_count_wider number  Plus all 26 neighboring mapblocks.
 function abm.action(pos, node, active_object_count, active_object_count_wider) end

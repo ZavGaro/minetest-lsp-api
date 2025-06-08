@@ -2,9 +2,9 @@
 ---Item definition
 ------------------
 
--- Used by `minetest.register_node`, `minetest.register_craftitem`, and
--- `minetest.register_tool`.
----@class mt.ItemDef
+-- Used by `core.register_node`, `core.register_craftitem`, and
+-- `core.register_tool`.
+---@class lt.ItemDef
 ---@field name string|nil
 ---@field type string|nil
 ---Item's description.
@@ -27,7 +27,7 @@
 ---* `{soil = 2, outerspace = 1, crumbly = 1}`
 ---* `{bendy = 2, snappy = 1}`
 ---* `{hard = 1, metal = 1, spikes = 1}`
----@field groups mt.ObjectGroups|nil
+---@field groups lt.ObjectGroups|nil
 ---Item inventory texture.
 ---@field inventory_image string|nil
 ---An overlay to the inventory texture which does not get colorized.
@@ -43,9 +43,9 @@
 ---The palette is always stretched to fit indices between `0` and `255`, to ensure compatibility with `"colorfacedir"` and `"colorwallmounted"` nodes.
 ---@field palette string|nil
 ---The color of the item. The palette overrides this.
----@field color mt.ColorSpec|nil
+---@field color lt.ColorSpec|nil
 ---The scale the item will have in the player hand.
----@field wield_scale mt.Vector|nil
+---@field wield_scale lt.Vector|nil
 ---How much items can be stacked together.
 ---
 ---The default value of `99` may be configured by users using the setting `"default_stack_max"`.
@@ -54,17 +54,43 @@
 ---@field range number|nil
 ---If true, item points to all liquid nodes (`liquidtype ~= "none"`), even those for which `pointable = false`.
 ---@field liquids_pointable boolean|nil
+--- ```lua
+--- pointabilities = {
+---     nodes = {
+---         ["default:stone"] = "blocking",
+---         ["group:leaves"] = false,
+---     },
+---     objects = {
+---         ["modname:entityname"] = true,
+---         ["group:ghosty"] = true, -- (an armor group)
+---     },
+--- },
+---  ```
+--- Contains lists to override the `pointable` property of nodes and objects.
+--- The index can be a node/entity name or a group with the prefix `"group:"`.
+--- (For objects `armor_groups` are used and for players the entity name is irrelevant.)
+--- If multiple fields fit, the following priority order is applied:
+--- 1. value of matching node/entity name
+--- 2. `true` for any group
+--- 3. `false` for any group
+--- 4. `"blocking"` for any group
+--- 5. `liquids_pointable` if it is a liquid node
+--- 6. `pointable` property of the node or object
+---@field pointabilities? {nodes: table<string, true|false|'blocking'>, objects: table<string, true|false|'blocking'>}
 ---* **When used for nodes:** Defines amount of light emitted by node.
 ---* **Otherwise:** Defines texture glow when viewed as a dropped item
 ---
----To set the maximum (`14`), use the value `minetest.LIGHT_MAX`.
+---To set the maximum (`14`), use the value `core.LIGHT_MAX`.
 ---
----A value outside the range `0` to `minetest.LIGHT_MAX` causes undefined behavior.
+---A value outside the range `0` to `core.LIGHT_MAX` causes undefined behavior.
 ---
 ---Default: `0`
 ---@field light_source integer|nil
 ---Define the tool capabilities.
----@field tool_capabilities mt.ToolCaps|nil
+---@field tool_capabilities lt.ToolCaps|nil
+--- Set wear bar color of the tool by setting color stops and blend mode
+--- See "Wear Bar Color" section for further explanation including an example
+---@field wear_color? lt.WearBarColor
 ---Define client-side placement prediction.
 ---
 ---* If `nil` and item is node, prediction is made automatically.
@@ -86,21 +112,50 @@
 ---
 ---Default: `""`
 ---@field node_dig_prediction string|nil
+--- ```lua
+--- touch_interaction = <TouchInteractionMode> OR {
+---     pointed_nothing = <TouchInteractionMode>,
+---     pointed_node    = <TouchInteractionMode>,
+---     pointed_object  = <TouchInteractionMode>,
+--- },
+--- ```
+--- Only affects touchscreen clients.
+--- Defines the meaning of short and long taps with the item in hand.
+--- If specified as a table, the field to be used is selected according to
+--- the current `pointed_thing`.
+--- There are three possible TouchInteractionMode values:
+--- * "long_dig_short_place" (long tap  = dig, short tap = place)
+--- * "short_dig_long_place" (short tap = dig, long tap  = place)
+--- * "user":
+---   * For `pointed_object`: Equivalent to "short_dig_long_place" if the
+---     client-side setting "touch_punch_gesture" is "short_tap" (the
+---     default value) and the item is able to punch (i.e. has no on_use
+---     callback defined).
+---     Equivalent to "long_dig_short_place" otherwise.
+---   * For `pointed_node` and `pointed_nothing`:
+---     Equivalent to "long_dig_short_place".
+---   * The behavior of "user" may change in the future.
+--- The default value is "user".
+---@field touch_interaction?
+---|lt.TouchInteractionMode
+---|{pointed_nothing: lt.TouchInteractionMode,
+---  pointed_node: lt.TouchInteractionMode,
+---  pointed_object: lt.TouchInteractionMode}
 ---Definition of items sounds to be played at various events.
 ---
 ---All fields in this table are optional.
 ---
 ---* `breaks`: When tool breaks due to wear. Ignored for non-tools.
----* `eat`: When item is eaten with `minetest.do_item_eat`.
----@field sound {breaks: mt.SimpleSoundSpec, eat: mt.SimpleSoundSpec}|nil
+---* `eat`: When item is eaten with `core.do_item_eat`.
+---@field sound {breaks: lt.SimpleSoundSpec, eat: lt.SimpleSoundSpec}|nil
 ---When the `place` key was pressed with the item in hand and a node was pointed at.
 ---
 ---Shall place item and return the leftover `itemstack` or `nil` to not modify the inventory.
 ---
 ---The placer may be any `ObjectRef` or `nil`.
 ---
----default: `minetest.item_place`
----@field on_place nil|fun(itemstack: mt.ItemStack, placer?: mt.ObjectRef, pointed_thing: mt.PointedThing): mt.ItemStack?
+---default: `core.item_place`
+---@field on_place nil|fun(itemstack: lt.ItemStack, placer?: lt.ObjectRef, pointed_thing: lt.PointedThing): lt.ItemStack?
 ---Same as `on_place` but called when not pointing at a node.
 ---
 ---Function must return either `nil` if inventory shall not be modified, or an `itemstack` to replace the original `itemstack`.
@@ -108,20 +163,20 @@
 ---The user may be any `ObjectRef` or `nil`.
 ---
 ---default: `nil`
----@field on_secondary_use nil|fun(itemstack: mt.ItemStack, placer?: mt.ObjectRef, pointed_thing: mt.PointedThing): mt.ItemStack?
+---@field on_secondary_use nil|fun(itemstack: lt.ItemStack, placer?: lt.ObjectRef, pointed_thing: lt.PointedThing): lt.ItemStack?
 -- Called when a dropped item is punched by a player.
 --
 -- Shall pick-up the item and return the leftover itemstack or nil to not
 -- modify the dropped item.
 --
--- default: `minetest.item_pickup`
----@field on_pickup nil|fun(itemstack: mt.ItemStack, picker?: mt.ObjectRef, pointed_thing?: mt.PointedThing, time_from_last_punch?: number, ...?: any): mt.ItemStack?
+-- default: `core.item_pickup`
+---@field on_pickup nil|fun(itemstack: lt.ItemStack, picker?: lt.ObjectRef, pointed_thing?: lt.PointedThing, time_from_last_punch?: number, ...?: any): lt.ItemStack?
 ---Shall drop item and return the leftover `itemstack`.
 ---
 ---The dropper may be any `ObjectRef` or `nil`.
 ---
----default: `minetest.item_drop`
----@field on_drop nil|fun(itemstack: mt.ItemStack, dropper?: mt.ObjectRef, pos: mt.Vector): mt.ItemStack?
+---default: `core.item_drop`
+---@field on_drop nil|fun(itemstack: lt.ItemStack, dropper?: lt.ObjectRef, pos: lt.Vector): lt.ItemStack?
 ---When user pressed the `punch/mine` key with the item in hand.
 ---
 ---Function must return either `nil` if inventory shall not be modified, or an `itemstack` to replace the original `itemstack`.
@@ -138,7 +193,7 @@
 ---The default functions handle regular use cases.
 ---
 ---default: `nil`
----@field on_use nil|fun(itemstack: mt.ItemStack, user?: mt.ObjectRef, pointed_thing: mt.PointedThing): mt.ItemStack?
+---@field on_use nil|fun(itemstack: lt.ItemStack, user?: lt.ObjectRef, pointed_thing: lt.PointedThing): lt.ItemStack?
 ---If defined, should return an itemstack and will be called instead of wearing out the item (if tool).
 ---
 ---If returns `nil`, does nothing.
@@ -152,4 +207,9 @@
 ---```
 ---
 ---The user may be any `ObjectRef` or `nil`.
----@field after_use nil|fun(itemstack: mt.ItemStack, user?: mt.ObjectRef, node: mt.Node, digparams: unknown): mt.ItemStack?
+---@field after_use nil|fun(itemstack: lt.ItemStack, user?: lt.ObjectRef, node: lt.Node, digparams: unknown): lt.ItemStack?
+
+---@alias lt.TouchInteractionMode 
+---|'user' meaning depends on client-side settings
+---|'long_dig_short_place' long tap = dig, short tap = place
+---|'short_dig_long_place' short tap = dig, long tap = place

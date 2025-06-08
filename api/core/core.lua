@@ -1,0 +1,196 @@
+---@meta
+
+---Luanti 5.12 [7602b6](https://github.com/luanti-org/luanti/blob/7602b6/doc/lua_api.txt) API
+---
+---* [Official site](http://www.luanti.org)
+---* [Developer Wiki](http://dev.luanti.org)
+---* [Unofficial Modding Book](https://rubenwardy.com/minetest_modding_book)
+---* [Modding tools](https://github.com/luanti-org/modtools)
+---@class lt.Core
+core = {
+  CONTENT_AIR = 126,
+  CONTENT_IGNORE = 127,
+  CONTENT_UNKNOWN = 125,
+  EMERGE_CANCELLED = 0,
+  EMERGE_ERRORED = 1,
+  EMERGE_FROM_DISK = 3,
+  EMERGE_FROM_MEMORY = 2,
+  EMERGE_GENERATED = 4,
+  LIGHT_MAX = 14,
+  MAP_BLOCKSIZE = 16,
+  PLAYER_MAX_BREATH_DEFAULT = 10,
+  PLAYER_MAX_HP_DEFAULT = 20,
+}
+
+--- Minetest aliases
+
+minetest = core
+
+-- Classes
+
+---@alias mt.AreaStore lt.AreaStore
+---@alias mt.AreaInfo lt.AreaInfo
+---@alias mt.AreaCacheParams lt.AreaCacheParams
+---@alias mt.ColorTable lt.ColorTable
+---@alias mt.HUDProto lt.HUDProto
+---@alias mt.HUDImage lt.HUDImage
+---@alias mt.HUDText lt.HUDText
+---@alias mt.HUDStatBar lt.HUDStatBar
+---@alias mt.HUDInventory lt.HUDInventory
+---@alias mt.HUDHotBar lt.HUDHotBar
+---@alias mt.HUDWaypoint lt.HUDWaypoint
+---@alias mt.HUDImageWaypoint lt.HUDImageWaypoint
+---@alias mt.HUDCompass lt.HUDCompass
+---@alias mt.HudMinimap lt.HudMinimap
+---@alias mt.InvRef lt.InvRef
+---@alias mt.ItemTable lt.ItemTable
+---@alias mt.ItemStack lt.ItemStack
+---@alias mt.WearBarColor lt.WearBarColor
+---@alias mt.MetaDataRef lt.MetaDataRef
+---@alias mt.NodeMetaRef lt.NodeMetaRef
+---@alias mt.ItemStackMetaRef lt.ItemStackMetaRef
+---@alias mt.StorageRef lt.StorageRef
+---@alias mt.PlayerMetaRef lt.PlayerMetaRef
+---@alias mt.ModChannel lt.ModChannel
+---@alias mt.Node lt.Node
+---@alias mt.MapNode lt.MapNode
+---@alias mt.NodeBox lt.NodeBox
+---@alias mt.NodeTimerRef lt.NodeTimerRef
+---@alias mt.ObjectRefProto lt.ObjectRefProto
+---@alias mt.BoneOverride lt.BoneOverride
+---@alias mt.BoneOverrideProperty lt.BoneOverrideProperty
+---@alias mt.NameTagAttributes lt.NameTagAttributes
+---@alias mt.LuaObjectRef lt.LuaObjectRef
+---@alias mt.PlayerObjectRef lt.PlayerObjectRef
+---@alias mt.PhysicsOverride lt.PhysicsOverride
+---@alias mt.HUDFlags lt.HUDFlags
+---@alias mt.MiniMapMode lt.MiniMapMode
+---@alias mt.SkyParameters lt.SkyParameters
+---@alias mt.SkyColor lt.SkyColor
+---@alias mt.Fog lt.Fog
+---@alias mt.SunParameters lt.SunParameters
+---@alias mt.MoonParameters lt.MoonParameters
+---@alias mt.StarParameters lt.StarParameters
+---@alias mt.CloudParameters lt.CloudParameters
+---@alias mt.Light lt.Light
+---@alias mt.PcgRandom lt.PcgRandom
+---@alias mt.ValueNoiseParams lt.ValueNoiseParams
+---@alias mt.ValueNoise lt.ValueNoise
+---@alias mt.ValueNoiseMap lt.ValueNoiseMap
+---@alias mt.PointedThing lt.PointedThing
+---@alias mt.PseudoRandom lt.PseudoRandom
+---@alias mt.Raycast lt.Raycast
+---@alias mt.SecureRandom lt.SecureRandom
+---@alias mt.Settings lt.Settings
+---@alias mt.SettingsTable lt.SettingsTable
+---@alias mt.SimpleSoundSpecTable lt.SimpleSoundSpecTable
+---@alias mt.SoundParameters lt.SoundParameters
+---@alias mt.ToolCaps lt.ToolCaps
+---@alias mt.Vector lt.Vector
+---@alias mt.Core lt.Core
+---@alias mt.BiomeData lt.BiomeData
+---@alias mt.MapgenParams lt.MapgenParams
+---@alias mt.PlayerHPChangeReason lt.PlayerHPChangeReason
+---@alias mt.DigParams lt.DigParams
+---@alias mt.HitParams lt.HitParams
+---@alias mt.HTTPRequest lt.HTTPRequest
+---@alias mt.HTTPRequestResult lt.HTTPRequestResult
+---@alias mt.HTTPApiTable lt.HTTPApiTable
+---@alias mt.InvLocation lt.InvLocation
+---@alias mt.CraftInput lt.CraftInput
+---@alias mt.CraftOutput lt.CraftOutput
+---@alias mt.AllCraftRecipes lt.AllCraftRecipes
+---@alias mt.Job lt.Job
+---@alias mt.RollbackAction lt.RollbackAction
+---@alias mt.Feature lt.Feature
+---@alias mt.PlayerInfo lt.PlayerInfo
+---@alias mt.PlayerWindowInfo lt.PlayerWindowInfo
+---@alias mt.EngineVersion lt.EngineVersion
+---@alias mt.ABMDef lt.ABMDef
+---@alias mt.AuthHandlerDef lt.AuthHandlerDef
+---@alias mt.BiomeDef lt.BiomeDef
+---@alias mt.ChatCmdDef lt.ChatCmdDef
+---@alias mt.DecorDefCommon lt.DecorDefCommon
+---@alias mt.DecorDefSimple lt.DecorDefSimple
+---@alias mt.DecorDefSchematic lt.DecorDefSchematic
+---@alias mt.DecorDefLSystem lt.DecorDefLSystem
+---@alias mt.DetachedInvDef lt.DetachedInvDef
+---@alias mt.EntityDef lt.EntityDef
+---@alias mt.CollisionInfo lt.CollisionInfo
+---@alias mt.Collisions lt.Collisions
+---@alias mt.HTTPReqDef lt.HTTPReqDef
+---@alias mt.HUDDef lt.HUDDef
+---@alias mt.ItemDef lt.ItemDef
+---@alias mt.LBMDef lt.LBMDef
+---@alias mt.VoxelManip lt.VoxelManip
+---@alias mt.VoxelArea lt.VoxelArea
+---@alias mt.GenNotify lt.GenNotify
+---@alias mt.NodeDef lt.NodeDef
+---@alias mt.NodeSoundsDef lt.NodeSoundsDef
+---@alias mt.NodeDropDef lt.NodeDropDef
+---@alias mt.NodeDropItemsDef lt.NodeDropItemsDef
+---@alias mt.ObjectProp lt.ObjectProp
+---@alias mt.OreDef lt.OreDef
+---@alias mt.NoiseParams lt.NoiseParams
+---@alias mt.ParticleDef lt.ParticleDef
+---@alias mt.ParticleSpawnerDef lt.ParticleSpawnerDef
+---@alias mt.ParticleTexture lt.ParticleTexture
+---@alias mt.PrivDef lt.PrivDef
+---@alias mt.CraftRecipeShaped lt.CraftRecipeShaped
+---@alias mt.CraftRecipeShapeless lt.CraftRecipeShapeless
+---@alias mt.CraftRecipeRepair lt.CraftRecipeRepair
+---@alias mt.CraftRecipeCooking lt.CraftRecipeCooking
+---@alias mt.CraftRecipeFuel lt.CraftRecipeFuel
+---@alias mt.SchematicSpecTable lt.SchematicSpecTable
+---@alias mt.SchematicProbability lt.SchematicProbability
+---@alias mt.SchematicSliceProbability lt.SchematicSliceProbability
+---@alias mt.SchematicSerializeOptions lt.SchematicSerializeOptions
+---@alias mt.SchematicReadOptions lt.SchematicReadOptions
+---@alias mt.TileTableDef lt.TileTableDef
+---@alias mt.TileAnimDef lt.TileAnimDef
+---@alias mt.TreeDef lt.TreeDef
+
+-- Types
+
+---@alias mt.AreaID lt.AreaID
+---@alias mt.ColorString lt.ColorString
+---@alias mt.ColorInteger lt.ColorInteger
+---@alias mt.ColorSpec lt.ColorSpec
+---@alias mt.HUDDirection lt.HUDDirection
+---@alias mt.HUDElement lt.HUDElement
+---@alias mt.Item lt.Item
+---@alias mt.ItemString lt.ItemString
+---@alias mt.NodeParam lt.NodeParam
+---@alias mt.ParamType lt.ParamType
+---@alias mt.ParamType2 lt.ParamType2
+---@alias mt.DrawType lt.DrawType
+---@alias mt.MapBlock lt.MapBlock
+---@alias mt.MapChunk lt.MapChunk
+---@alias mt.ObjectRef lt.ObjectRef
+---@alias mt.SpecialSoundFile lt.SpecialSoundFile
+---@alias mt.SimpleSoundSpec lt.SimpleSoundSpec
+---@alias mt.PrivsSet lt.PrivsSet
+---@alias mt.DecorID lt.DecorID
+---@alias mt.VoxelManipName lt.VoxelManipName
+---@alias mt.InvInfo lt.InvInfo
+---@alias mt.ObjectGroups lt.ObjectGroups
+---@alias mt.LogLevel lt.LogLevel
+---@alias mt.ObjectID lt.ObjectID
+---@alias mt.SoundHandle lt.SoundHandle
+---@alias mt.Translator lt.Translator
+---@alias mt.LangCode lt.LangCode
+---@alias mt.DecorType lt.DecorType
+---@alias mt.DecorDef lt.DecorDef
+---@alias mt.TouchInteractionMode lt.TouchInteractionMode
+---@alias mt.VoxelAreaStride lt.VoxelAreaStride
+---@alias mt.MapgenObject lt.MapgenObject
+---@alias mt.OreType lt.OreType
+---@alias mt.OreFlagString lt.OreFlagString
+---@alias mt.OreFlagsTable lt.OreFlagsTable
+---@alias mt.OreFlags lt.OreFlags
+---@alias mt.CraftRecipe lt.CraftRecipe
+---@alias mt.SchematicSpec lt.SchematicSpec
+---@alias mt.SchematicAttr lt.SchematicAttr
+---@alias mt.SchematicFormat lt.SchematicFormat
+---@alias mt.TileDef lt.TileDef
+---@alias mt.TreeAxioms lt.TreeAxioms

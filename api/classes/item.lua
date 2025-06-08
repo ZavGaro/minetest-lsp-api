@@ -12,7 +12,7 @@
 --
 -- When an item must be passed to a function, it can usually be in any of
 -- these formats.
----@alias mt.Item mt.ItemStack|mt.ItemString|mt.ItemTable|nil
+---@alias lt.Item lt.ItemStack|lt.ItemString|lt.ItemTable|nil
 
 -- It is a simple string with 1-4 components:
 --
@@ -48,10 +48,10 @@
 --     stack:get_meta():set_string("description", "My worn out pick")
 --     local itemstring = stack:to_string()
 --
--- Additionally the methods `minetest.itemstring_with_palette(item, palette_index)`
--- and `minetest.itemstring_with_color(item, colorstring)` may be used to create
+-- Additionally the methods `core.itemstring_with_palette(item, palette_index)`
+-- and `core.itemstring_with_color(item, colorstring)` may be used to create
 -- item strings encoding color information in their metadata.
----@alias mt.ItemString string
+---@alias lt.ItemString string
 
 -- 5 dirt nodes:
 --
@@ -64,7 +64,7 @@
 -- An apple:
 --
 --     {name="default:apple", count=1, wear=0, metadata=""}
----@class mt.ItemTable
+---@class lt.ItemTable
 ---@field name string
 ---@field count number
 ---@field wear number

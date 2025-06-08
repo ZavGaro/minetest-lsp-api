@@ -1,4 +1,4 @@
-# Minetest 5.8 LSP API
+# Luanti 5.12 LSP API
 
 These API-headers are made for [lua-language-server].
 

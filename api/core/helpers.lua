@@ -3,11 +3,11 @@
 ---Helper functions
 -------------------
 
--- Returns a string which makes `obj` human-readable.
----@param obj any
----@param dumped string|nil Default: `{}`.
+-- Returns a string which makes `value` human-readable.
+---@param value any Circular references are supported. Every table is dumped only once.
+---@param indent? string string to use for indentation, default: `"\t"`. `""` disables indentation & line breaks (compact output)
 ---@return string
-function dump(obj, dumped) end
+function dump(value, indent) end
 
 -- Returns a string which makes `obj` human-readable, handles reference loops.
 ---@param obj any
@@ -18,8 +18,8 @@ function dump2(obj, name, dumped) end
 
 -- Get the hypotenuse of a triangle with legs x and y. Useful for distance
 -- calculation.
----@param x mt.Vector
----@param y mt.Vector
+---@param x lt.Vector
+---@param y lt.Vector
 ---@return number
 function math.hypot(x, y) end
 
@@ -66,60 +66,71 @@ function string.trim(str) end
 ---@param limit number Maximal amount of characters in one line.
 ---@param as_table boolean|nil If `true`, a table of lines instead of a string is returned, default: `false`.
 ---@return string|table
-function minetest.wrap_text(str, limit, as_table) end
+function core.wrap_text(str, limit, as_table) end
 
 -- Convert a vector to human-readable string `"(X,Y,Z)"`.
----@param pos mt.Vector
+---@param pos lt.Vector
 ---@param decimal_places number|nil If specified, the x, y and z values of the position are rounded to the given decimal place.
 ---@return string
-function minetest.pos_to_string(pos, decimal_places) end
+function core.pos_to_string(pos, decimal_places) end
 
 -- Convert a string like `"(X,Y,Z)"` to a vector.
 --
 -- If string can't be parsed to a position, nothing is returned.
----@return mt.Vector|nil
-function minetest.string_to_pos(string) end
+---@return lt.Vector|nil
+function core.string_to_pos(string) end
 
 --[[
 Convert a string like `"(X1, Y1, Z1) (X2, Y2, Z2)"` to two vectors - box angles.
 
 - `relative_to`: Optional. If set to a position, each coordinate can use the
   tilde notation for relative positions.
-- Tilde notation: `"~"`: Relative coordinate `"~<number>"`: Relative coordinate
-  plus `<number>`.
-- Example: `minetest.string_to_area("(1,2,3) (~5,~-5,~)", {x=10,y=10,z=10})`
+- Tilde notation
+  - `"~"`: Relative coordinate
+  - `"~<number>"`: Relative coordinate plus `<number>`
+- Example: `core.string_to_area("(1,2,3) (~5,~-5,~)", {x=10,y=10,z=10})`
   returns `{x=1,y=2,z=3}, {x=15,y=5,z=10}`.
 ]]
 ---@param str string
----@param relative_to mt.Vector|nil
----@return mt.Vector, mt.Vector
-function minetest.string_to_area(str, relative_to) end
+---@param relative_to lt.Vector|nil
+---@return lt.Vector, lt.Vector
+function core.string_to_area(str, relative_to) end
 
 -- Escapes the characters `"["`, `"]"`, `"\"`, `","` and `";"`,
 -- which can not be used in formspecs.
 ---@param str string
 ---@return string
-function minetest.formspec_escape(str) end
+function core.formspec_escape(str) end
 
 -- Returns true if passed 'y', 'yes', 'true' or a number that isn't zero.
 ---@param arg any
 ---@return boolean
-function minetest.is_yes(arg) end
+function core.is_yes(arg) end
 
 -- Returns true when the passed number represents NaN.
 ---@param arg any
 ---@return boolean
-function minetest.is_nan(arg) end
+function core.is_nan(arg) end
 
 -- Returns time with microsecond precision. May not return wall time.
 ---@return number
-function minetest.get_us_time() end
+function core.get_us_time() end
 
 -- Returns a deep copy of `t`.
+--
+-- strips metatables, but this may change in the future
 ---@generic T:table
 ---@param t T
 ---@return T
 function table.copy(t) end
+
+--- * since 5.12
+--- * `table` can also be non-table value, which will be returned as-is
+--- * preserves metatables as they are
+---@generic T
+---@param t T
+---@return T
+function table.copy_with_metatables(t) end
 
 --[[
 Returns the smallest numerical index containing
@@ -131,6 +142,15 @@ indexes.
 ---@param val any
 ---@return integer
 function table.indexof(list, val) end
+
+--- Returns the key containing
+--- the value `val` in the table `table`. If multiple keys contain `val`,
+--- it is unspecified which key will be returned.
+--- If `val` could not be found, `nil` is returned.
+---@param table table
+---@param val any
+---@return any?
+function table.keyof(table, val) end
 
 -- Appends all values in `other_table` to `table` - uses `#table + 1` to find
 -- new indexes.
@@ -154,10 +174,10 @@ function table.key_value_swap(t) end
 function table.shuffle(table, from, to, random_func) end
 
 -- Returns the exact position on the surface of a pointed node.
----@param placer mt.ObjectRef
----@param pointed_thing mt.PointedThing
----@return mt.Vector position
-function minetest.pointed_thing_to_face_pos(placer, pointed_thing) end
+---@param placer lt.ObjectRef
+---@param pointed_thing lt.PointedThing
+---@return lt.Vector position
+function core.pointed_thing_to_face_pos(placer, pointed_thing) end
 
 --[[
 Simulates a tool being used once and returns the added wear, such that, if
@@ -167,16 +187,16 @@ after `uses` times of uses.
 ---@param uses number Number of times the tool can be used.
 ---@param initial_wear number|nil Initial wear the tool starts with (default: `0`).
 ---@return number
-function minetest.get_tool_wear_after_use(uses, initial_wear) end
+function core.get_tool_wear_after_use(uses, initial_wear) end
 
 -- Simulates an item that digs a node.
----@param groups mt.ObjectGroups
----@param tool_capabilities mt.ToolCaps
+---@param groups lt.ObjectGroups
+---@param tool_capabilities lt.ToolCaps
 ---@param wear number|nil Amount of wear the tool starts with (default: `0`).
----@return mt.DigParams
-function minetest.get_dig_params(groups, tool_capabilities, wear) end
+---@return lt.DigParams
+function core.get_dig_params(groups, tool_capabilities, wear) end
 
----@class mt.DigParams
+---@class lt.DigParams
 ---@field diggable boolean `true` if node can be dug, `false` otherwise.
 ---@field time number|nil Time it would take to dig the node.
 -- How much wear would be added to the tool (ignored for non-tools).
@@ -201,18 +221,18 @@ groups, you must interpret `nil` and `0` as the same value, `0`.
 
 You can read the rating of a group for an item or a node by using
 
-    minetest.get_item_group(itemname, groupname)
+    core.get_item_group(itemname, groupname)
 ]]
----@alias mt.ObjectGroups table<string, number>
+---@alias lt.ObjectGroups table<string, number>
 
 -- Simulates an item that punches an object.
----@param groups mt.ObjectGroups
----@param tool_caps mt.ToolCaps
+---@param groups lt.ObjectGroups
+---@param tool_caps lt.ToolCaps
 ---@param last_punch_time number|nil Time in seconds since last punch action.
 ---@param wear number|nil Amount of wear the item starts with (default: `0`).
----@return mt.HitParams
-function minetest.get_hit_params(groups, tool_caps, last_punch_time, wear) end
+---@return lt.HitParams
+function core.get_hit_params(groups, tool_caps, last_punch_time, wear) end
 
----@class mt.HitParams
+---@class lt.HitParams
 ---@field hp number
 ---@field wear number
