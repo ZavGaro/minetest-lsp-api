@@ -22,6 +22,5 @@ core = {
   PLAYER_MAX_HP_DEFAULT = 20,
 }
 
----@deprecated
 ---@type mt.Core
 minetest = core
