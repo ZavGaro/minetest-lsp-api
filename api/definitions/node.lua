@@ -201,28 +201,20 @@
 -- * Example: if a node is registered as ":othermodname:nodename",
 --   nodename will show "othermodname", but mod_origin will say "modname"
 ---@field mod_origin string|nil
-local node = {}
-
+---
 -- * Node constructor; called after adding node.
 -- * Can set up metadata and stuff like that.
 -- * Not called for bulk node placement (i.e. schematics and VoxelManip).
 -- * Default: `nil`.
----@param pos mt.Vector
-function node.on_construct(pos) end
-
+---@field on_construct? fun(pos: mt.Vector)
 -- * Node destructor; called before removing node.
 -- * Not called for bulk node placement.
 -- * Default: `nil`.
----@param pos mt.Vector
-function node.on_destruct(pos) end
-
+---@field on_destruct? fun(pos: mt.Vector)
 -- * Node destructor; called after removing node.
 -- * Not called for bulk node placement.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param oldnode mt.Node
-function node.after_destruct(pos, oldnode) end
-
+---@field after_destruct? fun(pos: mt.Vector, oldnode: mt.Node)
 -- * Called when a liquid (newnode) is about to flood oldnode, if it has
 --   `floodable = true` in the nodedef.
 -- * Not called for bulk node placement (i.e. schematics and VoxelManip)
@@ -231,57 +223,38 @@ function node.after_destruct(pos, oldnode) end
 --   likely be called over and over again every liquid update interval.
 -- * Default: `nil`.
 -- * Warning: making a liquid node 'floodable' will cause problems.
----@param pos mt.Vector
----@param oldnode mt.Node
----@param newnode mt.Node
-function node.on_flood(pos, oldnode, newnode) end
-
+---@field on_flood? fun(pos: mt.Vector, oldnode: mt.Node, newnode: mt.Node)
 -- * Called when `oldnode` is about be converted to an item, but before the
 --   node is deleted from the world or the drops are added.
 -- * This is generally the result of either the node being dug or an attached
 --   node becoming detached.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param oldnode mt.Node Node table of node before it was deleted.
----@param oldmeta mt.NodeMetaRef Metadata of node before it was deleted, as a metadata table.
----@param drops table<unknown, mt.Item>
-function node.preserve_metadata(pos, oldnode, oldmeta, drops) end
-
+--
+-- Param meanings:
+--
+-- * oldnode: table of node before it was deleted.
+-- * oldmeta: Metadata of node before it was deleted, as a metadata table. 
+---@field preserve_metadata? fun(pos: mt.Vector, oldnode: mt.Node, oldmeta: mt.NodeMetaRef, drops: table<unknown, mt.Item>)
 -- * Called after constructing node when node was placed using
 --   `core.item_place_node` / `core.place_node`.
 -- * If return true no item is taken from itemstack.
 -- * Default: `nil`.
----@param pos mt.Vector Node position.
----@param placer mt.ObjectRef|nil 
----@param itemstack mt.Item
----@param pointed_thing mt.PointedThing
-function node.after_place_node(pos, placer, itemstack, pointed_thing) end
-
+---@field after_place_node? fun(pos: mt.Vector, placer: mt.ObjectRef|nil, itemstack: mt.Item, pointed_thing: mt.PointedThing)
 -- * Called after destructing the node when node was dug using
 --   `core.node_dig` / `core.dig_node`.
 -- * Default: `nil`.
 ---@param pos mt.Vector
----@param oldnode mt.Node Node table of node before it was dug.
----@param oldmetadata table Metadata of node before it was dug, as a metadata table.
----@param digger mt.ObjectRef
-function node.after_dig_node(pos, oldnode, oldmetadata, digger) end
-
+---@param oldnode  Node table of node before it was dug.
+---@param oldmetadata  Metadata of node before it was dug, as a metadata table.
+---@param digger 
+---@field after_dig_node? fun(pos: mt.Vector, oldnode: mt.Node, oldmetadata: table, digger: mt.ObjectRef)
 -- * Returns true if node can be dug, or false if not.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param player mt.ObjectRef
----@return boolean
-function node.can_dig(pos, player) end
-
+---@field can_dig? fun(pos: mt.Vector, player: mt.ObjectRef): boolean
 -- * Default: `core.node_punch`.
 -- * Called when puncher punches the `node` at `pos`.
 -- * By default calls `core.register_on_punchnode` callbacks.
----@param pos mt.Vector
----@param node mt.Node
----@param puncher mt.ObjectRef
----@param pointed_thing mt.PointedThing
-function node.on_punch(pos, node, puncher, pointed_thing) end
-
+---@field on_punch? fun(pos: mt.Vector, node: mt.Node, puncher: mt.ObjectRef, pointed_thing: mt.PointedThing)
 -- * Called when clicker used the 'place/build' key
 --   (not necessarily an actual rightclick)
 --   while pointing at the node at pos with 'node' being the node table.
@@ -291,75 +264,50 @@ function node.on_punch(pos, node, puncher, pointed_thing) end
 -- * This function does not get triggered by clients <=0.4.16 if the
 --   "formspec" node metadata field is set.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param node mt.Node
----@param clicker mt.ObjectRef
----@param itemstack mt.Item
----@param pointed_thing mt.PointedThing|nil
----@return mt.ItemStack|nil leftover
-function node.on_rightclick(pos, node, clicker, itemstack, pointed_thing) end
-
+--
+-- Return value: leftover
+---@field on_rightclick? fun(pos: mt.Vector, node: mt.Node, clicker: mt.ObjectRef, itemstack: mt.Item, pointed_thing: mt.PointedThing|nil): mt.ItemStack|nil
 -- * Default: `core.node_dig`.
 -- * By default checks privileges, wears out item (if tool) and removes node.
 -- * Return `true` if the node was dug successfully, `false` otherwise.
 -- * Deprecated: returning nil is the same as returning true.
----@param pos mt.Vector
----@param node mt.Node
----@param digger mt.ObjectRef
+---@param pos 
+---@param node 
+---@param digger 
 ---@return boolean
-function node.on_dig(pos, node, digger) end
-
+---@field on_dig? fun(pos: mt.Vector, node: mt.Node, digger: mt.ObjectRef)
 -- * Called by NodeTimers, see `core.get_node_timer` and `mt.NodeTimerRef`.
 -- * Return `true` to run the timer for another cycle with the same timeout.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param elapsed number The total time passed since the timer was started.
----@return boolean
-function node.on_timer(pos, elapsed) end
-
+--
+--- Param `elapsed`: The total time passed since the timer was started.
+---@field on_timer? fun(pos: mt.Vector, elapsed: number): boolean
 -- * Called when an UI form (e.g. sign text input) returns data.
 -- * See `core.register_on_player_receive_fields` for more info.
 -- * Default: `nil`.
----@param pos mt.Vector
----@param formname string
----@param fields table<string, unknown> Name = Value.
----@param sender mt.ObjectRef
-function node.on_receive_fields(pos, formname, fields, sender) end
-
+---@field on_receive_fields? fun(pos: mt.Vector, formname: string, fields: table<string, any>, sender: mt.ObjectRef)
 -- * If defined, called when an explosion touches the node,
 --   instead of removing the node.
----@param pos mt.Vector
----@param intensity number 1.0 = mid range of regular TNT.
-function node.on_blast(pos, intensity) end
-
+---@field on_blast? fun(pos: mt.Vector, intensity: number)
 -- Called when a player wants to move items inside the inventory.
 --
 -- * Return value: number of items allowed to move.
 -- * Moving items in the inventory.
 -- * The `allow_*` callbacks return how many items can be moved.
 -- * This callback triggered `before` the action.
----@param pos mt.Vector
----@param from_list unknown
----@param from_index integer
----@param to_list unknown
----@param to_index integer
----@param count integer
----@param player mt.ObjectRef
----@return integer allowed
-function node.allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player) end
-
+--
+-- Return value: number of items allowed to move.
+---@field allow_metadata_inventory_move? fun(pos: mt.Vector, from_list: string,
+---     from_index: integer, to_list: string, to_index: integer, count: integer,
+---     player: mt.ObjectRef): integer
+---
 -- Called after the actual action has happened, according to what was allowed.
 --
 -- * No return value.
----@param pos mt.Vector
----@param from_list unknown
----@param from_index integer
----@param to_list unknown
----@param to_index integer
----@param count integer
----@param player mt.ObjectRef
-function node.on_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player) end
-
+---@field on_metadata_inventory_move? fun(pos: mt.Vector, from_list: string,
+---     from_index: integer, to_list: string, to_index: integer, count: integer,
+---     player: mt.ObjectRef)
+---
 -- Called when a player wants to put something into the inventory.
 --
 -- * Return value: number of items allowed to put.
@@ -367,27 +315,22 @@ function node.on_metadata_inventory_move(pos, from_list, from_index, to_list, to
 -- * Putting items to the inventory.
 -- * The `allow_*` callbacks return how many items can be moved.
 -- * This callback triggered `before` the action.
----@param pos mt.Vector
----@param listname string
----@param index integer
----@param stack mt.Item
----@param player mt.ObjectRef
----@return integer allowed
-function node.allow_metadata_inventory_put(pos, listname, index, stack, player) end
-
+--
+-- Return value: number of items allowed to put.
+--
+-- Return value -1: Allow and don't modify item count in inventory.
+---@field allow_metadata_inventory_put? fun(pos: mt.Vector, listname: string,
+---     index: integer, stack: mt.Item, player: mt.ObjectRef): integer
+---
 -- Called after the actual action has happened, according to what was allowed.
 --
 -- * No return value.
 -- * Moving items in the inventory.
 -- * The `on_*` callbacks are called after the items have been placed in the inventories.
 -- * This callback triggered `after` the action.
----@param pos mt.Vector
----@param listname string
----@param index integer
----@param stack mt.Item
----@param player mt.ObjectRef
-function node.on_metadata_inventory_put(pos, listname, index, stack, player) end
-
+---@field on_metadata_inventory_put? fun(pos: mt.Vector, listname: string,
+---     index: integer, stack: mt.Item, player: mt.ObjectRef)
+---
 -- Called when a player wants to take something out of the inventory.
 --
 -- * Return value: number of items allowed to take.
@@ -395,26 +338,22 @@ function node.on_metadata_inventory_put(pos, listname, index, stack, player) end
 -- * Taking items from the inventory.
 -- * The `allow_*` callbacks return how many items can be moved.
 -- * This callback triggered `before` the action.
----@param pos mt.Vector
----@param listname string
----@param index integer
----@param stack mt.Item
----@param player mt.ObjectRef
----@return integer allowed
-function node.allow_metadata_inventory_take(pos, listname, index, stack, player) end
-
+--
+-- Return value: number of items allowed to take.
+--
+-- Return value -1: Allow and don't modify item count in inventory.
+---@field allow_metadata_inventory_take? fun(pos: mt.Vector, listname: string,
+---     index: integer, stack: mt.Item, player: mt.ObjectRef)
+---
 -- Called after the actual action has happened, according to what was allowed.
 --
 -- * No return value.
 -- * Taking items from the inventory.
 -- * The `on_*` callbacks are called after the items have been placed in the inventories.
 -- * This callback triggered `after` the action.
----@param pos mt.Vector
----@param listname string
----@param index integer
----@param stack mt.Item
----@param player mt.ObjectRef
-function node.on_metadata_inventory_take(pos, listname, index, stack, player) end
+---@field on_metadata_inventory_take? fun(pos: mt.Vector, listname: string,
+---     index: integer, stack: mt.Item, player: mt.ObjectRef)
+local node = {}
 
 -- * Definition of node sounds to be played at various events.
 -- * All fields in this table are optional.
