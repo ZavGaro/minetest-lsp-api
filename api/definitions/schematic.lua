@@ -3,7 +3,7 @@
 -------------
 
 -- A schematic specifier identifies a schematic by either a filename to a
--- Minetest Schematic file (`.mts`) or through raw data supplied through Lua,
+-- Luanti Schematic file (`.mts`) or through raw data supplied through Lua,
 -- in the form of a table.
 ---@class lt.SchematicSpecTable
 -- 3D vector containing the dimensions of the provided schematic. (required field)

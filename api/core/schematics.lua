@@ -9,7 +9,7 @@
 --   nodes according to the `probability_list`.
 -- - Apply the specified probability to the specified horizontal slices according
 --   to the `slice_prob_list`.
--- - Saves schematic in the Minetest Schematic format to `filename`.
+-- - Saves schematic in the Luanti Schematic format to `filename`.
 ---@param p1 lt.Vector
 ---@param p2 lt.Vector
 ---@param probability_list lt.SchematicProbability[]

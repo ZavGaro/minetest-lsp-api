@@ -36,7 +36,7 @@ function core.get_worldpath() end
 -- * Useful for storing custom data *independently of worlds*.
 -- * Must be called during mod load time.
 -- * Can read or write to this directory at any time.
--- * It's possible that multiple Minetest instances are running at the same
+-- * It's possible that multiple Luanti instances are running at the same
 --   time, which may lead to corruption if you are not careful.
 function core.get_mod_data_path() end
 
@@ -184,7 +184,7 @@ function core.get_player_information(player_name) end
 --- This is usually the window size, but may be smaller in certain situations,
 --- such as side-by-side mode.
 ---@field size {x: number, y: number}
---- Estimated maximum formspec size before Minetest will start shrinking the
+--- Estimated maximum formspec size before Luanti will start shrinking the
 --- formspec to fit. For a fullscreen formspec, use a size 10-20% larger than
 --- this and `padding[-0.01,-0.01]`.
 ---@field max_formspec_size {x: number, y: number}
@@ -198,7 +198,7 @@ function core.get_player_information(player_name) end
 ---@field real_hud_scaling number
 --- Whether the touchscreen controls are enabled.
 --- Usually (but not always) `true` on Android.
---- Requires at least Minetest 5.9.0 on the client. For older clients, it
+--- Requires at least version 5.9.0 on the client. For older clients, it
 --- is always set to `false`.
 ---@field touch_controls boolean
 
@@ -259,7 +259,7 @@ function core.safe_file_write(path, content) end
 function core.get_version() end
 
 ---@class lt.EngineVersion
----@field project string Name of the project, eg, "Minetest".
+---@field project string Name of the project, eg, "Luanti".
 ---@field string string Simple version, eg, "1.2.3-dev".
 ---@field proto_min string The minimum supported protocol version.
 ---@field proto_max string The maximum supported protocol version.

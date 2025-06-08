@@ -47,7 +47,7 @@ function core.check_player_privs(player_or_name, ...) end
 ---@return boolean
 function core.check_password_entry(name, entry, password) end
 
----Convert a name-password pair to a password hash that Minetest can use.
+---Convert a name-password pair to a password hash that Luanti can use.
 ---The returned value alone is not a good basis for password checks based
 ---on comparing the password hash in the database with the password hash
 ---from the function, with an externally provided password, as the hash

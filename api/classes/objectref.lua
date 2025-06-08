@@ -245,7 +245,7 @@ function ObjectRef:get_bone_override(bone) end
 
 --- * set a number of object properties in the given table
 --- * only properties listed in the table will be changed
---- * see the [Object properties](https://github.com/minetest/minetest/blob/master/doc/lua_api.md#object-properties) section for details
+--- * see the [Object properties](https://github.com/luanti-org/luanti/blob/master/doc/lua_api.md#object-properties) section for details
 ---@param property_table table
 function ObjectRef:set_properties(property_table) end
 

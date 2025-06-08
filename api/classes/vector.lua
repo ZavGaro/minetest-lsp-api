@@ -2,7 +2,7 @@
 ---Spatial Vectors
 ------------------
 
--- Minetest stores 3-dimensional spatial vectors in Lua as tables of 3 coordinates,
+-- Luanti stores 3-dimensional spatial vectors in Lua as tables of 3 coordinates,
 -- and has a class to represent them (`vector.*`), which this chapter is about.
 -- For details on what a spatial vectors is, please refer to Wikipedia:
 -- https://en.wikipedia.org/wiki/Euclidean_vector.
@@ -28,12 +28,12 @@
 -- **Compatibility notes**
 --
 -- Vectors used to be defined as tables of the form `{x = num, y = num, z = num}`.
--- Since Minetest 5.5.0, vectors additionally have a metatable to enable easier use.
+-- Since version 5.5.0, vectors additionally have a metatable to enable easier use.
 -- Note: Those old-style vectors can still be found in old mod code. Hence, mod and
 -- engine APIs still need to be able to cope with them in many places.
 --
 -- Manually constructed tables are deprecated and highly discouraged. This interface
--- should be used to ensure seamless compatibility between mods and the Minetest API.
+-- should be used to ensure seamless compatibility between mods and the Luanti API.
 -- This is especially important to callback function parameters and functions overwritten
 -- by mods.
 -- Also, though not likely, the internal implementation of a vector might change in
